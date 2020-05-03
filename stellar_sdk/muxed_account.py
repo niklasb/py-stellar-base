@@ -33,7 +33,10 @@ class MuxedAccount:
             raise ValueError("`account_id_id` can not be None.")
         muxed_account = stellarxdr.MuxedAccountMed25519(
             id=stellarxdr.Uint64(self.account_id_id),
-            ed25519=stellarxdr.Uint256(StrKey.decode_ed25519_public_key(self.account_id)))
+            ed25519=stellarxdr.Uint256(
+                StrKey.decode_ed25519_public_key(self.account_id)
+            ),
+        )
         packer = Packer()
         muxed_account.pack(packer)
         data = packer.get_buffer()
@@ -58,7 +61,9 @@ class MuxedAccount:
             account_id = StrKey.encode_ed25519_public_key(muxed.ed25519.uint256)
             return cls(account_id=account_id, account_id_id=None)
         if muxed.type == stellarxdr.CryptoKeyType.KEY_TYPE_MUXED_ED25519:
-            account_id = StrKey.encode_ed25519_public_key(muxed.med25519.ed25519.uint256)
+            account_id = StrKey.encode_ed25519_public_key(
+                muxed.med25519.ed25519.uint256
+            )
             account_id_id = muxed.med25519.id.uint64
             return cls(account_id=account_id, account_id_id=account_id_id)
 
@@ -73,7 +78,7 @@ class MuxedAccount:
 
     @classmethod
     def from_xdr_object(
-            cls, muxed_account_xdr_object: stellarxdr.MuxedAccount
+        cls, muxed_account_xdr_object: stellarxdr.MuxedAccount
     ) -> "MuxedAccount":
         """Create a :class:`MuxedAccount` from an XDR Asset object.
 
@@ -87,8 +92,8 @@ class MuxedAccount:
         if not isinstance(other, self.__class__):
             return NotImplemented  # pragma: no cover
         return (
-                self.account_id == other.account_id
-                and self.account_id_id == other.account_id_id
+            self.account_id == other.account_id
+            and self.account_id_id == other.account_id_id
         )
 
     def __str__(self):

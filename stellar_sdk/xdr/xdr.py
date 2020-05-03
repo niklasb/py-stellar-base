@@ -92,10 +92,7 @@ class SCPBallot:
         return self.counter == other.counter and self.value == other.value
 
     def __str__(self):
-        out = [
-            f"counter={self.counter}",
-            f"value={self.value}"
-        ]
+        out = [f"counter={self.counter}", f"value={self.value}"]
         return f"<SCPBallot {[', '.join(out)]}>"
 
 
@@ -210,7 +207,7 @@ class SCPNomination:
         out = [
             f"quorum_set_hash={self.quorum_set_hash}",
             f"votes={self.votes}",
-            f"accepted={self.accepted}"
+            f"accepted={self.accepted}",
         ]
         return f"<SCPNomination {[', '.join(out)]}>"
 
@@ -238,7 +235,7 @@ class SCPStatementPrepare:
         prepared: Optional["SCPBallot"],
         prepared_prime: Optional["SCPBallot"],
         n_c: "Uint32",
-        n_h: "Uint32"
+        n_h: "Uint32",
     ) -> None:
         self.quorum_set_hash = quorum_set_hash
         self.ballot = ballot
@@ -310,7 +307,7 @@ class SCPStatementPrepare:
             f"prepared={self.prepared}",
             f"prepared_prime={self.prepared_prime}",
             f"n_c={self.n_c}",
-            f"n_h={self.n_h}"
+            f"n_h={self.n_h}",
         ]
         return f"<SCPStatementPrepare {[', '.join(out)]}>"
 
@@ -336,7 +333,7 @@ class SCPStatementConfirm:
         n_prepared: "Uint32",
         n_commit: "Uint32",
         n_h: "Uint32",
-        quorum_set_hash: "Hash"
+        quorum_set_hash: "Hash",
     ) -> None:
         self.ballot = ballot
         self.n_prepared = n_prepared
@@ -394,7 +391,7 @@ class SCPStatementConfirm:
             f"n_prepared={self.n_prepared}",
             f"n_commit={self.n_commit}",
             f"n_h={self.n_h}",
-            f"quorum_set_hash={self.quorum_set_hash}"
+            f"quorum_set_hash={self.quorum_set_hash}",
         ]
         return f"<SCPStatementConfirm {[', '.join(out)]}>"
 
@@ -457,7 +454,7 @@ class SCPStatementExternalize:
         out = [
             f"commit={self.commit}",
             f"n_h={self.n_h}",
-            f"commit_quorum_set_hash={self.commit_quorum_set_hash}"
+            f"commit_quorum_set_hash={self.commit_quorum_set_hash}",
         ]
         return f"<SCPStatementExternalize {[', '.join(out)]}>"
 
@@ -506,7 +503,7 @@ class SCPStatementPledges:
         prepare: "SCPStatementPrepare" = None,
         confirm: "SCPStatementConfirm" = None,
         externalize: "SCPStatementExternalize" = None,
-        nominate: "SCPNomination" = None
+        nominate: "SCPNomination" = None,
     ) -> None:
         self.type = type
         self.prepare: "SCPStatementPrepare" = prepare
@@ -667,7 +664,7 @@ class SCPStatement:
         out = [
             f"node_id={self.node_id}",
             f"slot_index={self.slot_index}",
-            f"pledges={self.pledges}"
+            f"pledges={self.pledges}",
         ]
         return f"<SCPStatement {[', '.join(out)]}>"
 
@@ -715,10 +712,7 @@ class SCPEnvelope:
         return self.statement == other.statement and self.signature == other.signature
 
     def __str__(self):
-        out = [
-            f"statement={self.statement}",
-            f"signature={self.signature}"
-        ]
+        out = [f"statement={self.statement}", f"signature={self.signature}"]
         return f"<SCPEnvelope {[', '.join(out)]}>"
 
 
@@ -739,7 +733,7 @@ class SCPQuorumSet:
         self,
         threshold: "Uint32",
         validators: List["PublicKey"],
-        inner_sets: List["SCPQuorumSet"]
+        inner_sets: List["SCPQuorumSet"],
     ) -> None:
         self.threshold = threshold
         self.validators = validators
@@ -791,7 +785,7 @@ class SCPQuorumSet:
         out = [
             f"threshold={self.threshold}",
             f"validators={self.validators}",
-            f"inner_sets={self.inner_sets}"
+            f"inner_sets={self.inner_sets}",
         ]
         return f"<SCPQuorumSet {[', '.join(out)]}>"
 
@@ -919,10 +913,7 @@ class LedgerCloseValueSignature:
         return self.node_id == other.node_id and self.signature == other.signature
 
     def __str__(self):
-        out = [
-            f"node_id={self.node_id}",
-            f"signature={self.signature}"
-        ]
+        out = [f"node_id={self.node_id}", f"signature={self.signature}"]
         return f"<LedgerCloseValueSignature {[', '.join(out)]}>"
 
 
@@ -943,7 +934,7 @@ class StellarValueExt:
     def __init__(
         self,
         v: "StellarValueType",
-        lc_value_signature: "LedgerCloseValueSignature" = None
+        lc_value_signature: "LedgerCloseValueSignature" = None,
     ) -> None:
         self.v = v
         self.lc_value_signature: "LedgerCloseValueSignature" = lc_value_signature
@@ -1024,7 +1015,7 @@ class StellarValue:
         tx_set_hash: "Hash",
         close_time: "TimePoint",
         upgrades: List["UpgradeType"],
-        ext: "StellarValueExt"
+        ext: "StellarValueExt",
     ) -> None:
         self.tx_set_hash = tx_set_hash
         self.close_time = close_time
@@ -1078,7 +1069,7 @@ class StellarValue:
             f"tx_set_hash={self.tx_set_hash}",
             f"close_time={self.close_time}",
             f"upgrades={self.upgrades}",
-            f"ext={self.ext}"
+            f"ext={self.ext}",
         ]
         return f"<StellarValue {[', '.join(out)]}>"
 
@@ -1191,7 +1182,7 @@ class LedgerHeader:
         base_reserve: "Uint32",
         max_tx_set_size: "Uint32",
         skip_list: List["Hash"],
-        ext: "LedgerHeaderExt"
+        ext: "LedgerHeaderExt",
     ) -> None:
         self.ledger_version = ledger_version
         self.previous_ledger_hash = previous_ledger_hash
@@ -1314,7 +1305,7 @@ class LedgerHeader:
             f"base_reserve={self.base_reserve}",
             f"max_tx_set_size={self.max_tx_set_size}",
             f"skip_list={self.skip_list}",
-            f"ext={self.ext}"
+            f"ext={self.ext}",
         ]
         return f"<LedgerHeader {[', '.join(out)]}>"
 
@@ -1388,7 +1379,7 @@ class LedgerUpgrade:
         new_ledger_version: "Uint32" = None,
         new_base_fee: "Uint32" = None,
         new_max_tx_set_size: "Uint32" = None,
-        new_base_reserve: "Uint32" = None
+        new_base_reserve: "Uint32" = None,
     ) -> None:
         self.type = type
         self.new_ledger_version: "Uint32" = new_ledger_version
@@ -1506,9 +1497,7 @@ class LedgerKeyAccount:
         return self.account_id == other.account_id
 
     def __str__(self):
-        out = [
-            f"account_id={self.account_id}"
-        ]
+        out = [f"account_id={self.account_id}"]
         return f"<LedgerKeyAccount {[', '.join(out)]}>"
 
 
@@ -1555,10 +1544,7 @@ class LedgerKeyTrustLine:
         return self.account_id == other.account_id and self.asset == other.asset
 
     def __str__(self):
-        out = [
-            f"account_id={self.account_id}",
-            f"asset={self.asset}"
-        ]
+        out = [f"account_id={self.account_id}", f"asset={self.asset}"]
         return f"<LedgerKeyTrustLine {[', '.join(out)]}>"
 
 
@@ -1605,10 +1591,7 @@ class LedgerKeyOffer:
         return self.seller_id == other.seller_id and self.offer_id == other.offer_id
 
     def __str__(self):
-        out = [
-            f"seller_id={self.seller_id}",
-            f"offer_id={self.offer_id}"
-        ]
+        out = [f"seller_id={self.seller_id}", f"offer_id={self.offer_id}"]
         return f"<LedgerKeyOffer {[', '.join(out)]}>"
 
 
@@ -1655,10 +1638,7 @@ class LedgerKeyData:
         return self.account_id == other.account_id and self.data_name == other.data_name
 
     def __str__(self):
-        out = [
-            f"account_id={self.account_id}",
-            f"data_name={self.data_name}"
-        ]
+        out = [f"account_id={self.account_id}", f"data_name={self.data_name}"]
         return f"<LedgerKeyData {[', '.join(out)]}>"
 
 
@@ -1704,7 +1684,7 @@ class LedgerKey:
         account: "LedgerKeyAccount" = None,
         trust_line: "LedgerKeyTrustLine" = None,
         offer: "LedgerKeyOffer" = None,
-        data: "LedgerKeyData" = None
+        data: "LedgerKeyData" = None,
     ) -> None:
         self.type = type
         self.account: "LedgerKeyAccount" = account
@@ -1923,10 +1903,7 @@ class BucketMetadata:
         return self.ledger_version == other.ledger_version and self.ext == other.ext
 
     def __str__(self):
-        out = [
-            f"ledger_version={self.ledger_version}",
-            f"ext={self.ext}"
-        ]
+        out = [f"ledger_version={self.ledger_version}", f"ext={self.ext}"]
         return f"<BucketMetadata {[', '.join(out)]}>"
 
 
@@ -1953,7 +1930,7 @@ class BucketEntry:
         type: "BucketEntryType",
         live_entry: "LedgerEntry" = None,
         dead_entry: "LedgerKey" = None,
-        meta_entry: "BucketMetadata" = None
+        meta_entry: "BucketMetadata" = None,
     ) -> None:
         self.type = type
         self.live_entry: "LedgerEntry" = live_entry
@@ -2076,10 +2053,7 @@ class TransactionSet:
         )
 
     def __str__(self):
-        out = [
-            f"previous_ledger_hash={self.previous_ledger_hash}",
-            f"txs={self.txs}"
-        ]
+        out = [f"previous_ledger_hash={self.previous_ledger_hash}", f"txs={self.txs}"]
         return f"<TransactionSet {[', '.join(out)]}>"
 
 
@@ -2129,10 +2103,7 @@ class TransactionResultPair:
         )
 
     def __str__(self):
-        out = [
-            f"transaction_hash={self.transaction_hash}",
-            f"result={self.result}"
-        ]
+        out = [f"transaction_hash={self.transaction_hash}", f"result={self.result}"]
         return f"<TransactionResultPair {[', '.join(out)]}>"
 
 
@@ -2180,9 +2151,7 @@ class TransactionResultSet:
         return self.results == other.results
 
     def __str__(self):
-        out = [
-            f"results={self.results}"
-        ]
+        out = [f"results={self.results}"]
         return f"<TransactionResultSet {[', '.join(out)]}>"
 
 
@@ -2258,7 +2227,7 @@ class TransactionHistoryEntry:
         self,
         ledger_seq: "Uint32",
         tx_set: "TransactionSet",
-        ext: "TransactionHistoryEntryExt"
+        ext: "TransactionHistoryEntryExt",
     ) -> None:
         self.ledger_seq = ledger_seq
         self.tx_set = tx_set
@@ -2300,7 +2269,7 @@ class TransactionHistoryEntry:
         out = [
             f"ledger_seq={self.ledger_seq}",
             f"tx_set={self.tx_set}",
-            f"ext={self.ext}"
+            f"ext={self.ext}",
         ]
         return f"<TransactionHistoryEntry {[', '.join(out)]}>"
 
@@ -2377,7 +2346,7 @@ class TransactionHistoryResultEntry:
         self,
         ledger_seq: "Uint32",
         tx_result_set: "TransactionResultSet",
-        ext: "TransactionHistoryResultEntryExt"
+        ext: "TransactionHistoryResultEntryExt",
     ) -> None:
         self.ledger_seq = ledger_seq
         self.tx_result_set = tx_result_set
@@ -2419,7 +2388,7 @@ class TransactionHistoryResultEntry:
         out = [
             f"ledger_seq={self.ledger_seq}",
             f"tx_result_set={self.tx_result_set}",
-            f"ext={self.ext}"
+            f"ext={self.ext}",
         ]
         return f"<TransactionHistoryResultEntry {[', '.join(out)]}>"
 
@@ -2532,11 +2501,7 @@ class LedgerHeaderHistoryEntry:
         )
 
     def __str__(self):
-        out = [
-            f"hash={self.hash}",
-            f"header={self.header}",
-            f"ext={self.ext}"
-        ]
+        out = [f"hash={self.hash}", f"header={self.header}", f"ext={self.ext}"]
         return f"<LedgerHeaderHistoryEntry {[', '.join(out)]}>"
 
 
@@ -2588,10 +2553,7 @@ class LedgerSCPMessages:
         return self.ledger_seq == other.ledger_seq and self.messages == other.messages
 
     def __str__(self):
-        out = [
-            f"ledger_seq={self.ledger_seq}",
-            f"messages={self.messages}"
-        ]
+        out = [f"ledger_seq={self.ledger_seq}", f"messages={self.messages}"]
         return f"<LedgerSCPMessages {[', '.join(out)]}>"
 
 
@@ -2650,7 +2612,7 @@ class SCPHistoryEntryV0:
     def __str__(self):
         out = [
             f"quorum_sets={self.quorum_sets}",
-            f"ledger_messages={self.ledger_messages}"
+            f"ledger_messages={self.ledger_messages}",
         ]
         return f"<SCPHistoryEntryV0 {[', '.join(out)]}>"
 
@@ -2776,7 +2738,7 @@ class LedgerEntryChange:
         created: "LedgerEntry" = None,
         updated: "LedgerEntry" = None,
         removed: "LedgerKey" = None,
-        state: "LedgerEntry" = None
+        state: "LedgerEntry" = None,
     ) -> None:
         self.type = type
         self.created: "LedgerEntry" = created
@@ -2938,9 +2900,7 @@ class OperationMeta:
         return self.changes == other.changes
 
     def __str__(self):
-        out = [
-            f"changes={self.changes}"
-        ]
+        out = [f"changes={self.changes}"]
         return f"<OperationMeta {[', '.join(out)]}>"
 
 
@@ -2996,10 +2956,7 @@ class TransactionMetaV1:
         )
 
     def __str__(self):
-        out = [
-            f"tx_changes={self.tx_changes}",
-            f"operations={self.operations}"
-        ]
+        out = [f"tx_changes={self.tx_changes}", f"operations={self.operations}"]
         return f"<TransactionMetaV1 {[', '.join(out)]}>"
 
 
@@ -3022,7 +2979,7 @@ class TransactionMetaV2:
         self,
         tx_changes_before: "LedgerEntryChanges",
         operations: List["OperationMeta"],
-        tx_changes_after: "LedgerEntryChanges"
+        tx_changes_after: "LedgerEntryChanges",
     ) -> None:
         self.tx_changes_before = tx_changes_before
         self.operations = operations
@@ -3073,7 +3030,7 @@ class TransactionMetaV2:
         out = [
             f"tx_changes_before={self.tx_changes_before}",
             f"operations={self.operations}",
-            f"tx_changes_after={self.tx_changes_after}"
+            f"tx_changes_after={self.tx_changes_after}",
         ]
         return f"<TransactionMetaV2 {[', '.join(out)]}>"
 
@@ -3099,7 +3056,7 @@ class TransactionMeta:
         v: int,
         operations: List["OperationMeta"] = None,
         v1: "TransactionMetaV1" = None,
-        v2: "TransactionMetaV2" = None
+        v2: "TransactionMetaV2" = None,
     ) -> None:
         self.v = v
         self.operations: List["OperationMeta"] = operations
@@ -3185,7 +3142,7 @@ class TransactionResultMeta:
         self,
         result: "TransactionResultPair",
         fee_processing: "LedgerEntryChanges",
-        tx_apply_processing: "TransactionMeta"
+        tx_apply_processing: "TransactionMeta",
     ) -> None:
         self.result = result
         self.fee_processing = fee_processing
@@ -3231,7 +3188,7 @@ class TransactionResultMeta:
         out = [
             f"result={self.result}",
             f"fee_processing={self.fee_processing}",
-            f"tx_apply_processing={self.tx_apply_processing}"
+            f"tx_apply_processing={self.tx_apply_processing}",
         ]
         return f"<TransactionResultMeta {[', '.join(out)]}>"
 
@@ -3248,9 +3205,7 @@ class UpgradeEntryMeta:
     ----------------------------------------------------------------
     """
 
-    def __init__(
-        self, upgrade: "LedgerUpgrade", changes: "LedgerEntryChanges"
-    ) -> None:
+    def __init__(self, upgrade: "LedgerUpgrade", changes: "LedgerEntryChanges") -> None:
         self.upgrade = upgrade
         self.changes = changes
 
@@ -3281,10 +3236,7 @@ class UpgradeEntryMeta:
         return self.upgrade == other.upgrade and self.changes == other.changes
 
     def __str__(self):
-        out = [
-            f"upgrade={self.upgrade}",
-            f"changes={self.changes}"
-        ]
+        out = [f"upgrade={self.upgrade}", f"changes={self.changes}"]
         return f"<UpgradeEntryMeta {[', '.join(out)]}>"
 
 
@@ -3318,7 +3270,7 @@ class LedgerCloseMetaV0:
         tx_set: "TransactionSet",
         tx_processing: List["TransactionResultMeta"],
         upgrades_processing: List["UpgradeEntryMeta"],
-        scp_info: List["SCPHistoryEntry"]
+        scp_info: List["SCPHistoryEntry"],
     ) -> None:
         self.ledger_header = ledger_header
         self.tx_set = tx_set
@@ -3391,7 +3343,7 @@ class LedgerCloseMetaV0:
             f"tx_set={self.tx_set}",
             f"tx_processing={self.tx_processing}",
             f"upgrades_processing={self.upgrades_processing}",
-            f"scp_info={self.scp_info}"
+            f"scp_info={self.scp_info}",
         ]
         return f"<LedgerCloseMetaV0 {[', '.join(out)]}>"
 
@@ -3491,10 +3443,7 @@ class MuxedAccountMed25519:
         return self.id == other.id and self.ed25519 == other.ed25519
 
     def __str__(self):
-        out = [
-            f"id={self.id}",
-            f"ed25519={self.ed25519}"
-        ]
+        out = [f"id={self.id}", f"ed25519={self.ed25519}"]
         return f"<MuxedAccountMed25519 {[', '.join(out)]}>"
 
 
@@ -3520,7 +3469,7 @@ class MuxedAccount:
         self,
         type: "CryptoKeyType",
         ed25519: "Uint256" = None,
-        med25519: "MuxedAccountMed25519" = None
+        med25519: "MuxedAccountMed25519" = None,
     ) -> None:
         self.type = type
         self.ed25519: "Uint256" = ed25519
@@ -3616,10 +3565,7 @@ class DecoratedSignature:
         return self.hint == other.hint and self.signature == other.signature
 
     def __str__(self):
-        out = [
-            f"hint={self.hint}",
-            f"signature={self.signature}"
-        ]
+        out = [f"hint={self.hint}", f"signature={self.signature}"]
         return f"<DecoratedSignature {[', '.join(out)]}>"
 
 
@@ -3736,7 +3682,7 @@ class CreateAccountOp:
     def __str__(self):
         out = [
             f"destination={self.destination}",
-            f"starting_balance={self.starting_balance}"
+            f"starting_balance={self.starting_balance}",
         ]
         return f"<CreateAccountOp {[', '.join(out)]}>"
 
@@ -3797,7 +3743,7 @@ class PaymentOp:
         out = [
             f"destination={self.destination}",
             f"asset={self.asset}",
-            f"amount={self.amount}"
+            f"amount={self.amount}",
         ]
         return f"<PaymentOp {[', '.join(out)]}>"
 
@@ -3829,7 +3775,7 @@ class PathPaymentStrictReceiveOp:
         destination: "MuxedAccount",
         dest_asset: "Asset",
         dest_amount: "Int64",
-        path: List["Asset"]
+        path: List["Asset"],
     ) -> None:
         self.send_asset = send_asset
         self.send_max = send_max
@@ -3898,7 +3844,7 @@ class PathPaymentStrictReceiveOp:
             f"destination={self.destination}",
             f"dest_asset={self.dest_asset}",
             f"dest_amount={self.dest_amount}",
-            f"path={self.path}"
+            f"path={self.path}",
         ]
         return f"<PathPaymentStrictReceiveOp {[', '.join(out)]}>"
 
@@ -3930,7 +3876,7 @@ class PathPaymentStrictSendOp:
         destination: "MuxedAccount",
         dest_asset: "Asset",
         dest_min: "Int64",
-        path: List["Asset"]
+        path: List["Asset"],
     ) -> None:
         self.send_asset = send_asset
         self.send_amount = send_amount
@@ -3999,7 +3945,7 @@ class PathPaymentStrictSendOp:
             f"destination={self.destination}",
             f"dest_asset={self.dest_asset}",
             f"dest_min={self.dest_min}",
-            f"path={self.path}"
+            f"path={self.path}",
         ]
         return f"<PathPaymentStrictSendOp {[', '.join(out)]}>"
 
@@ -4027,7 +3973,7 @@ class ManageSellOfferOp:
         buying: "Asset",
         amount: "Int64",
         price: "Price",
-        offer_id: "Int64"
+        offer_id: "Int64",
     ) -> None:
         self.selling = selling
         self.buying = buying
@@ -4085,7 +4031,7 @@ class ManageSellOfferOp:
             f"buying={self.buying}",
             f"amount={self.amount}",
             f"price={self.price}",
-            f"offer_id={self.offer_id}"
+            f"offer_id={self.offer_id}",
         ]
         return f"<ManageSellOfferOp {[', '.join(out)]}>"
 
@@ -4114,7 +4060,7 @@ class ManageBuyOfferOp:
         buying: "Asset",
         buy_amount: "Int64",
         price: "Price",
-        offer_id: "Int64"
+        offer_id: "Int64",
     ) -> None:
         self.selling = selling
         self.buying = buying
@@ -4172,7 +4118,7 @@ class ManageBuyOfferOp:
             f"buying={self.buying}",
             f"buy_amount={self.buy_amount}",
             f"price={self.price}",
-            f"offer_id={self.offer_id}"
+            f"offer_id={self.offer_id}",
         ]
         return f"<ManageBuyOfferOp {[', '.join(out)]}>"
 
@@ -4239,7 +4185,7 @@ class CreatePassiveSellOfferOp:
             f"selling={self.selling}",
             f"buying={self.buying}",
             f"amount={self.amount}",
-            f"price={self.price}"
+            f"price={self.price}",
         ]
         return f"<CreatePassiveSellOfferOp {[', '.join(out)]}>"
 
@@ -4280,7 +4226,7 @@ class SetOptionsOp:
         med_threshold: Optional["Uint32"],
         high_threshold: Optional["Uint32"],
         home_domain: Optional["String32"],
-        signer: Optional["Signer"]
+        signer: Optional["Signer"],
     ) -> None:
         self.inflation_dest = inflation_dest
         self.clear_flags = clear_flags
@@ -4398,7 +4344,7 @@ class SetOptionsOp:
             f"med_threshold={self.med_threshold}",
             f"high_threshold={self.high_threshold}",
             f"home_domain={self.home_domain}",
-            f"signer={self.signer}"
+            f"signer={self.signer}",
         ]
         return f"<SetOptionsOp {[', '.join(out)]}>"
 
@@ -4448,10 +4394,7 @@ class ChangeTrustOp:
         return self.line == other.line and self.limit == other.limit
 
     def __str__(self):
-        out = [
-            f"line={self.line}",
-            f"limit={self.limit}"
-        ]
+        out = [f"line={self.line}", f"limit={self.limit}"]
         return f"<ChangeTrustOp {[', '.join(out)]}>"
 
 
@@ -4477,7 +4420,7 @@ class AllowTrustOpAsset:
         self,
         type: "AssetType",
         asset_code4: "AssetCode4" = None,
-        asset_code12: "AssetCode12" = None
+        asset_code12: "AssetCode12" = None,
     ) -> None:
         self.type = type
         self.asset_code4: "AssetCode4" = asset_code4
@@ -4603,7 +4546,7 @@ class AllowTrustOp:
         out = [
             f"trustor={self.trustor}",
             f"asset={self.asset}",
-            f"authorize={self.authorize}"
+            f"authorize={self.authorize}",
         ]
         return f"<AllowTrustOp {[', '.join(out)]}>"
 
@@ -4657,10 +4600,7 @@ class ManageDataOp:
         return self.data_name == other.data_name and self.data_value == other.data_value
 
     def __str__(self):
-        out = [
-            f"data_name={self.data_name}",
-            f"data_value={self.data_value}"
-        ]
+        out = [f"data_name={self.data_name}", f"data_value={self.data_value}"]
         return f"<ManageDataOp {[', '.join(out)]}>"
 
 
@@ -4703,9 +4643,7 @@ class BumpSequenceOp:
         return self.bump_to == other.bump_to
 
     def __str__(self):
-        out = [
-            f"bump_to={self.bump_to}"
-        ]
+        out = [f"bump_to={self.bump_to}"]
         return f"<BumpSequenceOp {[', '.join(out)]}>"
 
 
@@ -4762,7 +4700,7 @@ class OperationBody:
         manage_data_op: "ManageDataOp" = None,
         bump_sequence_op: "BumpSequenceOp" = None,
         manage_buy_offer_op: "ManageBuyOfferOp" = None,
-        path_payment_strict_send_op: "PathPaymentStrictSendOp" = None
+        path_payment_strict_send_op: "PathPaymentStrictSendOp" = None,
     ) -> None:
         self.type = type
         self.create_account_op: "CreateAccountOp" = create_account_op
@@ -5033,10 +4971,7 @@ class Operation:
         return self.source_account == other.source_account and self.body == other.body
 
     def __str__(self):
-        out = [
-            f"source_account={self.source_account}",
-            f"body={self.body}"
-        ]
+        out = [f"source_account={self.source_account}", f"body={self.body}"]
         return f"<Operation {[', '.join(out)]}>"
 
 
@@ -5113,7 +5048,7 @@ class Memo:
         text: bytes = None,
         id: "Uint64" = None,
         hash: "Hash" = None,
-        ret_hash: "Hash" = None
+        ret_hash: "Hash" = None,
     ) -> None:
         self.type = type
         self.text: bytes = text
@@ -5231,10 +5166,7 @@ class TimeBounds:
         return self.min_time == other.min_time and self.max_time == other.max_time
 
     def __str__(self):
-        out = [
-            f"min_time={self.min_time}",
-            f"max_time={self.max_time}"
-        ]
+        out = [f"min_time={self.min_time}", f"max_time={self.max_time}"]
         return f"<TimeBounds {[', '.join(out)]}>"
 
 
@@ -5325,7 +5257,7 @@ class TransactionV0:
         time_bounds: Optional["TimeBounds"],
         memo: "Memo",
         operations: List["Operation"],
-        ext: "TransactionV0Ext"
+        ext: "TransactionV0Ext",
     ) -> None:
         self.source_account_ed25519 = source_account_ed25519
         self.fee = fee
@@ -5404,7 +5336,7 @@ class TransactionV0:
             f"time_bounds={self.time_bounds}",
             f"memo={self.memo}",
             f"operations={self.operations}",
-            f"ext={self.ext}"
+            f"ext={self.ext}",
         ]
         return f"<TransactionV0 {[', '.join(out)]}>"
 
@@ -5461,10 +5393,7 @@ class TransactionV0Envelope:
         return self.tx == other.tx and self.signatures == other.signatures
 
     def __str__(self):
-        out = [
-            f"tx={self.tx}",
-            f"signatures={self.signatures}"
-        ]
+        out = [f"tx={self.tx}", f"signatures={self.signatures}"]
         return f"<TransactionV0Envelope {[', '.join(out)]}>"
 
 
@@ -5557,7 +5486,7 @@ class Transaction:
         time_bounds: Optional["TimeBounds"],
         memo: "Memo",
         operations: List["Operation"],
-        ext: "TransactionExt"
+        ext: "TransactionExt",
     ) -> None:
         self.source_account = source_account
         self.fee = fee
@@ -5636,7 +5565,7 @@ class Transaction:
             f"time_bounds={self.time_bounds}",
             f"memo={self.memo}",
             f"operations={self.operations}",
-            f"ext={self.ext}"
+            f"ext={self.ext}",
         ]
         return f"<Transaction {[', '.join(out)]}>"
 
@@ -5693,10 +5622,7 @@ class TransactionV1Envelope:
         return self.tx == other.tx and self.signatures == other.signatures
 
     def __str__(self):
-        out = [
-            f"tx={self.tx}",
-            f"signatures={self.signatures}"
-        ]
+        out = [f"tx={self.tx}", f"signatures={self.signatures}"]
         return f"<TransactionV1Envelope {[', '.join(out)]}>"
 
 
@@ -5831,7 +5757,7 @@ class FeeBumpTransaction:
         fee_source: "MuxedAccount",
         fee: "Int64",
         inner_tx: "FeeBumpTransactionInnerTx",
-        ext: "FeeBumpTransactionExt"
+        ext: "FeeBumpTransactionExt",
     ) -> None:
         self.fee_source = fee_source
         self.fee = fee
@@ -5878,7 +5804,7 @@ class FeeBumpTransaction:
             f"fee_source={self.fee_source}",
             f"fee={self.fee}",
             f"inner_tx={self.inner_tx}",
-            f"ext={self.ext}"
+            f"ext={self.ext}",
         ]
         return f"<FeeBumpTransaction {[', '.join(out)]}>"
 
@@ -5935,10 +5861,7 @@ class FeeBumpTransactionEnvelope:
         return self.tx == other.tx and self.signatures == other.signatures
 
     def __str__(self):
-        out = [
-            f"tx={self.tx}",
-            f"signatures={self.signatures}"
-        ]
+        out = [f"tx={self.tx}", f"signatures={self.signatures}"]
         return f"<FeeBumpTransactionEnvelope {[', '.join(out)]}>"
 
 
@@ -5963,7 +5886,7 @@ class TransactionEnvelope:
         type: "EnvelopeType",
         v0: "TransactionV0Envelope" = None,
         v1: "TransactionV1Envelope" = None,
-        fee_bump: "FeeBumpTransactionEnvelope" = None
+        fee_bump: "FeeBumpTransactionEnvelope" = None,
     ) -> None:
         self.type = type
         self.v0: "TransactionV0Envelope" = v0
@@ -6044,7 +5967,7 @@ class TransactionSignaturePayloadTaggedTransaction:
         self,
         type: "EnvelopeType",
         tx: "Transaction" = None,
-        fee_bump: "FeeBumpTransaction" = None
+        fee_bump: "FeeBumpTransaction" = None,
     ) -> None:
         self.type = type
         self.tx: "Transaction" = tx
@@ -6122,7 +6045,7 @@ class TransactionSignaturePayload:
     def __init__(
         self,
         network_id: "Hash",
-        tagged_transaction: "TransactionSignaturePayloadTaggedTransaction"
+        tagged_transaction: "TransactionSignaturePayloadTaggedTransaction",
     ) -> None:
         self.network_id = network_id
         self.tagged_transaction = tagged_transaction
@@ -6161,7 +6084,7 @@ class TransactionSignaturePayload:
     def __str__(self):
         out = [
             f"network_id={self.network_id}",
-            f"tagged_transaction={self.tagged_transaction}"
+            f"tagged_transaction={self.tagged_transaction}",
         ]
         return f"<TransactionSignaturePayload {[', '.join(out)]}>"
 
@@ -6194,7 +6117,7 @@ class ClaimOfferAtom:
         asset_sold: "Asset",
         amount_sold: "Int64",
         asset_bought: "Asset",
-        amount_bought: "Int64"
+        amount_bought: "Int64",
     ) -> None:
         self.seller_id = seller_id
         self.offer_id = offer_id
@@ -6258,7 +6181,7 @@ class ClaimOfferAtom:
             f"asset_sold={self.asset_sold}",
             f"amount_sold={self.amount_sold}",
             f"asset_bought={self.asset_bought}",
-            f"amount_bought={self.amount_bought}"
+            f"amount_bought={self.amount_bought}",
         ]
         return f"<ClaimOfferAtom {[', '.join(out)]}>"
 
@@ -6605,7 +6528,7 @@ class SimplePaymentResult:
         out = [
             f"destination={self.destination}",
             f"asset={self.asset}",
-            f"amount={self.amount}"
+            f"amount={self.amount}",
         ]
         return f"<SimplePaymentResult {[', '.join(out)]}>"
 
@@ -6660,10 +6583,7 @@ class PathPaymentStrictReceiveResultSuccess:
         return self.offers == other.offers and self.last == other.last
 
     def __str__(self):
-        out = [
-            f"offers={self.offers}",
-            f"last={self.last}"
-        ]
+        out = [f"offers={self.offers}", f"last={self.last}"]
         return f"<PathPaymentStrictReceiveResultSuccess {[', '.join(out)]}>"
 
 
@@ -6691,7 +6611,7 @@ class PathPaymentStrictReceiveResult:
         self,
         code: "PathPaymentStrictReceiveResultCode",
         success: "PathPaymentStrictReceiveResultSuccess" = None,
-        no_issuer: "Asset" = None
+        no_issuer: "Asset" = None,
     ) -> None:
         self.code = code
         self.success: "PathPaymentStrictReceiveResultSuccess" = success
@@ -6882,10 +6802,7 @@ class PathPaymentStrictSendResultSuccess:
         return self.offers == other.offers and self.last == other.last
 
     def __str__(self):
-        out = [
-            f"offers={self.offers}",
-            f"last={self.last}"
-        ]
+        out = [f"offers={self.offers}", f"last={self.last}"]
         return f"<PathPaymentStrictSendResultSuccess {[', '.join(out)]}>"
 
 
@@ -6913,7 +6830,7 @@ class PathPaymentStrictSendResult:
         self,
         code: "PathPaymentStrictSendResultCode",
         success: "PathPaymentStrictSendResultSuccess" = None,
-        no_issuer: "Asset" = None
+        no_issuer: "Asset" = None,
     ) -> None:
         self.code = code
         self.success: "PathPaymentStrictSendResultSuccess" = success
@@ -7105,9 +7022,7 @@ class ManageOfferSuccessResultOffer:
     ----------------------------------------------------------------
     """
 
-    def __init__(
-        self, effect: "ManageOfferEffect", offer: "OfferEntry" = None
-    ) -> None:
+    def __init__(self, effect: "ManageOfferEffect", offer: "OfferEntry" = None) -> None:
         self.effect = effect
         self.offer: "OfferEntry" = offer
 
@@ -7174,7 +7089,7 @@ class ManageOfferSuccessResult:
     def __init__(
         self,
         offers_claimed: List["ClaimOfferAtom"],
-        offer: "ManageOfferSuccessResultOffer"
+        offer: "ManageOfferSuccessResultOffer",
     ) -> None:
         self.offers_claimed = offers_claimed
         self.offer = offer
@@ -7211,10 +7126,7 @@ class ManageOfferSuccessResult:
         return self.offers_claimed == other.offers_claimed and self.offer == other.offer
 
     def __str__(self):
-        out = [
-            f"offers_claimed={self.offers_claimed}",
-            f"offer={self.offer}"
-        ]
+        out = [f"offers_claimed={self.offers_claimed}", f"offer={self.offer}"]
         return f"<ManageOfferSuccessResult {[', '.join(out)]}>"
 
 
@@ -7235,7 +7147,7 @@ class ManageSellOfferResult:
     def __init__(
         self,
         code: "ManageSellOfferResultCode",
-        success: "ManageOfferSuccessResult" = None
+        success: "ManageOfferSuccessResult" = None,
     ) -> None:
         self.code = code
         self.success: "ManageOfferSuccessResult" = success
@@ -7363,7 +7275,7 @@ class ManageBuyOfferResult:
     def __init__(
         self,
         code: "ManageBuyOfferResultCode",
-        success: "ManageOfferSuccessResult" = None
+        success: "ManageOfferSuccessResult" = None,
     ) -> None:
         self.code = code
         self.success: "ManageOfferSuccessResult" = success
@@ -7919,10 +7831,7 @@ class InflationPayout:
         return self.destination == other.destination and self.amount == other.amount
 
     def __str__(self):
-        out = [
-            f"destination={self.destination}",
-            f"amount={self.amount}"
-        ]
+        out = [f"destination={self.destination}", f"amount={self.amount}"]
         return f"<InflationPayout {[', '.join(out)]}>"
 
 
@@ -8285,7 +8194,7 @@ class OperationResultTr:
         manage_data_result: "ManageDataResult" = None,
         bump_seq_result: "BumpSequenceResult" = None,
         manage_buy_offer_result: "ManageBuyOfferResult" = None,
-        path_payment_strict_send_result: "PathPaymentStrictSendResult" = None
+        path_payment_strict_send_result: "PathPaymentStrictSendResult" = None,
     ) -> None:
         self.type = type
         self.create_account_result: "CreateAccountResult" = create_account_result
@@ -8848,7 +8757,7 @@ class InnerTransactionResult:
         self,
         fee_charged: "Int64",
         result: "InnerTransactionResultResult",
-        ext: "InnerTransactionResultExt"
+        ext: "InnerTransactionResultExt",
     ) -> None:
         self.fee_charged = fee_charged
         self.result = result
@@ -8890,7 +8799,7 @@ class InnerTransactionResult:
         out = [
             f"fee_charged={self.fee_charged}",
             f"result={self.result}",
-            f"ext={self.ext}"
+            f"ext={self.ext}",
         ]
         return f"<InnerTransactionResult {[', '.join(out)]}>"
 
@@ -8943,10 +8852,7 @@ class InnerTransactionResultPair:
         )
 
     def __str__(self):
-        out = [
-            f"transaction_hash={self.transaction_hash}",
-            f"result={self.result}"
-        ]
+        out = [f"transaction_hash={self.transaction_hash}", f"result={self.result}"]
         return f"<InnerTransactionResultPair {[', '.join(out)]}>"
 
 
@@ -8972,7 +8878,7 @@ class TransactionResultResult:
         self,
         code: "TransactionResultCode",
         inner_result_pair: "InnerTransactionResultPair" = None,
-        results: List["OperationResult"] = None
+        results: List["OperationResult"] = None,
     ) -> None:
         self.code = code
         self.inner_result_pair: "InnerTransactionResultPair" = inner_result_pair
@@ -9128,7 +9034,7 @@ class TransactionResult:
         self,
         fee_charged: "Int64",
         result: "TransactionResultResult",
-        ext: "TransactionResultExt"
+        ext: "TransactionResultExt",
     ) -> None:
         self.fee_charged = fee_charged
         self.result = result
@@ -9170,7 +9076,7 @@ class TransactionResult:
         out = [
             f"fee_charged={self.fee_charged}",
             f"result={self.result}",
-            f"ext={self.ext}"
+            f"ext={self.ext}",
         ]
         return f"<TransactionResult {[', '.join(out)]}>"
 
@@ -9612,10 +9518,7 @@ class AssetAlphaNum4:
         return self.asset_code == other.asset_code and self.issuer == other.issuer
 
     def __str__(self):
-        out = [
-            f"asset_code={self.asset_code}",
-            f"issuer={self.issuer}"
-        ]
+        out = [f"asset_code={self.asset_code}", f"issuer={self.issuer}"]
         return f"<AssetAlphaNum4 {[', '.join(out)]}>"
 
 
@@ -9662,10 +9565,7 @@ class AssetAlphaNum12:
         return self.asset_code == other.asset_code and self.issuer == other.issuer
 
     def __str__(self):
-        out = [
-            f"asset_code={self.asset_code}",
-            f"issuer={self.issuer}"
-        ]
+        out = [f"asset_code={self.asset_code}", f"issuer={self.issuer}"]
         return f"<AssetAlphaNum12 {[', '.join(out)]}>"
 
 
@@ -9701,7 +9601,7 @@ class Asset:
         self,
         type: "AssetType",
         alpha_num4: "AssetAlphaNum4" = None,
-        alpha_num12: "AssetAlphaNum12" = None
+        alpha_num12: "AssetAlphaNum12" = None,
     ) -> None:
         self.type = type
         self.alpha_num4: "AssetAlphaNum4" = alpha_num4
@@ -9805,10 +9705,7 @@ class Price:
         return self.n == other.n and self.d == other.d
 
     def __str__(self):
-        out = [
-            f"n={self.n}",
-            f"d={self.d}"
-        ]
+        out = [f"n={self.n}", f"d={self.d}"]
         return f"<Price {[', '.join(out)]}>"
 
 
@@ -9855,10 +9752,7 @@ class Liabilities:
         return self.buying == other.buying and self.selling == other.selling
 
     def __str__(self):
-        out = [
-            f"buying={self.buying}",
-            f"selling={self.selling}"
-        ]
+        out = [f"buying={self.buying}", f"selling={self.selling}"]
         return f"<Liabilities {[', '.join(out)]}>"
 
 
@@ -9995,10 +9889,7 @@ class Signer:
         return self.key == other.key and self.weight == other.weight
 
     def __str__(self):
-        out = [
-            f"key={self.key}",
-            f"weight={self.weight}"
-        ]
+        out = [f"key={self.key}", f"weight={self.weight}"]
         return f"<Signer {[', '.join(out)]}>"
 
 
@@ -10158,10 +10049,7 @@ class AccountEntryV1:
         return self.liabilities == other.liabilities and self.ext == other.ext
 
     def __str__(self):
-        out = [
-            f"liabilities={self.liabilities}",
-            f"ext={self.ext}"
-        ]
+        out = [f"liabilities={self.liabilities}", f"ext={self.ext}"]
         return f"<AccountEntryV1 {[', '.join(out)]}>"
 
 
@@ -10289,7 +10177,7 @@ class AccountEntry:
         home_domain: "String32",
         thresholds: "Thresholds",
         signers: List["Signer"],
-        ext: "AccountEntryExt"
+        ext: "AccountEntryExt",
     ) -> None:
         self.account_id = account_id
         self.balance = balance
@@ -10386,7 +10274,7 @@ class AccountEntry:
             f"home_domain={self.home_domain}",
             f"thresholds={self.thresholds}",
             f"signers={self.signers}",
-            f"ext={self.ext}"
+            f"ext={self.ext}",
         ]
         return f"<AccountEntry {[', '.join(out)]}>"
 
@@ -10549,10 +10437,7 @@ class TrustLineEntryV1:
         return self.liabilities == other.liabilities and self.ext == other.ext
 
     def __str__(self):
-        out = [
-            f"liabilities={self.liabilities}",
-            f"ext={self.ext}"
-        ]
+        out = [f"liabilities={self.liabilities}", f"ext={self.ext}"]
         return f"<TrustLineEntryV1 {[', '.join(out)]}>"
 
 
@@ -10668,7 +10553,7 @@ class TrustLineEntry:
         balance: "Int64",
         limit: "Int64",
         flags: "Uint32",
-        ext: "TrustLineEntryExt"
+        ext: "TrustLineEntryExt",
     ) -> None:
         self.account_id = account_id
         self.asset = asset
@@ -10732,7 +10617,7 @@ class TrustLineEntry:
             f"balance={self.balance}",
             f"limit={self.limit}",
             f"flags={self.flags}",
-            f"ext={self.ext}"
+            f"ext={self.ext}",
         ]
         return f"<TrustLineEntry {[', '.join(out)]}>"
 
@@ -10874,7 +10759,7 @@ class OfferEntry:
         amount: "Int64",
         price: "Price",
         flags: "Uint32",
-        ext: "OfferEntryExt"
+        ext: "OfferEntryExt",
     ) -> None:
         self.seller_id = seller_id
         self.offer_id = offer_id
@@ -10950,7 +10835,7 @@ class OfferEntry:
             f"amount={self.amount}",
             f"price={self.price}",
             f"flags={self.flags}",
-            f"ext={self.ext}"
+            f"ext={self.ext}",
         ]
         return f"<OfferEntry {[', '.join(out)]}>"
 
@@ -11029,7 +10914,7 @@ class DataEntry:
         account_id: "AccountID",
         data_name: "String64",
         data_value: "DataValue",
-        ext: "DataEntryExt"
+        ext: "DataEntryExt",
     ) -> None:
         self.account_id = account_id
         self.data_name = data_name
@@ -11078,7 +10963,7 @@ class DataEntry:
             f"account_id={self.account_id}",
             f"data_name={self.data_name}",
             f"data_value={self.data_value}",
-            f"ext={self.ext}"
+            f"ext={self.ext}",
         ]
         return f"<DataEntry {[', '.join(out)]}>"
 
@@ -11107,7 +10992,7 @@ class LedgerEntryData:
         account: "AccountEntry" = None,
         trust_line: "TrustLineEntry" = None,
         offer: "OfferEntry" = None,
-        data: "DataEntry" = None
+        data: "DataEntry" = None,
     ) -> None:
         self.type = type
         self.account: "AccountEntry" = account
@@ -11264,7 +11149,7 @@ class LedgerEntry:
         self,
         last_modified_ledger_seq: "Uint32",
         data: "LedgerEntryData",
-        ext: "LedgerEntryExt"
+        ext: "LedgerEntryExt",
     ) -> None:
         self.last_modified_ledger_seq = last_modified_ledger_seq
         self.data = data
@@ -11308,7 +11193,7 @@ class LedgerEntry:
         out = [
             f"last_modified_ledger_seq={self.last_modified_ledger_seq}",
             f"data={self.data}",
-            f"ext={self.ext}"
+            f"ext={self.ext}",
         ]
         return f"<LedgerEntry {[', '.join(out)]}>"
 
@@ -11452,10 +11337,7 @@ class Error:
         return self.code == other.code and self.msg == other.msg
 
     def __str__(self):
-        out = [
-            f"code={self.code}",
-            f"msg={self.msg}"
-        ]
+        out = [f"code={self.code}", f"msg={self.msg}"]
         return f"<Error {[', '.join(out)]}>"
 
 
@@ -11515,7 +11397,7 @@ class AuthCert:
         out = [
             f"pubkey={self.pubkey}",
             f"expiration={self.expiration}",
-            f"sig={self.sig}"
+            f"sig={self.sig}",
         ]
         return f"<AuthCert {[', '.join(out)]}>"
 
@@ -11549,7 +11431,7 @@ class Hello:
         listening_port: int,
         peer_id: "NodeID",
         cert: "AuthCert",
-        nonce: "Uint256"
+        nonce: "Uint256",
     ) -> None:
         self.ledger_version = ledger_version
         self.overlay_version = overlay_version
@@ -11631,7 +11513,7 @@ class Hello:
             f"listening_port={self.listening_port}",
             f"peer_id={self.peer_id}",
             f"cert={self.cert}",
-            f"nonce={self.nonce}"
+            f"nonce={self.nonce}",
         ]
         return f"<Hello {[', '.join(out)]}>"
 
@@ -11677,9 +11559,7 @@ class Auth:
         return self.unused == other.unused
 
     def __str__(self):
-        out = [
-            f"unused={self.unused}"
-        ]
+        out = [f"unused={self.unused}"]
         return f"<Auth {[', '.join(out)]}>"
 
 
@@ -11855,7 +11735,7 @@ class PeerAddress:
         out = [
             f"ip={self.ip}",
             f"port={self.port}",
-            f"num_failures={self.num_failures}"
+            f"num_failures={self.num_failures}",
         ]
         return f"<PeerAddress {[', '.join(out)]}>"
 
@@ -11978,10 +11858,7 @@ class DontHave:
         return self.type == other.type and self.req_hash == other.req_hash
 
     def __str__(self):
-        out = [
-            f"type={self.type}",
-            f"req_hash={self.req_hash}"
-        ]
+        out = [f"type={self.type}", f"req_hash={self.req_hash}"]
         return f"<DontHave {[', '.join(out)]}>"
 
 
@@ -12045,7 +11922,7 @@ class SurveyRequestMessage:
         surveyed_peer_id: "NodeID",
         ledger_num: "Uint32",
         encryption_key: "Curve25519Public",
-        command_type: "SurveyMessageCommandType"
+        command_type: "SurveyMessageCommandType",
     ) -> None:
         self.surveyor_peer_id = surveyor_peer_id
         self.surveyed_peer_id = surveyed_peer_id
@@ -12103,7 +11980,7 @@ class SurveyRequestMessage:
             f"surveyed_peer_id={self.surveyed_peer_id}",
             f"ledger_num={self.ledger_num}",
             f"encryption_key={self.encryption_key}",
-            f"command_type={self.command_type}"
+            f"command_type={self.command_type}",
         ]
         return f"<SurveyRequestMessage {[', '.join(out)]}>"
 
@@ -12156,10 +12033,7 @@ class SignedSurveyRequestMessage:
         )
 
     def __str__(self):
-        out = [
-            f"request_signature={self.request_signature}",
-            f"request={self.request}"
-        ]
+        out = [f"request_signature={self.request_signature}", f"request={self.request}"]
         return f"<SignedSurveyRequestMessage {[', '.join(out)]}>"
 
 
@@ -12223,7 +12097,7 @@ class SurveyResponseMessage:
         surveyed_peer_id: "NodeID",
         ledger_num: "Uint32",
         command_type: "SurveyMessageCommandType",
-        encrypted_body: "EncryptedBody"
+        encrypted_body: "EncryptedBody",
     ) -> None:
         self.surveyor_peer_id = surveyor_peer_id
         self.surveyed_peer_id = surveyed_peer_id
@@ -12281,7 +12155,7 @@ class SurveyResponseMessage:
             f"surveyed_peer_id={self.surveyed_peer_id}",
             f"ledger_num={self.ledger_num}",
             f"command_type={self.command_type}",
-            f"encrypted_body={self.encrypted_body}"
+            f"encrypted_body={self.encrypted_body}",
         ]
         return f"<SurveyResponseMessage {[', '.join(out)]}>"
 
@@ -12336,7 +12210,7 @@ class SignedSurveyResponseMessage:
     def __str__(self):
         out = [
             f"response_signature={self.response_signature}",
-            f"response={self.response}"
+            f"response={self.response}",
         ]
         return f"<SignedSurveyResponseMessage {[', '.join(out)]}>"
 
@@ -12384,7 +12258,7 @@ class PeerStats:
         unique_flood_message_recv: "Uint64",
         duplicate_flood_message_recv: "Uint64",
         unique_fetch_message_recv: "Uint64",
-        duplicate_fetch_message_recv: "Uint64"
+        duplicate_fetch_message_recv: "Uint64",
     ) -> None:
         self.id = id
         self.version_str = version_str
@@ -12502,7 +12376,7 @@ class PeerStats:
             f"unique_flood_message_recv={self.unique_flood_message_recv}",
             f"duplicate_flood_message_recv={self.duplicate_flood_message_recv}",
             f"unique_fetch_message_recv={self.unique_fetch_message_recv}",
-            f"duplicate_fetch_message_recv={self.duplicate_fetch_message_recv}"
+            f"duplicate_fetch_message_recv={self.duplicate_fetch_message_recv}",
         ]
         return f"<PeerStats {[', '.join(out)]}>"
 
@@ -12577,7 +12451,7 @@ class TopologyResponseBody:
         inbound_peers: "PeerStatList",
         outbound_peers: "PeerStatList",
         total_inbound_peer_count: "Uint32",
-        total_outbound_peer_count: "Uint32"
+        total_outbound_peer_count: "Uint32",
     ) -> None:
         self.inbound_peers = inbound_peers
         self.outbound_peers = outbound_peers
@@ -12629,7 +12503,7 @@ class TopologyResponseBody:
             f"inbound_peers={self.inbound_peers}",
             f"outbound_peers={self.outbound_peers}",
             f"total_inbound_peer_count={self.total_inbound_peer_count}",
-            f"total_outbound_peer_count={self.total_outbound_peer_count}"
+            f"total_outbound_peer_count={self.total_outbound_peer_count}",
         ]
         return f"<TopologyResponseBody {[', '.join(out)]}>"
 
@@ -12649,7 +12523,7 @@ class SurveyResponseBody:
     def __init__(
         self,
         type: "SurveyMessageCommandType",
-        topology_response_body: "TopologyResponseBody" = None
+        topology_response_body: "TopologyResponseBody" = None,
     ) -> None:
         self.type = type
         self.topology_response_body: "TopologyResponseBody" = topology_response_body
@@ -12757,7 +12631,7 @@ class StellarMessage:
         q_set_hash: "Uint256" = None,
         q_set: "SCPQuorumSet" = None,
         envelope: "SCPEnvelope" = None,
-        get_scp_ledger_seq: "Uint32" = None
+        get_scp_ledger_seq: "Uint32" = None,
     ) -> None:
         self.type = type
         self.error: "Error" = error
@@ -13005,7 +12879,7 @@ class AuthenticatedMessageV0:
         out = [
             f"sequence={self.sequence}",
             f"message={self.message}",
-            f"mac={self.mac}"
+            f"mac={self.mac}",
         ]
         return f"<AuthenticatedMessageV0 {[', '.join(out)]}>"
 
@@ -13505,7 +13379,7 @@ class SignerKey:
         type: "SignerKeyType",
         ed25519: "Uint256" = None,
         pre_auth_tx: "Uint256" = None,
-        hash_x: "Uint256" = None
+        hash_x: "Uint256" = None,
     ) -> None:
         self.type = type
         self.ed25519: "Uint256" = ed25519
@@ -13725,9 +13599,7 @@ class Curve25519Secret:
         return self.key == other.key
 
     def __str__(self):
-        out = [
-            f"key={self.key}"
-        ]
+        out = [f"key={self.key}"]
         return f"<Curve25519Secret {[', '.join(out)]}>"
 
 
@@ -13770,9 +13642,7 @@ class Curve25519Public:
         return self.key == other.key
 
     def __str__(self):
-        out = [
-            f"key={self.key}"
-        ]
+        out = [f"key={self.key}"]
         return f"<Curve25519Public {[', '.join(out)]}>"
 
 
@@ -13815,9 +13685,7 @@ class HmacSha256Key:
         return self.key == other.key
 
     def __str__(self):
-        out = [
-            f"key={self.key}"
-        ]
+        out = [f"key={self.key}"]
         return f"<HmacSha256Key {[', '.join(out)]}>"
 
 
@@ -13860,7 +13728,5 @@ class HmacSha256Mac:
         return self.mac == other.mac
 
     def __str__(self):
-        out = [
-            f"mac={self.mac}"
-        ]
+        out = [f"mac={self.mac}"]
         return f"<HmacSha256Mac {[', '.join(out)]}>"

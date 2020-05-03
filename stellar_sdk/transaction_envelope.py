@@ -26,10 +26,10 @@ class TransactionEnvelope(BaseTransactionEnvelope["TransactionEnvelope"]):
     """
 
     def __init__(
-            self,
-            transaction: Transaction,
-            network_passphrase: str,
-            signatures: List[stellarxdr.DecoratedSignature] = None,
+        self,
+        transaction: Transaction,
+        network_passphrase: str,
+        signatures: List[stellarxdr.DecoratedSignature] = None,
     ) -> None:
         super().__init__(network_passphrase, signatures)
         self.transaction = transaction
@@ -82,7 +82,7 @@ class TransactionEnvelope(BaseTransactionEnvelope["TransactionEnvelope"]):
 
     @classmethod
     def from_xdr_object(
-            cls, te_xdr_object: stellarxdr.TransactionEnvelope, network_passphrase: str
+        cls, te_xdr_object: stellarxdr.TransactionEnvelope, network_passphrase: str
     ) -> "TransactionEnvelope":
         """Create a new :class:`TransactionEnvelope` from an XDR object.
 
@@ -122,9 +122,9 @@ class TransactionEnvelope(BaseTransactionEnvelope["TransactionEnvelope"]):
         if not isinstance(other, self.__class__):
             return NotImplemented  # pragma: no cover
         return (
-                self.transaction == other.transaction
-                and self.network_id == other.network_id
-                and self.signatures == other.signatures
+            self.transaction == other.transaction
+            and self.network_id == other.network_id
+            and self.signatures == other.signatures
         )
 
     def __str__(self):

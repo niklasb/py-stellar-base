@@ -121,9 +121,7 @@ class Operation(metaclass=ABCMeta):
         """
         # TODO muxaccount
         source_account = (
-            self.source.to_xdr_object()
-            if self.source is not None
-            else None
+            self.source.to_xdr_object() if self.source is not None else None
         )
         return stellarxdr.Operation(source_account, self._to_operation_body())
 
@@ -163,7 +161,9 @@ class Operation(metaclass=ABCMeta):
         return cls.from_xdr_object(xdr_obj)
 
     @staticmethod
-    def get_source_from_xdr_obj(xdr_object: stellarxdr.Operation) -> Optional[MuxedAccount]:
+    def get_source_from_xdr_obj(
+        xdr_object: stellarxdr.Operation,
+    ) -> Optional[MuxedAccount]:
         """Get the source account from account the operation xdr object.
 
         :param xdr_object: the operation xdr object.

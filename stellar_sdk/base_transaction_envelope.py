@@ -6,6 +6,7 @@ from .keypair import Keypair
 from .network import Network
 from .utils import hex_to_bytes, sha256
 from .xdr import xdr as stellarxdr
+
 T = TypeVar("T")
 
 
@@ -137,15 +138,13 @@ class BaseTransactionEnvelope(Generic[T]):
         if not isinstance(other, self.__class__):
             return NotImplemented  # pragma: no cover
         return (
-            self.network_id == other.network_id
-            and self.signatures == other.signatures
+            self.network_id == other.network_id and self.signatures == other.signatures
         )
 
     def __str__(self):
         return (
             "<BaseTransactionEnvelope [network_id={network_id} "
             "signatures={signatures}]>".format(
-                network_id=self.network_id,
-                signatures=self.signatures,
+                network_id=self.network_id, signatures=self.signatures,
             )
         )

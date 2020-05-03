@@ -57,7 +57,9 @@ class Payment(Operation):
 
         """
         source = Operation.get_source_from_xdr_obj(operation_xdr_object)
-        destination = MuxedAccount.from_xdr_object(operation_xdr_object.body.payment_op.destination)
+        destination = MuxedAccount.from_xdr_object(
+            operation_xdr_object.body.payment_op.destination
+        )
         asset = Asset.from_xdr_object(operation_xdr_object.body.payment_op.asset)
         amount = Operation.from_xdr_amount(
             operation_xdr_object.body.payment_op.amount.int64

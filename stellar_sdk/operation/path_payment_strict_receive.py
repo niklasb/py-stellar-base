@@ -81,7 +81,9 @@ class PathPaymentStrictReceive(Operation):
 
         """
         source = Operation.get_source_from_xdr_obj(operation_xdr_object)
-        destination = MuxedAccount.from_xdr_object(operation_xdr_object.body.path_payment_strict_receive_op.destination)
+        destination = MuxedAccount.from_xdr_object(
+            operation_xdr_object.body.path_payment_strict_receive_op.destination
+        )
         send_asset = Asset.from_xdr_object(
             operation_xdr_object.body.path_payment_strict_receive_op.send_asset
         )

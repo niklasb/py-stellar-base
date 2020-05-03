@@ -26,6 +26,7 @@ _version_bytes = {
     "muxed_account": binascii.a2b_hex("60"),  # M 96 12 << 3
 }
 
+
 class StrKey:
     """StrKey is a helper class that allows encoding and decoding strkey.
 
@@ -170,7 +171,7 @@ class StrKey:
             return StrKey.encode_ed25519_public_key(data.ed25519.uint256)
 
         muxed_account_med25519 = stellarxdr.MuxedAccountMed25519(
-            id = data.med25519.id, ed25519=data.ed25519
+            id=data.med25519.id, ed25519=data.med25519.ed25519
         )
         packer = Packer()
         muxed_account_med25519.pack(packer)
@@ -200,9 +201,12 @@ class StrKey:
                 raise MuxedEd25519AccountInvalidError(
                     "Invalid Muxed Account: {}".format(data)
                 )
-            muxed_account_med25519 = stellarxdr.MuxedAccountMed25519.from_xdr(base64.b64encode(xdr).decode())
+            muxed_account_med25519 = stellarxdr.MuxedAccountMed25519.from_xdr(
+                base64.b64encode(xdr).decode()
+            )
             muxed = stellarxdr.MuxedAccount(
-                type=stellarxdr.CryptoKeyType.KEY_TYPE_MUXED_ED25519, med25519=muxed_account_med25519
+                type=stellarxdr.CryptoKeyType.KEY_TYPE_MUXED_ED25519,
+                med25519=muxed_account_med25519,
             )
         else:
             raise ValueError("Invalid encoded string, this is not a valid account.")

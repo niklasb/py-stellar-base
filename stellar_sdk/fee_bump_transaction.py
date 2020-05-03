@@ -24,14 +24,14 @@ class FeeBumpTransaction:
     """
 
     def __init__(
-            self,
-            fee_source: Union[Keypair, MuxedAccount, str],
-            base_fee: int,
-            inner_transaction_envelope: TransactionEnvelope,
+        self,
+        fee_source: Union[Keypair, MuxedAccount, str],
+        base_fee: int,
+        inner_transaction_envelope: TransactionEnvelope,
     ) -> None:
         if not (
-                isinstance(inner_transaction_envelope.transaction, Transaction)
-                and inner_transaction_envelope.transaction.v1
+            isinstance(inner_transaction_envelope.transaction, Transaction)
+            and inner_transaction_envelope.transaction.v1
         ):
             raise ValueError("Invalid `inner_transaction`, it should be TransactionV1.")
 
@@ -63,21 +63,21 @@ class FeeBumpTransaction:
         :return: XDR Transaction object
         """
         fee_source = self.fee_source.to_xdr_object()
-        fee = stellarxdr.Int64(self.base_fee * (len(self._inner_transaction.operations) + 1))
+        fee = stellarxdr.Int64(
+            self.base_fee * (len(self._inner_transaction.operations) + 1)
+        )
         ext = stellarxdr.FeeBumpTransactionExt(0)
         inner_tx = stellarxdr.FeeBumpTransactionInnerTx(
             type=stellarxdr.EnvelopeType.ENVELOPE_TYPE_TX,
-            v1=self.inner_transaction_envelope.to_xdr_object().v1)
+            v1=self.inner_transaction_envelope.to_xdr_object().v1,
+        )
         return stellarxdr.FeeBumpTransaction(
-            fee_source=fee_source,
-            fee=fee,
-            inner_tx=inner_tx,
-            ext=ext,
+            fee_source=fee_source, fee=fee, inner_tx=inner_tx, ext=ext,
         )
 
     @classmethod
     def from_xdr_object(
-            cls, tx_xdr_object: stellarxdr.FeeBumpTransaction, network_passphrase: str
+        cls, tx_xdr_object: stellarxdr.FeeBumpTransaction, network_passphrase: str
     ) -> "FeeBumpTransaction":
         """Create a new :class:`FeeBumpTransaction` from an XDR object.
 
@@ -87,12 +87,18 @@ class FeeBumpTransaction:
         :return: A new :class:`FeeBumpTransaction` object from the given XDR Transaction object.
         """
         source = MuxedAccount.from_xdr_object(tx_xdr_object.fee_source)
-        te = stellarxdr.TransactionEnvelope(type=stellarxdr.EnvelopeType.ENVELOPE_TYPE_TX, v1=tx_xdr_object.inner_tx.v1)
-        inner_transaction_envelope = TransactionEnvelope.from_xdr_object(te, network_passphrase)
+        te = stellarxdr.TransactionEnvelope(
+            type=stellarxdr.EnvelopeType.ENVELOPE_TYPE_TX, v1=tx_xdr_object.inner_tx.v1
+        )
+        inner_transaction_envelope = TransactionEnvelope.from_xdr_object(
+            te, network_passphrase
+        )
         inner_transaction_operation_length = len(
             inner_transaction_envelope.transaction.operations
         )
-        base_fee = int(tx_xdr_object.fee.int64 / (inner_transaction_operation_length + 1))
+        base_fee = int(
+            tx_xdr_object.fee.int64 / (inner_transaction_operation_length + 1)
+        )
         return cls(
             fee_source=source,
             base_fee=base_fee,

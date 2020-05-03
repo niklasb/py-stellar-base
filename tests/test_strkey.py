@@ -45,9 +45,11 @@ class TestStrKey:
         decoded = StrKey.decode_muxed_account(account_id)
         assert (
             decoded.to_xdr()
-            ==stellarxdr.MuxedAccount(
+            == stellarxdr.MuxedAccount(
                 type=stellarxdr.CryptoKeyType.KEY_TYPE_ED25519,
-                ed25519=stellarxdr.Uint256(StrKey.decode_ed25519_public_key(account_id)),
+                ed25519=stellarxdr.Uint256(
+                    StrKey.decode_ed25519_public_key(account_id)
+                ),
             ).to_xdr()
         )
 

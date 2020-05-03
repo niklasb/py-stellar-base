@@ -13,7 +13,10 @@ class TestMuxedAccount:
         account_id_muxed = (
             "MAAAAAAAAAAAJURAAB2X52XFQP6FBXLGT6LWOOWMEXWHEWBDVRZ7V5WH34Y22MPFBHUHY"
         )
-        med25519 = stellarxdr.MuxedAccountMed25519(id = stellarxdr.Uint64(account_id_id), ed25519=stellarxdr.Uint256(StrKey.decode_ed25519_public_key(account_id)))
+        med25519 = stellarxdr.MuxedAccountMed25519(
+            id=stellarxdr.Uint64(account_id_id),
+            ed25519=stellarxdr.Uint256(StrKey.decode_ed25519_public_key(account_id)),
+        )
         muxed_account_xdr = stellarxdr.MuxedAccount(
             type=stellarxdr.CryptoKeyType.KEY_TYPE_MUXED_ED25519, med25519=med25519
         )
@@ -67,5 +70,7 @@ class TestMuxedAccount:
 
     def test_from_account_invalid_account_raise(self):
         invalid_account = "A" * 100
-        with pytest.raises(ValueError, match="This is not a valid account."):
+        with pytest.raises(
+            ValueError, match="Invalid encoded string, this is not a valid account."
+        ):
             MuxedAccount.from_account(invalid_account)

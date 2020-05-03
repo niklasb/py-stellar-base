@@ -102,7 +102,7 @@ class AllowTrust(Operation):
         trustor = StrKey.encode_ed25519_public_key(
             operation_xdr_object.body.allow_trust_op.trustor.account_id.ed25519.uint256
         )
-        authorize = operation_xdr_object.body.allow_trust_op.authorize
+        authorize = operation_xdr_object.body.allow_trust_op.authorize.uint32
         authorize = TrustLineEntryFlag(authorize)
         asset_type = operation_xdr_object.body.allow_trust_op.asset.type
         if asset_type == xdr.AssetType.ASSET_TYPE_CREDIT_ALPHANUM4:

@@ -93,16 +93,12 @@ class Transaction:
             source_xdr = self.source.to_xdr_object()
             ext = stellarxdr.TransactionExt(0)
             return stellarxdr.Transaction(
-                source_xdr,
-                fee,
-                sequence,
-                time_bounds,
-                memo,
-                operations,
-                ext,
+                source_xdr, fee, sequence, time_bounds, memo, operations, ext,
             )
         source_xdr = (
-            Keypair.from_public_key(self.source.account_id).xdr_account_id().account_id.ed25519
+            Keypair.from_public_key(self.source.account_id)
+            .xdr_account_id()
+            .account_id.ed25519
         )
         ext = stellarxdr.TransactionV0Ext(0)
         return stellarxdr.TransactionV0(
@@ -131,12 +127,6 @@ class Transaction:
             source = StrKey.encode_ed25519_public_key(
                 tx_xdr_object.source_account_ed25519.uint256
             )
-        # TODO
-        source = Keypair.from_public_key(
-            StrKey.encode_ed25519_public_key(
-                tx_xdr_object.source_account.ed25519.uint256
-            )
-        )
         sequence = tx_xdr_object.seq_num.sequence_number.int64
         fee = tx_xdr_object.fee.uint32
         time_bounds_xdr = tx_xdr_object.time_bounds
