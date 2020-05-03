@@ -200,7 +200,7 @@ class StrKey:
                 raise MuxedEd25519AccountInvalidError(
                     "Invalid Muxed Account: {}".format(data)
                 )
-            muxed_account_med25519 = stellarxdr.MuxedAccountMed25519.from_xdr(xdr.decode())
+            muxed_account_med25519 = stellarxdr.MuxedAccountMed25519.from_xdr(base64.b64encode(xdr).decode())
             muxed = stellarxdr.MuxedAccount(
                 type=stellarxdr.CryptoKeyType.KEY_TYPE_MUXED_ED25519, med25519=muxed_account_med25519
             )

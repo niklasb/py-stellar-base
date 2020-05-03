@@ -57,7 +57,7 @@ class MuxedAccount:
         if muxed.type == stellarxdr.CryptoKeyType.KEY_TYPE_ED25519:
             account_id = StrKey.encode_ed25519_public_key(muxed.ed25519.uint256)
             return cls(account_id=account_id, account_id_id=None)
-        if muxed.type == stellarxdr.CryptoKeyType.KEY_TYPE_ED25519:
+        if muxed.type == stellarxdr.CryptoKeyType.KEY_TYPE_MUXED_ED25519:
             account_id = StrKey.encode_ed25519_public_key(muxed.med25519.ed25519.uint256)
             account_id_id = muxed.med25519.id.uint64
             return cls(account_id=account_id, account_id_id=account_id_id)
