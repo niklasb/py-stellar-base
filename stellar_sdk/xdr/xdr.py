@@ -1,4 +1,4 @@
-# Automatically generated on 2020-03-08T16:53:04+08:00
+# Automatically generated on 2020-05-03T12:46:54+08:00
 # DO NOT EDIT or your changes may be overwritten
 import base64
 from enum import IntEnum
@@ -35,7 +35,7 @@ class Value:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "Value":
+    def from_xdr(cls, xdr: str) -> "Value":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -81,7 +81,7 @@ class SCPBallot:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "SCPBallot":
+    def from_xdr(cls, xdr: str) -> "SCPBallot":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -92,7 +92,10 @@ class SCPBallot:
         return self.counter == other.counter and self.value == other.value
 
     def __str__(self):
-        out = [f"counter={self.counter}", f"value={self.value}"]
+        out = [
+            f"counter={self.counter}",
+            f"value={self.value}"
+        ]
         return f"<SCPBallot {[', '.join(out)]}>"
 
 
@@ -129,7 +132,7 @@ class SCPStatementType(IntEnum):
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "SCPStatementType":
+    def from_xdr(cls, xdr: str) -> "SCPStatementType":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -157,14 +160,6 @@ class SCPNomination:
     def __init__(
         self, quorum_set_hash: "Hash", votes: List["Value"], accepted: List["Value"]
     ) -> None:
-        if len(votes) > 4294967295:
-            raise ValueError(
-                f"The maximum length of `votes` should be 4294967295, but got {len(votes)}."
-            )
-        if len(accepted) > 4294967295:
-            raise ValueError(
-                f"The maximum length of `accepted` should be 4294967295, but got {len(accepted)}."
-            )
         self.quorum_set_hash = quorum_set_hash
         self.votes = votes
         self.accepted = accepted
@@ -197,7 +192,7 @@ class SCPNomination:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "SCPNomination":
+    def from_xdr(cls, xdr: str) -> "SCPNomination":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -215,7 +210,7 @@ class SCPNomination:
         out = [
             f"quorum_set_hash={self.quorum_set_hash}",
             f"votes={self.votes}",
-            f"accepted={self.accepted}",
+            f"accepted={self.accepted}"
         ]
         return f"<SCPNomination {[', '.join(out)]}>"
 
@@ -243,7 +238,7 @@ class SCPStatementPrepare:
         prepared: Optional["SCPBallot"],
         prepared_prime: Optional["SCPBallot"],
         n_c: "Uint32",
-        n_h: "Uint32",
+        n_h: "Uint32"
     ) -> None:
         self.quorum_set_hash = quorum_set_hash
         self.ballot = ballot
@@ -291,7 +286,7 @@ class SCPStatementPrepare:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "SCPStatementPrepare":
+    def from_xdr(cls, xdr: str) -> "SCPStatementPrepare":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -315,7 +310,7 @@ class SCPStatementPrepare:
             f"prepared={self.prepared}",
             f"prepared_prime={self.prepared_prime}",
             f"n_c={self.n_c}",
-            f"n_h={self.n_h}",
+            f"n_h={self.n_h}"
         ]
         return f"<SCPStatementPrepare {[', '.join(out)]}>"
 
@@ -341,7 +336,7 @@ class SCPStatementConfirm:
         n_prepared: "Uint32",
         n_commit: "Uint32",
         n_h: "Uint32",
-        quorum_set_hash: "Hash",
+        quorum_set_hash: "Hash"
     ) -> None:
         self.ballot = ballot
         self.n_prepared = n_prepared
@@ -377,7 +372,7 @@ class SCPStatementConfirm:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "SCPStatementConfirm":
+    def from_xdr(cls, xdr: str) -> "SCPStatementConfirm":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -399,7 +394,7 @@ class SCPStatementConfirm:
             f"n_prepared={self.n_prepared}",
             f"n_commit={self.n_commit}",
             f"n_h={self.n_h}",
-            f"quorum_set_hash={self.quorum_set_hash}",
+            f"quorum_set_hash={self.quorum_set_hash}"
         ]
         return f"<SCPStatementConfirm {[', '.join(out)]}>"
 
@@ -435,7 +430,7 @@ class SCPStatementExternalize:
         n_h = Uint32.unpack(unpacker)
         commit_quorum_set_hash = Hash.unpack(unpacker)
         return cls(
-            commit=commit, n_h=n_h, commit_quorum_set_hash=commit_quorum_set_hash
+            commit=commit, n_h=n_h, commit_quorum_set_hash=commit_quorum_set_hash,
         )
 
     def to_xdr(self) -> str:
@@ -444,7 +439,7 @@ class SCPStatementExternalize:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "SCPStatementExternalize":
+    def from_xdr(cls, xdr: str) -> "SCPStatementExternalize":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -462,7 +457,7 @@ class SCPStatementExternalize:
         out = [
             f"commit={self.commit}",
             f"n_h={self.n_h}",
-            f"commit_quorum_set_hash={self.commit_quorum_set_hash}",
+            f"commit_quorum_set_hash={self.commit_quorum_set_hash}"
         ]
         return f"<SCPStatementExternalize {[', '.join(out)]}>"
 
@@ -511,7 +506,7 @@ class SCPStatementPledges:
         prepare: "SCPStatementPrepare" = None,
         confirm: "SCPStatementConfirm" = None,
         externalize: "SCPStatementExternalize" = None,
-        nominate: "SCPNomination" = None,
+        nominate: "SCPNomination" = None
     ) -> None:
         self.type = type
         self.prepare: "SCPStatementPrepare" = prepare
@@ -556,7 +551,7 @@ class SCPStatementPledges:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "SCPStatementPledges":
+    def from_xdr(cls, xdr: str) -> "SCPStatementPledges":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -654,7 +649,7 @@ class SCPStatement:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "SCPStatement":
+    def from_xdr(cls, xdr: str) -> "SCPStatement":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -672,7 +667,7 @@ class SCPStatement:
         out = [
             f"node_id={self.node_id}",
             f"slot_index={self.slot_index}",
-            f"pledges={self.pledges}",
+            f"pledges={self.pledges}"
         ]
         return f"<SCPStatement {[', '.join(out)]}>"
 
@@ -709,7 +704,7 @@ class SCPEnvelope:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "SCPEnvelope":
+    def from_xdr(cls, xdr: str) -> "SCPEnvelope":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -720,7 +715,10 @@ class SCPEnvelope:
         return self.statement == other.statement and self.signature == other.signature
 
     def __str__(self):
-        out = [f"statement={self.statement}", f"signature={self.signature}"]
+        out = [
+            f"statement={self.statement}",
+            f"signature={self.signature}"
+        ]
         return f"<SCPEnvelope {[', '.join(out)]}>"
 
 
@@ -741,16 +739,8 @@ class SCPQuorumSet:
         self,
         threshold: "Uint32",
         validators: List["PublicKey"],
-        inner_sets: List["SCPQuorumSet"],
+        inner_sets: List["SCPQuorumSet"]
     ) -> None:
-        if len(validators) > 4294967295:
-            raise ValueError(
-                f"The maximum length of `validators` should be 4294967295, but got {len(validators)}."
-            )
-        if len(inner_sets) > 4294967295:
-            raise ValueError(
-                f"The maximum length of `inner_sets` should be 4294967295, but got {len(inner_sets)}."
-            )
         self.threshold = threshold
         self.validators = validators
         self.inner_sets = inner_sets
@@ -783,7 +773,7 @@ class SCPQuorumSet:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "SCPQuorumSet":
+    def from_xdr(cls, xdr: str) -> "SCPQuorumSet":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -801,7 +791,7 @@ class SCPQuorumSet:
         out = [
             f"threshold={self.threshold}",
             f"validators={self.validators}",
-            f"inner_sets={self.inner_sets}",
+            f"inner_sets={self.inner_sets}"
         ]
         return f"<SCPQuorumSet {[', '.join(out)]}>"
 
@@ -831,7 +821,7 @@ class UpgradeType:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "UpgradeType":
+    def from_xdr(cls, xdr: str) -> "UpgradeType":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -874,7 +864,7 @@ class StellarValueType(IntEnum):
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "StellarValueType":
+    def from_xdr(cls, xdr: str) -> "StellarValueType":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -918,7 +908,7 @@ class LedgerCloseValueSignature:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "LedgerCloseValueSignature":
+    def from_xdr(cls, xdr: str) -> "LedgerCloseValueSignature":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -929,7 +919,10 @@ class LedgerCloseValueSignature:
         return self.node_id == other.node_id and self.signature == other.signature
 
     def __str__(self):
-        out = [f"node_id={self.node_id}", f"signature={self.signature}"]
+        out = [
+            f"node_id={self.node_id}",
+            f"signature={self.signature}"
+        ]
         return f"<LedgerCloseValueSignature {[', '.join(out)]}>"
 
 
@@ -950,7 +943,7 @@ class StellarValueExt:
     def __init__(
         self,
         v: "StellarValueType",
-        lc_value_signature: "LedgerCloseValueSignature" = None,
+        lc_value_signature: "LedgerCloseValueSignature" = None
     ) -> None:
         self.v = v
         self.lc_value_signature: "LedgerCloseValueSignature" = lc_value_signature
@@ -978,7 +971,7 @@ class StellarValueExt:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "StellarValueExt":
+    def from_xdr(cls, xdr: str) -> "StellarValueExt":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -1031,12 +1024,8 @@ class StellarValue:
         tx_set_hash: "Hash",
         close_time: "TimePoint",
         upgrades: List["UpgradeType"],
-        ext: "StellarValueExt",
+        ext: "StellarValueExt"
     ) -> None:
-        if len(upgrades) > 6:
-            raise ValueError(
-                f"The maximum length of `upgrades` should be 6, but got {len(upgrades)}."
-            )
         self.tx_set_hash = tx_set_hash
         self.close_time = close_time
         self.upgrades = upgrades
@@ -1060,7 +1049,7 @@ class StellarValue:
             upgrades.append(UpgradeType.unpack(unpacker))
         ext = StellarValueExt.unpack(unpacker)
         return cls(
-            tx_set_hash=tx_set_hash, close_time=close_time, upgrades=upgrades, ext=ext
+            tx_set_hash=tx_set_hash, close_time=close_time, upgrades=upgrades, ext=ext,
         )
 
     def to_xdr(self) -> str:
@@ -1069,7 +1058,7 @@ class StellarValue:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "StellarValue":
+    def from_xdr(cls, xdr: str) -> "StellarValue":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -1089,7 +1078,7 @@ class StellarValue:
             f"tx_set_hash={self.tx_set_hash}",
             f"close_time={self.close_time}",
             f"upgrades={self.upgrades}",
-            f"ext={self.ext}",
+            f"ext={self.ext}"
         ]
         return f"<StellarValue {[', '.join(out)]}>"
 
@@ -1126,7 +1115,7 @@ class LedgerHeaderExt:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "LedgerHeaderExt":
+    def from_xdr(cls, xdr: str) -> "LedgerHeaderExt":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -1202,12 +1191,8 @@ class LedgerHeader:
         base_reserve: "Uint32",
         max_tx_set_size: "Uint32",
         skip_list: List["Hash"],
-        ext: "LedgerHeaderExt",
+        ext: "LedgerHeaderExt"
     ) -> None:
-        if len(skip_list) != 4:
-            raise ValueError(
-                f"The length of `skip_list` should be 4, but got {len(skip_list)}."
-            )
         self.ledger_version = ledger_version
         self.previous_ledger_hash = previous_ledger_hash
         self.scp_value = scp_value
@@ -1287,7 +1272,7 @@ class LedgerHeader:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "LedgerHeader":
+    def from_xdr(cls, xdr: str) -> "LedgerHeader":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -1329,7 +1314,7 @@ class LedgerHeader:
             f"base_reserve={self.base_reserve}",
             f"max_tx_set_size={self.max_tx_set_size}",
             f"skip_list={self.skip_list}",
-            f"ext={self.ext}",
+            f"ext={self.ext}"
         ]
         return f"<LedgerHeader {[', '.join(out)]}>"
 
@@ -1367,7 +1352,7 @@ class LedgerUpgradeType(IntEnum):
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "LedgerUpgradeType":
+    def from_xdr(cls, xdr: str) -> "LedgerUpgradeType":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -1403,7 +1388,7 @@ class LedgerUpgrade:
         new_ledger_version: "Uint32" = None,
         new_base_fee: "Uint32" = None,
         new_max_tx_set_size: "Uint32" = None,
-        new_base_reserve: "Uint32" = None,
+        new_base_reserve: "Uint32" = None
     ) -> None:
         self.type = type
         self.new_ledger_version: "Uint32" = new_ledger_version
@@ -1448,7 +1433,7 @@ class LedgerUpgrade:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "LedgerUpgrade":
+    def from_xdr(cls, xdr: str) -> "LedgerUpgrade":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -1510,7 +1495,7 @@ class LedgerKeyAccount:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "LedgerKeyAccount":
+    def from_xdr(cls, xdr: str) -> "LedgerKeyAccount":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -1521,7 +1506,9 @@ class LedgerKeyAccount:
         return self.account_id == other.account_id
 
     def __str__(self):
-        out = [f"account_id={self.account_id}"]
+        out = [
+            f"account_id={self.account_id}"
+        ]
         return f"<LedgerKeyAccount {[', '.join(out)]}>"
 
 
@@ -1557,7 +1544,7 @@ class LedgerKeyTrustLine:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "LedgerKeyTrustLine":
+    def from_xdr(cls, xdr: str) -> "LedgerKeyTrustLine":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -1568,7 +1555,10 @@ class LedgerKeyTrustLine:
         return self.account_id == other.account_id and self.asset == other.asset
 
     def __str__(self):
-        out = [f"account_id={self.account_id}", f"asset={self.asset}"]
+        out = [
+            f"account_id={self.account_id}",
+            f"asset={self.asset}"
+        ]
         return f"<LedgerKeyTrustLine {[', '.join(out)]}>"
 
 
@@ -1604,7 +1594,7 @@ class LedgerKeyOffer:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "LedgerKeyOffer":
+    def from_xdr(cls, xdr: str) -> "LedgerKeyOffer":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -1615,7 +1605,10 @@ class LedgerKeyOffer:
         return self.seller_id == other.seller_id and self.offer_id == other.offer_id
 
     def __str__(self):
-        out = [f"seller_id={self.seller_id}", f"offer_id={self.offer_id}"]
+        out = [
+            f"seller_id={self.seller_id}",
+            f"offer_id={self.offer_id}"
+        ]
         return f"<LedgerKeyOffer {[', '.join(out)]}>"
 
 
@@ -1651,7 +1644,7 @@ class LedgerKeyData:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "LedgerKeyData":
+    def from_xdr(cls, xdr: str) -> "LedgerKeyData":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -1662,7 +1655,10 @@ class LedgerKeyData:
         return self.account_id == other.account_id and self.data_name == other.data_name
 
     def __str__(self):
-        out = [f"account_id={self.account_id}", f"data_name={self.data_name}"]
+        out = [
+            f"account_id={self.account_id}",
+            f"data_name={self.data_name}"
+        ]
         return f"<LedgerKeyData {[', '.join(out)]}>"
 
 
@@ -1708,7 +1704,7 @@ class LedgerKey:
         account: "LedgerKeyAccount" = None,
         trust_line: "LedgerKeyTrustLine" = None,
         offer: "LedgerKeyOffer" = None,
-        data: "LedgerKeyData" = None,
+        data: "LedgerKeyData" = None
     ) -> None:
         self.type = type
         self.account: "LedgerKeyAccount" = account
@@ -1753,7 +1749,7 @@ class LedgerKey:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "LedgerKey":
+    def from_xdr(cls, xdr: str) -> "LedgerKey":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -1816,7 +1812,7 @@ class BucketEntryType(IntEnum):
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "BucketEntryType":
+    def from_xdr(cls, xdr: str) -> "BucketEntryType":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -1860,7 +1856,7 @@ class BucketMetadataExt:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "BucketMetadataExt":
+    def from_xdr(cls, xdr: str) -> "BucketMetadataExt":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -1916,7 +1912,7 @@ class BucketMetadata:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "BucketMetadata":
+    def from_xdr(cls, xdr: str) -> "BucketMetadata":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -1927,7 +1923,10 @@ class BucketMetadata:
         return self.ledger_version == other.ledger_version and self.ext == other.ext
 
     def __str__(self):
-        out = [f"ledger_version={self.ledger_version}", f"ext={self.ext}"]
+        out = [
+            f"ledger_version={self.ledger_version}",
+            f"ext={self.ext}"
+        ]
         return f"<BucketMetadata {[', '.join(out)]}>"
 
 
@@ -1954,7 +1953,7 @@ class BucketEntry:
         type: "BucketEntryType",
         live_entry: "LedgerEntry" = None,
         dead_entry: "LedgerKey" = None,
-        meta_entry: "BucketMetadata" = None,
+        meta_entry: "BucketMetadata" = None
     ) -> None:
         self.type = type
         self.live_entry: "LedgerEntry" = live_entry
@@ -1964,11 +1963,9 @@ class BucketEntry:
     def pack(self, packer: Packer) -> None:
         self.type.pack(packer)
         if self.type == BucketEntryType.LIVEENTRY:
-            self.live_entry.pack(packer)
-            return
-        if self.type == BucketEntryType.INITENTRY:
-            self.live_entry.pack(packer)
-            return
+            if self.type == BucketEntryType.INITENTRY:
+                self.live_entry.pack(packer)
+                return
         if self.type == BucketEntryType.DEADENTRY:
             self.dead_entry.pack(packer)
             return
@@ -1980,11 +1977,9 @@ class BucketEntry:
     def unpack(cls, unpacker: Unpacker) -> "BucketEntry":
         type = BucketEntryType.unpack(unpacker)
         if type == BucketEntryType.LIVEENTRY:
-            live_entry = LedgerEntry.unpack(unpacker)
-            return cls(type, live_entry=live_entry)
-        if type == BucketEntryType.INITENTRY:
-            live_entry = LedgerEntry.unpack(unpacker)
-            return cls(type, live_entry=live_entry)
+            if type == BucketEntryType.INITENTRY:
+                live_entry = LedgerEntry.unpack(unpacker)
+                return cls(type, live_entry=live_entry)
         if type == BucketEntryType.DEADENTRY:
             dead_entry = LedgerKey.unpack(unpacker)
             return cls(type, dead_entry=dead_entry)
@@ -1998,7 +1993,7 @@ class BucketEntry:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "BucketEntry":
+    def from_xdr(cls, xdr: str) -> "BucketEntry":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -2043,10 +2038,6 @@ class TransactionSet:
     def __init__(
         self, previous_ledger_hash: "Hash", txs: List["TransactionEnvelope"]
     ) -> None:
-        if len(txs) > 4294967295:
-            raise ValueError(
-                f"The maximum length of `txs` should be 4294967295, but got {len(txs)}."
-            )
         self.previous_ledger_hash = previous_ledger_hash
         self.txs = txs
 
@@ -2071,7 +2062,7 @@ class TransactionSet:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "TransactionSet":
+    def from_xdr(cls, xdr: str) -> "TransactionSet":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -2085,7 +2076,10 @@ class TransactionSet:
         )
 
     def __str__(self):
-        out = [f"previous_ledger_hash={self.previous_ledger_hash}", f"txs={self.txs}"]
+        out = [
+            f"previous_ledger_hash={self.previous_ledger_hash}",
+            f"txs={self.txs}"
+        ]
         return f"<TransactionSet {[', '.join(out)]}>"
 
 
@@ -2121,7 +2115,7 @@ class TransactionResultPair:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "TransactionResultPair":
+    def from_xdr(cls, xdr: str) -> "TransactionResultPair":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -2135,7 +2129,10 @@ class TransactionResultPair:
         )
 
     def __str__(self):
-        out = [f"transaction_hash={self.transaction_hash}", f"result={self.result}"]
+        out = [
+            f"transaction_hash={self.transaction_hash}",
+            f"result={self.result}"
+        ]
         return f"<TransactionResultPair {[', '.join(out)]}>"
 
 
@@ -2151,10 +2148,6 @@ class TransactionResultSet:
     """
 
     def __init__(self, results: List["TransactionResultPair"]) -> None:
-        if len(results) > 4294967295:
-            raise ValueError(
-                f"The maximum length of `results` should be 4294967295, but got {len(results)}."
-            )
         self.results = results
 
     def pack(self, packer: Packer) -> None:
@@ -2176,7 +2169,7 @@ class TransactionResultSet:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "TransactionResultSet":
+    def from_xdr(cls, xdr: str) -> "TransactionResultSet":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -2187,7 +2180,9 @@ class TransactionResultSet:
         return self.results == other.results
 
     def __str__(self):
-        out = [f"results={self.results}"]
+        out = [
+            f"results={self.results}"
+        ]
         return f"<TransactionResultSet {[', '.join(out)]}>"
 
 
@@ -2223,7 +2218,7 @@ class TransactionHistoryEntryExt:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "TransactionHistoryEntryExt":
+    def from_xdr(cls, xdr: str) -> "TransactionHistoryEntryExt":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -2263,7 +2258,7 @@ class TransactionHistoryEntry:
         self,
         ledger_seq: "Uint32",
         tx_set: "TransactionSet",
-        ext: "TransactionHistoryEntryExt",
+        ext: "TransactionHistoryEntryExt"
     ) -> None:
         self.ledger_seq = ledger_seq
         self.tx_set = tx_set
@@ -2287,7 +2282,7 @@ class TransactionHistoryEntry:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "TransactionHistoryEntry":
+    def from_xdr(cls, xdr: str) -> "TransactionHistoryEntry":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -2305,7 +2300,7 @@ class TransactionHistoryEntry:
         out = [
             f"ledger_seq={self.ledger_seq}",
             f"tx_set={self.tx_set}",
-            f"ext={self.ext}",
+            f"ext={self.ext}"
         ]
         return f"<TransactionHistoryEntry {[', '.join(out)]}>"
 
@@ -2342,7 +2337,7 @@ class TransactionHistoryResultEntryExt:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "TransactionHistoryResultEntryExt":
+    def from_xdr(cls, xdr: str) -> "TransactionHistoryResultEntryExt":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -2382,7 +2377,7 @@ class TransactionHistoryResultEntry:
         self,
         ledger_seq: "Uint32",
         tx_result_set: "TransactionResultSet",
-        ext: "TransactionHistoryResultEntryExt",
+        ext: "TransactionHistoryResultEntryExt"
     ) -> None:
         self.ledger_seq = ledger_seq
         self.tx_result_set = tx_result_set
@@ -2406,7 +2401,7 @@ class TransactionHistoryResultEntry:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "TransactionHistoryResultEntry":
+    def from_xdr(cls, xdr: str) -> "TransactionHistoryResultEntry":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -2424,7 +2419,7 @@ class TransactionHistoryResultEntry:
         out = [
             f"ledger_seq={self.ledger_seq}",
             f"tx_result_set={self.tx_result_set}",
-            f"ext={self.ext}",
+            f"ext={self.ext}"
         ]
         return f"<TransactionHistoryResultEntry {[', '.join(out)]}>"
 
@@ -2461,7 +2456,7 @@ class LedgerHeaderHistoryEntryExt:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "LedgerHeaderHistoryEntryExt":
+    def from_xdr(cls, xdr: str) -> "LedgerHeaderHistoryEntryExt":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -2522,7 +2517,7 @@ class LedgerHeaderHistoryEntry:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "LedgerHeaderHistoryEntry":
+    def from_xdr(cls, xdr: str) -> "LedgerHeaderHistoryEntry":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -2537,7 +2532,11 @@ class LedgerHeaderHistoryEntry:
         )
 
     def __str__(self):
-        out = [f"hash={self.hash}", f"header={self.header}", f"ext={self.ext}"]
+        out = [
+            f"hash={self.hash}",
+            f"header={self.header}",
+            f"ext={self.ext}"
+        ]
         return f"<LedgerHeaderHistoryEntry {[', '.join(out)]}>"
 
 
@@ -2554,10 +2553,6 @@ class LedgerSCPMessages:
     """
 
     def __init__(self, ledger_seq: "Uint32", messages: List["SCPEnvelope"]) -> None:
-        if len(messages) > 4294967295:
-            raise ValueError(
-                f"The maximum length of `messages` should be 4294967295, but got {len(messages)}."
-            )
         self.ledger_seq = ledger_seq
         self.messages = messages
 
@@ -2582,7 +2577,7 @@ class LedgerSCPMessages:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "LedgerSCPMessages":
+    def from_xdr(cls, xdr: str) -> "LedgerSCPMessages":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -2593,7 +2588,10 @@ class LedgerSCPMessages:
         return self.ledger_seq == other.ledger_seq and self.messages == other.messages
 
     def __str__(self):
-        out = [f"ledger_seq={self.ledger_seq}", f"messages={self.messages}"]
+        out = [
+            f"ledger_seq={self.ledger_seq}",
+            f"messages={self.messages}"
+        ]
         return f"<LedgerSCPMessages {[', '.join(out)]}>"
 
 
@@ -2612,10 +2610,6 @@ class SCPHistoryEntryV0:
     def __init__(
         self, quorum_sets: List["SCPQuorumSet"], ledger_messages: "LedgerSCPMessages"
     ) -> None:
-        if len(quorum_sets) > 4294967295:
-            raise ValueError(
-                f"The maximum length of `quorum_sets` should be 4294967295, but got {len(quorum_sets)}."
-            )
         self.quorum_sets = quorum_sets
         self.ledger_messages = ledger_messages
 
@@ -2640,7 +2634,7 @@ class SCPHistoryEntryV0:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "SCPHistoryEntryV0":
+    def from_xdr(cls, xdr: str) -> "SCPHistoryEntryV0":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -2656,7 +2650,7 @@ class SCPHistoryEntryV0:
     def __str__(self):
         out = [
             f"quorum_sets={self.quorum_sets}",
-            f"ledger_messages={self.ledger_messages}",
+            f"ledger_messages={self.ledger_messages}"
         ]
         return f"<SCPHistoryEntryV0 {[', '.join(out)]}>"
 
@@ -2696,7 +2690,7 @@ class SCPHistoryEntry:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "SCPHistoryEntry":
+    def from_xdr(cls, xdr: str) -> "SCPHistoryEntry":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -2746,7 +2740,7 @@ class LedgerEntryChangeType(IntEnum):
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "LedgerEntryChangeType":
+    def from_xdr(cls, xdr: str) -> "LedgerEntryChangeType":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -2782,7 +2776,7 @@ class LedgerEntryChange:
         created: "LedgerEntry" = None,
         updated: "LedgerEntry" = None,
         removed: "LedgerKey" = None,
-        state: "LedgerEntry" = None,
+        state: "LedgerEntry" = None
     ) -> None:
         self.type = type
         self.created: "LedgerEntry" = created
@@ -2827,7 +2821,7 @@ class LedgerEntryChange:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "LedgerEntryChange":
+    def from_xdr(cls, xdr: str) -> "LedgerEntryChange":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -2889,7 +2883,7 @@ class LedgerEntryChanges:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "LedgerEntryChanges":
+    def from_xdr(cls, xdr: str) -> "LedgerEntryChanges":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -2933,7 +2927,7 @@ class OperationMeta:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "OperationMeta":
+    def from_xdr(cls, xdr: str) -> "OperationMeta":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -2944,7 +2938,9 @@ class OperationMeta:
         return self.changes == other.changes
 
     def __str__(self):
-        out = [f"changes={self.changes}"]
+        out = [
+            f"changes={self.changes}"
+        ]
         return f"<OperationMeta {[', '.join(out)]}>"
 
 
@@ -2963,10 +2959,6 @@ class TransactionMetaV1:
     def __init__(
         self, tx_changes: "LedgerEntryChanges", operations: List["OperationMeta"]
     ) -> None:
-        if len(operations) > 4294967295:
-            raise ValueError(
-                f"The maximum length of `operations` should be 4294967295, but got {len(operations)}."
-            )
         self.tx_changes = tx_changes
         self.operations = operations
 
@@ -2991,7 +2983,7 @@ class TransactionMetaV1:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "TransactionMetaV1":
+    def from_xdr(cls, xdr: str) -> "TransactionMetaV1":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -3004,7 +2996,10 @@ class TransactionMetaV1:
         )
 
     def __str__(self):
-        out = [f"tx_changes={self.tx_changes}", f"operations={self.operations}"]
+        out = [
+            f"tx_changes={self.tx_changes}",
+            f"operations={self.operations}"
+        ]
         return f"<TransactionMetaV1 {[', '.join(out)]}>"
 
 
@@ -3027,12 +3022,8 @@ class TransactionMetaV2:
         self,
         tx_changes_before: "LedgerEntryChanges",
         operations: List["OperationMeta"],
-        tx_changes_after: "LedgerEntryChanges",
+        tx_changes_after: "LedgerEntryChanges"
     ) -> None:
-        if len(operations) > 4294967295:
-            raise ValueError(
-                f"The maximum length of `operations` should be 4294967295, but got {len(operations)}."
-            )
         self.tx_changes_before = tx_changes_before
         self.operations = operations
         self.tx_changes_after = tx_changes_after
@@ -3064,7 +3055,7 @@ class TransactionMetaV2:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "TransactionMetaV2":
+    def from_xdr(cls, xdr: str) -> "TransactionMetaV2":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -3082,7 +3073,7 @@ class TransactionMetaV2:
         out = [
             f"tx_changes_before={self.tx_changes_before}",
             f"operations={self.operations}",
-            f"tx_changes_after={self.tx_changes_after}",
+            f"tx_changes_after={self.tx_changes_after}"
         ]
         return f"<TransactionMetaV2 {[', '.join(out)]}>"
 
@@ -3108,12 +3099,8 @@ class TransactionMeta:
         v: int,
         operations: List["OperationMeta"] = None,
         v1: "TransactionMetaV1" = None,
-        v2: "TransactionMetaV2" = None,
+        v2: "TransactionMetaV2" = None
     ) -> None:
-        if operations is not None and len(operations) > 4294967295:
-            raise ValueError(
-                f"The maximum length of `operations` should be 4294967295, but got {len(operations)}."
-            )
         self.v = v
         self.operations: List["OperationMeta"] = operations
         self.v1: "TransactionMetaV1" = v1
@@ -3155,7 +3142,7 @@ class TransactionMeta:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "TransactionMeta":
+    def from_xdr(cls, xdr: str) -> "TransactionMeta":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -3198,7 +3185,7 @@ class TransactionResultMeta:
         self,
         result: "TransactionResultPair",
         fee_processing: "LedgerEntryChanges",
-        tx_apply_processing: "TransactionMeta",
+        tx_apply_processing: "TransactionMeta"
     ) -> None:
         self.result = result
         self.fee_processing = fee_processing
@@ -3226,7 +3213,7 @@ class TransactionResultMeta:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "TransactionResultMeta":
+    def from_xdr(cls, xdr: str) -> "TransactionResultMeta":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -3244,7 +3231,7 @@ class TransactionResultMeta:
         out = [
             f"result={self.result}",
             f"fee_processing={self.fee_processing}",
-            f"tx_apply_processing={self.tx_apply_processing}",
+            f"tx_apply_processing={self.tx_apply_processing}"
         ]
         return f"<TransactionResultMeta {[', '.join(out)]}>"
 
@@ -3261,7 +3248,9 @@ class UpgradeEntryMeta:
     ----------------------------------------------------------------
     """
 
-    def __init__(self, upgrade: "LedgerUpgrade", changes: "LedgerEntryChanges") -> None:
+    def __init__(
+        self, upgrade: "LedgerUpgrade", changes: "LedgerEntryChanges"
+    ) -> None:
         self.upgrade = upgrade
         self.changes = changes
 
@@ -3281,7 +3270,7 @@ class UpgradeEntryMeta:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "UpgradeEntryMeta":
+    def from_xdr(cls, xdr: str) -> "UpgradeEntryMeta":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -3292,7 +3281,10 @@ class UpgradeEntryMeta:
         return self.upgrade == other.upgrade and self.changes == other.changes
 
     def __str__(self):
-        out = [f"upgrade={self.upgrade}", f"changes={self.changes}"]
+        out = [
+            f"upgrade={self.upgrade}",
+            f"changes={self.changes}"
+        ]
         return f"<UpgradeEntryMeta {[', '.join(out)]}>"
 
 
@@ -3326,20 +3318,8 @@ class LedgerCloseMetaV0:
         tx_set: "TransactionSet",
         tx_processing: List["TransactionResultMeta"],
         upgrades_processing: List["UpgradeEntryMeta"],
-        scp_info: List["SCPHistoryEntry"],
+        scp_info: List["SCPHistoryEntry"]
     ) -> None:
-        if len(tx_processing) > 4294967295:
-            raise ValueError(
-                f"The maximum length of `tx_processing` should be 4294967295, but got {len(tx_processing)}."
-            )
-        if len(upgrades_processing) > 4294967295:
-            raise ValueError(
-                f"The maximum length of `upgrades_processing` should be 4294967295, but got {len(upgrades_processing)}."
-            )
-        if len(scp_info) > 4294967295:
-            raise ValueError(
-                f"The maximum length of `scp_info` should be 4294967295, but got {len(scp_info)}."
-            )
         self.ledger_header = ledger_header
         self.tx_set = tx_set
         self.tx_processing = tx_processing
@@ -3389,7 +3369,7 @@ class LedgerCloseMetaV0:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "LedgerCloseMetaV0":
+    def from_xdr(cls, xdr: str) -> "LedgerCloseMetaV0":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -3411,7 +3391,7 @@ class LedgerCloseMetaV0:
             f"tx_set={self.tx_set}",
             f"tx_processing={self.tx_processing}",
             f"upgrades_processing={self.upgrades_processing}",
-            f"scp_info={self.scp_info}",
+            f"scp_info={self.scp_info}"
         ]
         return f"<LedgerCloseMetaV0 {[', '.join(out)]}>"
 
@@ -3423,7 +3403,7 @@ class LedgerCloseMeta:
     union LedgerCloseMeta switch (int v)
     {
     case 0:
-         LedgerCloseMetaV0 v0;
+        LedgerCloseMetaV0 v0;
     };
     ----------------------------------------------------------------
     """
@@ -3451,7 +3431,7 @@ class LedgerCloseMeta:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "LedgerCloseMeta":
+    def from_xdr(cls, xdr: str) -> "LedgerCloseMeta":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -3466,6 +3446,131 @@ class LedgerCloseMeta:
         out.append(f"v={self.v}")
         out.append(f"v0={self.v0}") if self.v0 is not None else None
         return f"<LedgerCloseMeta {[', '.join(out)]}>"
+
+
+class MuxedAccountMed25519:
+    """
+    XDR Source Code
+    ----------------------------------------------------------------
+    struct
+        {
+            uint64 id;
+            uint256 ed25519;
+        }
+    ----------------------------------------------------------------
+    """
+
+    def __init__(self, id: "Uint64", ed25519: "Uint256") -> None:
+        self.id = id
+        self.ed25519 = ed25519
+
+    def pack(self, packer: Packer) -> None:
+        self.id.pack(packer)
+        self.ed25519.pack(packer)
+
+    @classmethod
+    def unpack(cls, unpacker: Unpacker) -> "MuxedAccountMed25519":
+        id = Uint64.unpack(unpacker)
+        ed25519 = Uint256.unpack(unpacker)
+        return cls(id=id, ed25519=ed25519)
+
+    def to_xdr(self) -> str:
+        packer = Packer()
+        self.pack(packer)
+        return base64.b64encode(packer.get_buffer()).decode()
+
+    @classmethod
+    def from_xdr(cls, xdr: str) -> "MuxedAccountMed25519":
+        data = base64.b64decode(xdr.encode())
+        unpacker = Unpacker(data)
+        return cls.unpack(unpacker)
+
+    def __eq__(self, other: object):
+        if not isinstance(other, self.__class__):
+            return NotImplemented
+        return self.id == other.id and self.ed25519 == other.ed25519
+
+    def __str__(self):
+        out = [
+            f"id={self.id}",
+            f"ed25519={self.ed25519}"
+        ]
+        return f"<MuxedAccountMed25519 {[', '.join(out)]}>"
+
+
+class MuxedAccount:
+    """
+    XDR Source Code
+    ----------------------------------------------------------------
+    union MuxedAccount switch (CryptoKeyType type)
+    {
+    case KEY_TYPE_ED25519:
+        uint256 ed25519;
+    case KEY_TYPE_MUXED_ED25519:
+        struct
+        {
+            uint64 id;
+            uint256 ed25519;
+        } med25519;
+    };
+    ----------------------------------------------------------------
+    """
+
+    def __init__(
+        self,
+        type: "CryptoKeyType",
+        ed25519: "Uint256" = None,
+        med25519: "MuxedAccountMed25519" = None
+    ) -> None:
+        self.type = type
+        self.ed25519: "Uint256" = ed25519
+        self.med25519: "MuxedAccountMed25519" = med25519
+
+    def pack(self, packer: Packer) -> None:
+        self.type.pack(packer)
+        if self.type == CryptoKeyType.KEY_TYPE_ED25519:
+            self.ed25519.pack(packer)
+            return
+        if self.type == CryptoKeyType.KEY_TYPE_MUXED_ED25519:
+            self.med25519.pack(packer)
+            return
+
+    @classmethod
+    def unpack(cls, unpacker: Unpacker) -> "MuxedAccount":
+        type = CryptoKeyType.unpack(unpacker)
+        if type == CryptoKeyType.KEY_TYPE_ED25519:
+            ed25519 = Uint256.unpack(unpacker)
+            return cls(type, ed25519=ed25519)
+        if type == CryptoKeyType.KEY_TYPE_MUXED_ED25519:
+            med25519 = MuxedAccountMed25519.unpack(unpacker)
+            return cls(type, med25519=med25519)
+
+    def to_xdr(self) -> str:
+        packer = Packer()
+        self.pack(packer)
+        return base64.b64encode(packer.get_buffer()).decode()
+
+    @classmethod
+    def from_xdr(cls, xdr: str) -> "MuxedAccount":
+        data = base64.b64decode(xdr.encode())
+        unpacker = Unpacker(data)
+        return cls.unpack(unpacker)
+
+    def __eq__(self, other: object):
+        if not isinstance(other, self.__class__):
+            return NotImplemented
+        return (
+            self.type == other.type
+            and self.ed25519 == other.ed25519
+            and self.med25519 == other.med25519
+        )
+
+    def __str__(self):
+        out = []
+        out.append(f"type={self.type}")
+        out.append(f"ed25519={self.ed25519}") if self.ed25519 is not None else None
+        out.append(f"med25519={self.med25519}") if self.med25519 is not None else None
+        return f"<MuxedAccount {[', '.join(out)]}>"
 
 
 class DecoratedSignature:
@@ -3500,7 +3605,7 @@ class DecoratedSignature:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "DecoratedSignature":
+    def from_xdr(cls, xdr: str) -> "DecoratedSignature":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -3511,7 +3616,10 @@ class DecoratedSignature:
         return self.hint == other.hint and self.signature == other.signature
 
     def __str__(self):
-        out = [f"hint={self.hint}", f"signature={self.signature}"]
+        out = [
+            f"hint={self.hint}",
+            f"signature={self.signature}"
+        ]
         return f"<DecoratedSignature {[', '.join(out)]}>"
 
 
@@ -3568,7 +3676,7 @@ class OperationType(IntEnum):
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "OperationType":
+    def from_xdr(cls, xdr: str) -> "OperationType":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -3612,7 +3720,7 @@ class CreateAccountOp:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "CreateAccountOp":
+    def from_xdr(cls, xdr: str) -> "CreateAccountOp":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -3628,7 +3736,7 @@ class CreateAccountOp:
     def __str__(self):
         out = [
             f"destination={self.destination}",
-            f"starting_balance={self.starting_balance}",
+            f"starting_balance={self.starting_balance}"
         ]
         return f"<CreateAccountOp {[', '.join(out)]}>"
 
@@ -3639,15 +3747,15 @@ class PaymentOp:
     ----------------------------------------------------------------
     struct PaymentOp
     {
-        AccountID destination; // recipient of the payment
-        Asset asset;           // what they end up with
-        int64 amount;          // amount they end up with
+        MuxedAccount destination; // recipient of the payment
+        Asset asset;              // what they end up with
+        int64 amount;             // amount they end up with
     };
     ----------------------------------------------------------------
     """
 
     def __init__(
-        self, destination: "AccountID", asset: "Asset", amount: "Int64"
+        self, destination: "MuxedAccount", asset: "Asset", amount: "Int64"
     ) -> None:
         self.destination = destination
         self.asset = asset
@@ -3660,7 +3768,7 @@ class PaymentOp:
 
     @classmethod
     def unpack(cls, unpacker: Unpacker) -> "PaymentOp":
-        destination = AccountID.unpack(unpacker)
+        destination = MuxedAccount.unpack(unpacker)
         asset = Asset.unpack(unpacker)
         amount = Int64.unpack(unpacker)
         return cls(destination=destination, asset=asset, amount=amount)
@@ -3671,7 +3779,7 @@ class PaymentOp:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "PaymentOp":
+    def from_xdr(cls, xdr: str) -> "PaymentOp":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -3689,7 +3797,7 @@ class PaymentOp:
         out = [
             f"destination={self.destination}",
             f"asset={self.asset}",
-            f"amount={self.amount}",
+            f"amount={self.amount}"
         ]
         return f"<PaymentOp {[', '.join(out)]}>"
 
@@ -3705,9 +3813,9 @@ class PathPaymentStrictReceiveOp:
                          // send (excluding fees).
                          // The operation will fail if can't be met
 
-        AccountID destination; // recipient of the payment
-        Asset destAsset;       // what they end up with
-        int64 destAmount;      // amount they end up with
+        MuxedAccount destination; // recipient of the payment
+        Asset destAsset;          // what they end up with
+        int64 destAmount;         // amount they end up with
 
         Asset path<5>; // additional hops it must go through to get there
     };
@@ -3718,15 +3826,11 @@ class PathPaymentStrictReceiveOp:
         self,
         send_asset: "Asset",
         send_max: "Int64",
-        destination: "AccountID",
+        destination: "MuxedAccount",
         dest_asset: "Asset",
         dest_amount: "Int64",
-        path: List["Asset"],
+        path: List["Asset"]
     ) -> None:
-        if len(path) > 5:
-            raise ValueError(
-                f"The maximum length of `path` should be 5, but got {len(path)}."
-            )
         self.send_asset = send_asset
         self.send_max = send_max
         self.destination = destination
@@ -3748,7 +3852,7 @@ class PathPaymentStrictReceiveOp:
     def unpack(cls, unpacker: Unpacker) -> "PathPaymentStrictReceiveOp":
         send_asset = Asset.unpack(unpacker)
         send_max = Int64.unpack(unpacker)
-        destination = AccountID.unpack(unpacker)
+        destination = MuxedAccount.unpack(unpacker)
         dest_asset = Asset.unpack(unpacker)
         dest_amount = Int64.unpack(unpacker)
         length = unpacker.unpack_uint()
@@ -3770,7 +3874,7 @@ class PathPaymentStrictReceiveOp:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "PathPaymentStrictReceiveOp":
+    def from_xdr(cls, xdr: str) -> "PathPaymentStrictReceiveOp":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -3794,7 +3898,7 @@ class PathPaymentStrictReceiveOp:
             f"destination={self.destination}",
             f"dest_asset={self.dest_asset}",
             f"dest_amount={self.dest_amount}",
-            f"path={self.path}",
+            f"path={self.path}"
         ]
         return f"<PathPaymentStrictReceiveOp {[', '.join(out)]}>"
 
@@ -3808,11 +3912,11 @@ class PathPaymentStrictSendOp:
         Asset sendAsset;  // asset we pay with
         int64 sendAmount; // amount of sendAsset to send (excluding fees)
 
-        AccountID destination; // recipient of the payment
-        Asset destAsset;       // what they end up with
-        int64 destMin;         // the minimum amount of dest asset to
-                               // be received
-                               // The operation will fail if it can't be met
+        MuxedAccount destination; // recipient of the payment
+        Asset destAsset;          // what they end up with
+        int64 destMin;            // the minimum amount of dest asset to
+                                  // be received
+                                  // The operation will fail if it can't be met
 
         Asset path<5>; // additional hops it must go through to get there
     };
@@ -3823,15 +3927,11 @@ class PathPaymentStrictSendOp:
         self,
         send_asset: "Asset",
         send_amount: "Int64",
-        destination: "AccountID",
+        destination: "MuxedAccount",
         dest_asset: "Asset",
         dest_min: "Int64",
-        path: List["Asset"],
+        path: List["Asset"]
     ) -> None:
-        if len(path) > 5:
-            raise ValueError(
-                f"The maximum length of `path` should be 5, but got {len(path)}."
-            )
         self.send_asset = send_asset
         self.send_amount = send_amount
         self.destination = destination
@@ -3853,7 +3953,7 @@ class PathPaymentStrictSendOp:
     def unpack(cls, unpacker: Unpacker) -> "PathPaymentStrictSendOp":
         send_asset = Asset.unpack(unpacker)
         send_amount = Int64.unpack(unpacker)
-        destination = AccountID.unpack(unpacker)
+        destination = MuxedAccount.unpack(unpacker)
         dest_asset = Asset.unpack(unpacker)
         dest_min = Int64.unpack(unpacker)
         length = unpacker.unpack_uint()
@@ -3875,7 +3975,7 @@ class PathPaymentStrictSendOp:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "PathPaymentStrictSendOp":
+    def from_xdr(cls, xdr: str) -> "PathPaymentStrictSendOp":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -3899,7 +3999,7 @@ class PathPaymentStrictSendOp:
             f"destination={self.destination}",
             f"dest_asset={self.dest_asset}",
             f"dest_min={self.dest_min}",
-            f"path={self.path}",
+            f"path={self.path}"
         ]
         return f"<PathPaymentStrictSendOp {[', '.join(out)]}>"
 
@@ -3927,7 +4027,7 @@ class ManageSellOfferOp:
         buying: "Asset",
         amount: "Int64",
         price: "Price",
-        offer_id: "Int64",
+        offer_id: "Int64"
     ) -> None:
         self.selling = selling
         self.buying = buying
@@ -3963,7 +4063,7 @@ class ManageSellOfferOp:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "ManageSellOfferOp":
+    def from_xdr(cls, xdr: str) -> "ManageSellOfferOp":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -3985,7 +4085,7 @@ class ManageSellOfferOp:
             f"buying={self.buying}",
             f"amount={self.amount}",
             f"price={self.price}",
-            f"offer_id={self.offer_id}",
+            f"offer_id={self.offer_id}"
         ]
         return f"<ManageSellOfferOp {[', '.join(out)]}>"
 
@@ -4014,7 +4114,7 @@ class ManageBuyOfferOp:
         buying: "Asset",
         buy_amount: "Int64",
         price: "Price",
-        offer_id: "Int64",
+        offer_id: "Int64"
     ) -> None:
         self.selling = selling
         self.buying = buying
@@ -4050,7 +4150,7 @@ class ManageBuyOfferOp:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "ManageBuyOfferOp":
+    def from_xdr(cls, xdr: str) -> "ManageBuyOfferOp":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -4072,7 +4172,7 @@ class ManageBuyOfferOp:
             f"buying={self.buying}",
             f"buy_amount={self.buy_amount}",
             f"price={self.price}",
-            f"offer_id={self.offer_id}",
+            f"offer_id={self.offer_id}"
         ]
         return f"<ManageBuyOfferOp {[', '.join(out)]}>"
 
@@ -4119,7 +4219,7 @@ class CreatePassiveSellOfferOp:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "CreatePassiveSellOfferOp":
+    def from_xdr(cls, xdr: str) -> "CreatePassiveSellOfferOp":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -4139,7 +4239,7 @@ class CreatePassiveSellOfferOp:
             f"selling={self.selling}",
             f"buying={self.buying}",
             f"amount={self.amount}",
-            f"price={self.price}",
+            f"price={self.price}"
         ]
         return f"<CreatePassiveSellOfferOp {[', '.join(out)]}>"
 
@@ -4180,7 +4280,7 @@ class SetOptionsOp:
         med_threshold: Optional["Uint32"],
         high_threshold: Optional["Uint32"],
         home_domain: Optional["String32"],
-        signer: Optional["Signer"],
+        signer: Optional["Signer"]
     ) -> None:
         self.inflation_dest = inflation_dest
         self.clear_flags = clear_flags
@@ -4268,7 +4368,7 @@ class SetOptionsOp:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "SetOptionsOp":
+    def from_xdr(cls, xdr: str) -> "SetOptionsOp":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -4298,7 +4398,7 @@ class SetOptionsOp:
             f"med_threshold={self.med_threshold}",
             f"high_threshold={self.high_threshold}",
             f"home_domain={self.home_domain}",
-            f"signer={self.signer}",
+            f"signer={self.signer}"
         ]
         return f"<SetOptionsOp {[', '.join(out)]}>"
 
@@ -4337,7 +4437,7 @@ class ChangeTrustOp:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "ChangeTrustOp":
+    def from_xdr(cls, xdr: str) -> "ChangeTrustOp":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -4348,7 +4448,10 @@ class ChangeTrustOp:
         return self.line == other.line and self.limit == other.limit
 
     def __str__(self):
-        out = [f"line={self.line}", f"limit={self.limit}"]
+        out = [
+            f"line={self.line}",
+            f"limit={self.limit}"
+        ]
         return f"<ChangeTrustOp {[', '.join(out)]}>"
 
 
@@ -4374,7 +4477,7 @@ class AllowTrustOpAsset:
         self,
         type: "AssetType",
         asset_code4: "AssetCode4" = None,
-        asset_code12: "AssetCode12" = None,
+        asset_code12: "AssetCode12" = None
     ) -> None:
         self.type = type
         self.asset_code4: "AssetCode4" = asset_code4
@@ -4405,7 +4508,7 @@ class AllowTrustOpAsset:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "AllowTrustOpAsset":
+    def from_xdr(cls, xdr: str) -> "AllowTrustOpAsset":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -4451,13 +4554,14 @@ class AllowTrustOp:
         }
         asset;
 
-        bool authorize;
+        // 0, or any bitwise combination of TrustLineFlags
+        uint32 authorize;
     };
     ----------------------------------------------------------------
     """
 
     def __init__(
-        self, trustor: "AccountID", asset: "AllowTrustOpAsset", authorize: bool
+        self, trustor: "AccountID", asset: "AllowTrustOpAsset", authorize: "Uint32"
     ) -> None:
         self.trustor = trustor
         self.asset = asset
@@ -4466,13 +4570,13 @@ class AllowTrustOp:
     def pack(self, packer: Packer) -> None:
         self.trustor.pack(packer)
         self.asset.pack(packer)
-        Boolean(self.authorize).pack(packer)
+        self.authorize.pack(packer)
 
     @classmethod
     def unpack(cls, unpacker: Unpacker) -> "AllowTrustOp":
         trustor = AccountID.unpack(unpacker)
         asset = AllowTrustOpAsset.unpack(unpacker)
-        authorize = Boolean.unpack(unpacker)
+        authorize = Uint32.unpack(unpacker)
         return cls(trustor=trustor, asset=asset, authorize=authorize)
 
     def to_xdr(self) -> str:
@@ -4481,7 +4585,7 @@ class AllowTrustOp:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "AllowTrustOp":
+    def from_xdr(cls, xdr: str) -> "AllowTrustOp":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -4499,7 +4603,7 @@ class AllowTrustOp:
         out = [
             f"trustor={self.trustor}",
             f"asset={self.asset}",
-            f"authorize={self.authorize}",
+            f"authorize={self.authorize}"
         ]
         return f"<AllowTrustOp {[', '.join(out)]}>"
 
@@ -4542,7 +4646,7 @@ class ManageDataOp:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "ManageDataOp":
+    def from_xdr(cls, xdr: str) -> "ManageDataOp":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -4553,7 +4657,10 @@ class ManageDataOp:
         return self.data_name == other.data_name and self.data_value == other.data_value
 
     def __str__(self):
-        out = [f"data_name={self.data_name}", f"data_value={self.data_value}"]
+        out = [
+            f"data_name={self.data_name}",
+            f"data_value={self.data_value}"
+        ]
         return f"<ManageDataOp {[', '.join(out)]}>"
 
 
@@ -4585,7 +4692,7 @@ class BumpSequenceOp:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "BumpSequenceOp":
+    def from_xdr(cls, xdr: str) -> "BumpSequenceOp":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -4596,7 +4703,9 @@ class BumpSequenceOp:
         return self.bump_to == other.bump_to
 
     def __str__(self):
-        out = [f"bump_to={self.bump_to}"]
+        out = [
+            f"bump_to={self.bump_to}"
+        ]
         return f"<BumpSequenceOp {[', '.join(out)]}>"
 
 
@@ -4623,7 +4732,7 @@ class OperationBody:
         case ALLOW_TRUST:
             AllowTrustOp allowTrustOp;
         case ACCOUNT_MERGE:
-            AccountID destination;
+            MuxedAccount destination;
         case INFLATION:
             void;
         case MANAGE_DATA:
@@ -4649,11 +4758,11 @@ class OperationBody:
         set_options_op: "SetOptionsOp" = None,
         change_trust_op: "ChangeTrustOp" = None,
         allow_trust_op: "AllowTrustOp" = None,
-        destination: "AccountID" = None,
+        destination: "MuxedAccount" = None,
         manage_data_op: "ManageDataOp" = None,
         bump_sequence_op: "BumpSequenceOp" = None,
         manage_buy_offer_op: "ManageBuyOfferOp" = None,
-        path_payment_strict_send_op: "PathPaymentStrictSendOp" = None,
+        path_payment_strict_send_op: "PathPaymentStrictSendOp" = None
     ) -> None:
         self.type = type
         self.create_account_op: "CreateAccountOp" = create_account_op
@@ -4664,7 +4773,7 @@ class OperationBody:
         self.set_options_op: "SetOptionsOp" = set_options_op
         self.change_trust_op: "ChangeTrustOp" = change_trust_op
         self.allow_trust_op: "AllowTrustOp" = allow_trust_op
-        self.destination: "AccountID" = destination
+        self.destination: "MuxedAccount" = destination
         self.manage_data_op: "ManageDataOp" = manage_data_op
         self.bump_sequence_op: "BumpSequenceOp" = bump_sequence_op
         self.manage_buy_offer_op: "ManageBuyOfferOp" = manage_buy_offer_op
@@ -4744,7 +4853,7 @@ class OperationBody:
             allow_trust_op = AllowTrustOp.unpack(unpacker)
             return cls(type, allow_trust_op=allow_trust_op)
         if type == OperationType.ACCOUNT_MERGE:
-            destination = AccountID.unpack(unpacker)
+            destination = MuxedAccount.unpack(unpacker)
             return cls(type, destination=destination)
         if type == OperationType.INFLATION:
             return cls(type)
@@ -4767,7 +4876,7 @@ class OperationBody:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "OperationBody":
+    def from_xdr(cls, xdr: str) -> "OperationBody":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -4847,7 +4956,7 @@ class Operation:
         // sourceAccount is the account used to run the operation
         // if not set, the runtime defaults to "sourceAccount" specified at
         // the transaction level
-        AccountID* sourceAccount;
+        MuxedAccount* sourceAccount;
 
         union switch (OperationType type)
         {
@@ -4868,7 +4977,7 @@ class Operation:
         case ALLOW_TRUST:
             AllowTrustOp allowTrustOp;
         case ACCOUNT_MERGE:
-            AccountID destination;
+            MuxedAccount destination;
         case INFLATION:
             void;
         case MANAGE_DATA:
@@ -4886,7 +4995,7 @@ class Operation:
     """
 
     def __init__(
-        self, source_account: Optional["AccountID"], body: "OperationBody"
+        self, source_account: Optional["MuxedAccount"], body: "OperationBody"
     ) -> None:
         self.source_account = source_account
         self.body = body
@@ -4901,7 +5010,9 @@ class Operation:
 
     @classmethod
     def unpack(cls, unpacker: Unpacker) -> "Operation":
-        source_account = AccountID.unpack(unpacker) if unpacker.unpack_uint() else None
+        source_account = (
+            MuxedAccount.unpack(unpacker) if unpacker.unpack_uint() else None
+        )
         body = OperationBody.unpack(unpacker)
         return cls(source_account=source_account, body=body)
 
@@ -4911,7 +5022,7 @@ class Operation:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "Operation":
+    def from_xdr(cls, xdr: str) -> "Operation":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -4922,7 +5033,10 @@ class Operation:
         return self.source_account == other.source_account and self.body == other.body
 
     def __str__(self):
-        out = [f"source_account={self.source_account}", f"body={self.body}"]
+        out = [
+            f"source_account={self.source_account}",
+            f"body={self.body}"
+        ]
         return f"<Operation {[', '.join(out)]}>"
 
 
@@ -4961,7 +5075,7 @@ class MemoType(IntEnum):
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "MemoType":
+    def from_xdr(cls, xdr: str) -> "MemoType":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -4999,7 +5113,7 @@ class Memo:
         text: bytes = None,
         id: "Uint64" = None,
         hash: "Hash" = None,
-        ret_hash: "Hash" = None,
+        ret_hash: "Hash" = None
     ) -> None:
         self.type = type
         self.text: bytes = text
@@ -5048,7 +5162,7 @@ class Memo:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "Memo":
+    def from_xdr(cls, xdr: str) -> "Memo":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -5106,7 +5220,7 @@ class TimeBounds:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "TimeBounds":
+    def from_xdr(cls, xdr: str) -> "TimeBounds":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -5117,7 +5231,10 @@ class TimeBounds:
         return self.min_time == other.min_time and self.max_time == other.max_time
 
     def __str__(self):
-        out = [f"min_time={self.min_time}", f"max_time={self.max_time}"]
+        out = [
+            f"min_time={self.min_time}",
+            f"max_time={self.max_time}"
+        ]
         return f"<TimeBounds {[', '.join(out)]}>"
 
 
@@ -5128,6 +5245,227 @@ const MAX_OPS_PER_TX = 100;
 ----------------------------------------------------------------
 """
 MAX_OPS_PER_TX: int = 100
+
+
+class TransactionV0Ext:
+    """
+    XDR Source Code
+    ----------------------------------------------------------------
+    union switch (int v)
+        {
+        case 0:
+            void;
+        }
+    ----------------------------------------------------------------
+    """
+
+    def __init__(self, v: int) -> None:
+        self.v = v
+
+    def pack(self, packer: Packer) -> None:
+        Integer(self.v).pack(packer)
+        if self.v == 0:
+            return
+
+    @classmethod
+    def unpack(cls, unpacker: Unpacker) -> "TransactionV0Ext":
+        v = Integer.unpack(unpacker)
+        if v == 0:
+            return cls(v)
+
+    def to_xdr(self) -> str:
+        packer = Packer()
+        self.pack(packer)
+        return base64.b64encode(packer.get_buffer()).decode()
+
+    @classmethod
+    def from_xdr(cls, xdr: str) -> "TransactionV0Ext":
+        data = base64.b64decode(xdr.encode())
+        unpacker = Unpacker(data)
+        return cls.unpack(unpacker)
+
+    def __eq__(self, other: object):
+        if not isinstance(other, self.__class__):
+            return NotImplemented
+        return self.v == other.v
+
+    def __str__(self):
+        out = []
+        out.append(f"v={self.v}")
+        return f"<TransactionV0Ext {[', '.join(out)]}>"
+
+
+class TransactionV0:
+    """
+    XDR Source Code
+    ----------------------------------------------------------------
+    struct TransactionV0
+    {
+        uint256 sourceAccountEd25519;
+        uint32 fee;
+        SequenceNumber seqNum;
+        TimeBounds* timeBounds;
+        Memo memo;
+        Operation operations<MAX_OPS_PER_TX>;
+        union switch (int v)
+        {
+        case 0:
+            void;
+        }
+        ext;
+    };
+    ----------------------------------------------------------------
+    """
+
+    def __init__(
+        self,
+        source_account_ed25519: "Uint256",
+        fee: "Uint32",
+        seq_num: "SequenceNumber",
+        time_bounds: Optional["TimeBounds"],
+        memo: "Memo",
+        operations: List["Operation"],
+        ext: "TransactionV0Ext"
+    ) -> None:
+        self.source_account_ed25519 = source_account_ed25519
+        self.fee = fee
+        self.seq_num = seq_num
+        self.time_bounds = time_bounds
+        self.memo = memo
+        self.operations = operations
+        self.ext = ext
+
+    def pack(self, packer: Packer) -> None:
+        self.source_account_ed25519.pack(packer)
+        self.fee.pack(packer)
+        self.seq_num.pack(packer)
+        if self.time_bounds is None:
+            packer.pack_uint(0)
+        else:
+            packer.pack_uint(1)
+            self.time_bounds.pack(packer)
+        self.memo.pack(packer)
+        packer.pack_uint(len(self.operations))
+        for element in self.operations:
+            element.pack(packer)
+        self.ext.pack(packer)
+
+    @classmethod
+    def unpack(cls, unpacker: Unpacker) -> "TransactionV0":
+        source_account_ed25519 = Uint256.unpack(unpacker)
+        fee = Uint32.unpack(unpacker)
+        seq_num = SequenceNumber.unpack(unpacker)
+        time_bounds = TimeBounds.unpack(unpacker) if unpacker.unpack_uint() else None
+        memo = Memo.unpack(unpacker)
+        length = unpacker.unpack_uint()
+        operations = []
+        for _ in range(length):
+            operations.append(Operation.unpack(unpacker))
+        ext = TransactionV0Ext.unpack(unpacker)
+        return cls(
+            source_account_ed25519=source_account_ed25519,
+            fee=fee,
+            seq_num=seq_num,
+            time_bounds=time_bounds,
+            memo=memo,
+            operations=operations,
+            ext=ext,
+        )
+
+    def to_xdr(self) -> str:
+        packer = Packer()
+        self.pack(packer)
+        return base64.b64encode(packer.get_buffer()).decode()
+
+    @classmethod
+    def from_xdr(cls, xdr: str) -> "TransactionV0":
+        data = base64.b64decode(xdr.encode())
+        unpacker = Unpacker(data)
+        return cls.unpack(unpacker)
+
+    def __eq__(self, other: object):
+        if not isinstance(other, self.__class__):
+            return NotImplemented
+        return (
+            self.source_account_ed25519 == other.source_account_ed25519
+            and self.fee == other.fee
+            and self.seq_num == other.seq_num
+            and self.time_bounds == other.time_bounds
+            and self.memo == other.memo
+            and self.operations == other.operations
+            and self.ext == other.ext
+        )
+
+    def __str__(self):
+        out = [
+            f"source_account_ed25519={self.source_account_ed25519}",
+            f"fee={self.fee}",
+            f"seq_num={self.seq_num}",
+            f"time_bounds={self.time_bounds}",
+            f"memo={self.memo}",
+            f"operations={self.operations}",
+            f"ext={self.ext}"
+        ]
+        return f"<TransactionV0 {[', '.join(out)]}>"
+
+
+class TransactionV0Envelope:
+    """
+    XDR Source Code
+    ----------------------------------------------------------------
+    struct TransactionV0Envelope
+    {
+        TransactionV0 tx;
+        /* Each decorated signature is a signature over the SHA256 hash of
+         * a TransactionSignaturePayload */
+        DecoratedSignature signatures<20>;
+    };
+    ----------------------------------------------------------------
+    """
+
+    def __init__(
+        self, tx: "TransactionV0", signatures: List["DecoratedSignature"]
+    ) -> None:
+        self.tx = tx
+        self.signatures = signatures
+
+    def pack(self, packer: Packer) -> None:
+        self.tx.pack(packer)
+        packer.pack_uint(len(self.signatures))
+        for element in self.signatures:
+            element.pack(packer)
+
+    @classmethod
+    def unpack(cls, unpacker: Unpacker) -> "TransactionV0Envelope":
+        tx = TransactionV0.unpack(unpacker)
+        length = unpacker.unpack_uint()
+        signatures = []
+        for _ in range(length):
+            signatures.append(DecoratedSignature.unpack(unpacker))
+        return cls(tx=tx, signatures=signatures)
+
+    def to_xdr(self) -> str:
+        packer = Packer()
+        self.pack(packer)
+        return base64.b64encode(packer.get_buffer()).decode()
+
+    @classmethod
+    def from_xdr(cls, xdr: str) -> "TransactionV0Envelope":
+        data = base64.b64decode(xdr.encode())
+        unpacker = Unpacker(data)
+        return cls.unpack(unpacker)
+
+    def __eq__(self, other: object):
+        if not isinstance(other, self.__class__):
+            return NotImplemented
+        return self.tx == other.tx and self.signatures == other.signatures
+
+    def __str__(self):
+        out = [
+            f"tx={self.tx}",
+            f"signatures={self.signatures}"
+        ]
+        return f"<TransactionV0Envelope {[', '.join(out)]}>"
 
 
 class TransactionExt:
@@ -5162,7 +5500,7 @@ class TransactionExt:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "TransactionExt":
+    def from_xdr(cls, xdr: str) -> "TransactionExt":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -5185,7 +5523,7 @@ class Transaction:
     struct Transaction
     {
         // account used to run the transaction
-        AccountID sourceAccount;
+        MuxedAccount sourceAccount;
 
         // the fee the sourceAccount will pay
         uint32 fee;
@@ -5213,18 +5551,14 @@ class Transaction:
 
     def __init__(
         self,
-        source_account: "AccountID",
+        source_account: "MuxedAccount",
         fee: "Uint32",
         seq_num: "SequenceNumber",
         time_bounds: Optional["TimeBounds"],
         memo: "Memo",
         operations: List["Operation"],
-        ext: "TransactionExt",
+        ext: "TransactionExt"
     ) -> None:
-        if len(operations) > MAX_OPS_PER_TX:
-            raise ValueError(
-                f"The maximum length of `operations` should be MAX_OPS_PER_TX, but got {len(operations)}."
-            )
         self.source_account = source_account
         self.fee = fee
         self.seq_num = seq_num
@@ -5250,7 +5584,7 @@ class Transaction:
 
     @classmethod
     def unpack(cls, unpacker: Unpacker) -> "Transaction":
-        source_account = AccountID.unpack(unpacker)
+        source_account = MuxedAccount.unpack(unpacker)
         fee = Uint32.unpack(unpacker)
         seq_num = SequenceNumber.unpack(unpacker)
         time_bounds = TimeBounds.unpack(unpacker) if unpacker.unpack_uint() else None
@@ -5276,7 +5610,7 @@ class Transaction:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "Transaction":
+    def from_xdr(cls, xdr: str) -> "Transaction":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -5302,9 +5636,393 @@ class Transaction:
             f"time_bounds={self.time_bounds}",
             f"memo={self.memo}",
             f"operations={self.operations}",
-            f"ext={self.ext}",
+            f"ext={self.ext}"
         ]
         return f"<Transaction {[', '.join(out)]}>"
+
+
+class TransactionV1Envelope:
+    """
+    XDR Source Code
+    ----------------------------------------------------------------
+    struct TransactionV1Envelope
+    {
+        Transaction tx;
+        /* Each decorated signature is a signature over the SHA256 hash of
+         * a TransactionSignaturePayload */
+        DecoratedSignature signatures<20>;
+    };
+    ----------------------------------------------------------------
+    """
+
+    def __init__(
+        self, tx: "Transaction", signatures: List["DecoratedSignature"]
+    ) -> None:
+        self.tx = tx
+        self.signatures = signatures
+
+    def pack(self, packer: Packer) -> None:
+        self.tx.pack(packer)
+        packer.pack_uint(len(self.signatures))
+        for element in self.signatures:
+            element.pack(packer)
+
+    @classmethod
+    def unpack(cls, unpacker: Unpacker) -> "TransactionV1Envelope":
+        tx = Transaction.unpack(unpacker)
+        length = unpacker.unpack_uint()
+        signatures = []
+        for _ in range(length):
+            signatures.append(DecoratedSignature.unpack(unpacker))
+        return cls(tx=tx, signatures=signatures)
+
+    def to_xdr(self) -> str:
+        packer = Packer()
+        self.pack(packer)
+        return base64.b64encode(packer.get_buffer()).decode()
+
+    @classmethod
+    def from_xdr(cls, xdr: str) -> "TransactionV1Envelope":
+        data = base64.b64decode(xdr.encode())
+        unpacker = Unpacker(data)
+        return cls.unpack(unpacker)
+
+    def __eq__(self, other: object):
+        if not isinstance(other, self.__class__):
+            return NotImplemented
+        return self.tx == other.tx and self.signatures == other.signatures
+
+    def __str__(self):
+        out = [
+            f"tx={self.tx}",
+            f"signatures={self.signatures}"
+        ]
+        return f"<TransactionV1Envelope {[', '.join(out)]}>"
+
+
+class FeeBumpTransactionInnerTx:
+    """
+    XDR Source Code
+    ----------------------------------------------------------------
+    union switch (EnvelopeType type)
+        {
+        case ENVELOPE_TYPE_TX:
+            TransactionV1Envelope v1;
+        }
+    ----------------------------------------------------------------
+    """
+
+    def __init__(
+        self, type: "EnvelopeType", v1: "TransactionV1Envelope" = None
+    ) -> None:
+        self.type = type
+        self.v1: "TransactionV1Envelope" = v1
+
+    def pack(self, packer: Packer) -> None:
+        self.type.pack(packer)
+        if self.type == EnvelopeType.ENVELOPE_TYPE_TX:
+            self.v1.pack(packer)
+            return
+
+    @classmethod
+    def unpack(cls, unpacker: Unpacker) -> "FeeBumpTransactionInnerTx":
+        type = EnvelopeType.unpack(unpacker)
+        if type == EnvelopeType.ENVELOPE_TYPE_TX:
+            v1 = TransactionV1Envelope.unpack(unpacker)
+            return cls(type, v1=v1)
+
+    def to_xdr(self) -> str:
+        packer = Packer()
+        self.pack(packer)
+        return base64.b64encode(packer.get_buffer()).decode()
+
+    @classmethod
+    def from_xdr(cls, xdr: str) -> "FeeBumpTransactionInnerTx":
+        data = base64.b64decode(xdr.encode())
+        unpacker = Unpacker(data)
+        return cls.unpack(unpacker)
+
+    def __eq__(self, other: object):
+        if not isinstance(other, self.__class__):
+            return NotImplemented
+        return self.type == other.type and self.v1 == other.v1
+
+    def __str__(self):
+        out = []
+        out.append(f"type={self.type}")
+        out.append(f"v1={self.v1}") if self.v1 is not None else None
+        return f"<FeeBumpTransactionInnerTx {[', '.join(out)]}>"
+
+
+class FeeBumpTransactionExt:
+    """
+    XDR Source Code
+    ----------------------------------------------------------------
+    union switch (int v)
+        {
+        case 0:
+            void;
+        }
+    ----------------------------------------------------------------
+    """
+
+    def __init__(self, v: int) -> None:
+        self.v = v
+
+    def pack(self, packer: Packer) -> None:
+        Integer(self.v).pack(packer)
+        if self.v == 0:
+            return
+
+    @classmethod
+    def unpack(cls, unpacker: Unpacker) -> "FeeBumpTransactionExt":
+        v = Integer.unpack(unpacker)
+        if v == 0:
+            return cls(v)
+
+    def to_xdr(self) -> str:
+        packer = Packer()
+        self.pack(packer)
+        return base64.b64encode(packer.get_buffer()).decode()
+
+    @classmethod
+    def from_xdr(cls, xdr: str) -> "FeeBumpTransactionExt":
+        data = base64.b64decode(xdr.encode())
+        unpacker = Unpacker(data)
+        return cls.unpack(unpacker)
+
+    def __eq__(self, other: object):
+        if not isinstance(other, self.__class__):
+            return NotImplemented
+        return self.v == other.v
+
+    def __str__(self):
+        out = []
+        out.append(f"v={self.v}")
+        return f"<FeeBumpTransactionExt {[', '.join(out)]}>"
+
+
+class FeeBumpTransaction:
+    """
+    XDR Source Code
+    ----------------------------------------------------------------
+    struct FeeBumpTransaction
+    {
+        MuxedAccount feeSource;
+        int64 fee;
+        union switch (EnvelopeType type)
+        {
+        case ENVELOPE_TYPE_TX:
+            TransactionV1Envelope v1;
+        }
+        innerTx;
+        union switch (int v)
+        {
+        case 0:
+            void;
+        }
+        ext;
+    };
+    ----------------------------------------------------------------
+    """
+
+    def __init__(
+        self,
+        fee_source: "MuxedAccount",
+        fee: "Int64",
+        inner_tx: "FeeBumpTransactionInnerTx",
+        ext: "FeeBumpTransactionExt"
+    ) -> None:
+        self.fee_source = fee_source
+        self.fee = fee
+        self.inner_tx = inner_tx
+        self.ext = ext
+
+    def pack(self, packer: Packer) -> None:
+        self.fee_source.pack(packer)
+        self.fee.pack(packer)
+        self.inner_tx.pack(packer)
+        self.ext.pack(packer)
+
+    @classmethod
+    def unpack(cls, unpacker: Unpacker) -> "FeeBumpTransaction":
+        fee_source = MuxedAccount.unpack(unpacker)
+        fee = Int64.unpack(unpacker)
+        inner_tx = FeeBumpTransactionInnerTx.unpack(unpacker)
+        ext = FeeBumpTransactionExt.unpack(unpacker)
+        return cls(fee_source=fee_source, fee=fee, inner_tx=inner_tx, ext=ext)
+
+    def to_xdr(self) -> str:
+        packer = Packer()
+        self.pack(packer)
+        return base64.b64encode(packer.get_buffer()).decode()
+
+    @classmethod
+    def from_xdr(cls, xdr: str) -> "FeeBumpTransaction":
+        data = base64.b64decode(xdr.encode())
+        unpacker = Unpacker(data)
+        return cls.unpack(unpacker)
+
+    def __eq__(self, other: object):
+        if not isinstance(other, self.__class__):
+            return NotImplemented
+        return (
+            self.fee_source == other.fee_source
+            and self.fee == other.fee
+            and self.inner_tx == other.inner_tx
+            and self.ext == other.ext
+        )
+
+    def __str__(self):
+        out = [
+            f"fee_source={self.fee_source}",
+            f"fee={self.fee}",
+            f"inner_tx={self.inner_tx}",
+            f"ext={self.ext}"
+        ]
+        return f"<FeeBumpTransaction {[', '.join(out)]}>"
+
+
+class FeeBumpTransactionEnvelope:
+    """
+    XDR Source Code
+    ----------------------------------------------------------------
+    struct FeeBumpTransactionEnvelope
+    {
+        FeeBumpTransaction tx;
+        /* Each decorated signature is a signature over the SHA256 hash of
+         * a TransactionSignaturePayload */
+        DecoratedSignature signatures<20>;
+    };
+    ----------------------------------------------------------------
+    """
+
+    def __init__(
+        self, tx: "FeeBumpTransaction", signatures: List["DecoratedSignature"]
+    ) -> None:
+        self.tx = tx
+        self.signatures = signatures
+
+    def pack(self, packer: Packer) -> None:
+        self.tx.pack(packer)
+        packer.pack_uint(len(self.signatures))
+        for element in self.signatures:
+            element.pack(packer)
+
+    @classmethod
+    def unpack(cls, unpacker: Unpacker) -> "FeeBumpTransactionEnvelope":
+        tx = FeeBumpTransaction.unpack(unpacker)
+        length = unpacker.unpack_uint()
+        signatures = []
+        for _ in range(length):
+            signatures.append(DecoratedSignature.unpack(unpacker))
+        return cls(tx=tx, signatures=signatures)
+
+    def to_xdr(self) -> str:
+        packer = Packer()
+        self.pack(packer)
+        return base64.b64encode(packer.get_buffer()).decode()
+
+    @classmethod
+    def from_xdr(cls, xdr: str) -> "FeeBumpTransactionEnvelope":
+        data = base64.b64decode(xdr.encode())
+        unpacker = Unpacker(data)
+        return cls.unpack(unpacker)
+
+    def __eq__(self, other: object):
+        if not isinstance(other, self.__class__):
+            return NotImplemented
+        return self.tx == other.tx and self.signatures == other.signatures
+
+    def __str__(self):
+        out = [
+            f"tx={self.tx}",
+            f"signatures={self.signatures}"
+        ]
+        return f"<FeeBumpTransactionEnvelope {[', '.join(out)]}>"
+
+
+class TransactionEnvelope:
+    """
+    XDR Source Code
+    ----------------------------------------------------------------
+    union TransactionEnvelope switch (EnvelopeType type)
+    {
+    case ENVELOPE_TYPE_TX_V0:
+        TransactionV0Envelope v0;
+    case ENVELOPE_TYPE_TX:
+        TransactionV1Envelope v1;
+    case ENVELOPE_TYPE_TX_FEE_BUMP:
+        FeeBumpTransactionEnvelope feeBump;
+    };
+    ----------------------------------------------------------------
+    """
+
+    def __init__(
+        self,
+        type: "EnvelopeType",
+        v0: "TransactionV0Envelope" = None,
+        v1: "TransactionV1Envelope" = None,
+        fee_bump: "FeeBumpTransactionEnvelope" = None
+    ) -> None:
+        self.type = type
+        self.v0: "TransactionV0Envelope" = v0
+        self.v1: "TransactionV1Envelope" = v1
+        self.fee_bump: "FeeBumpTransactionEnvelope" = fee_bump
+
+    def pack(self, packer: Packer) -> None:
+        self.type.pack(packer)
+        if self.type == EnvelopeType.ENVELOPE_TYPE_TX_V0:
+            self.v0.pack(packer)
+            return
+        if self.type == EnvelopeType.ENVELOPE_TYPE_TX:
+            self.v1.pack(packer)
+            return
+        if self.type == EnvelopeType.ENVELOPE_TYPE_TX_FEE_BUMP:
+            self.fee_bump.pack(packer)
+            return
+
+    @classmethod
+    def unpack(cls, unpacker: Unpacker) -> "TransactionEnvelope":
+        type = EnvelopeType.unpack(unpacker)
+        if type == EnvelopeType.ENVELOPE_TYPE_TX_V0:
+            v0 = TransactionV0Envelope.unpack(unpacker)
+            return cls(type, v0=v0)
+        if type == EnvelopeType.ENVELOPE_TYPE_TX:
+            v1 = TransactionV1Envelope.unpack(unpacker)
+            return cls(type, v1=v1)
+        if type == EnvelopeType.ENVELOPE_TYPE_TX_FEE_BUMP:
+            fee_bump = FeeBumpTransactionEnvelope.unpack(unpacker)
+            return cls(type, fee_bump=fee_bump)
+
+    def to_xdr(self) -> str:
+        packer = Packer()
+        self.pack(packer)
+        return base64.b64encode(packer.get_buffer()).decode()
+
+    @classmethod
+    def from_xdr(cls, xdr: str) -> "TransactionEnvelope":
+        data = base64.b64decode(xdr.encode())
+        unpacker = Unpacker(data)
+        return cls.unpack(unpacker)
+
+    def __eq__(self, other: object):
+        if not isinstance(other, self.__class__):
+            return NotImplemented
+        return (
+            self.type == other.type
+            and self.v0 == other.v0
+            and self.v1 == other.v1
+            and self.fee_bump == other.fee_bump
+        )
+
+    def __str__(self):
+        out = []
+        out.append(f"type={self.type}")
+        out.append(f"v0={self.v0}") if self.v0 is not None else None
+        out.append(f"v1={self.v1}") if self.v1 is not None else None
+        out.append(f"fee_bump={self.fee_bump}") if self.fee_bump is not None else None
+        return f"<TransactionEnvelope {[', '.join(out)]}>"
 
 
 class TransactionSignaturePayloadTaggedTransaction:
@@ -5313,21 +6031,32 @@ class TransactionSignaturePayloadTaggedTransaction:
     ----------------------------------------------------------------
     union switch (EnvelopeType type)
         {
+        // Backwards Compatibility: Use ENVELOPE_TYPE_TX to sign ENVELOPE_TYPE_TX_V0
         case ENVELOPE_TYPE_TX:
             Transaction tx;
-            /* All other values of type are invalid */
+        case ENVELOPE_TYPE_TX_FEE_BUMP:
+            FeeBumpTransaction feeBump;
         }
     ----------------------------------------------------------------
     """
 
-    def __init__(self, type: "EnvelopeType", tx: "Transaction" = None) -> None:
+    def __init__(
+        self,
+        type: "EnvelopeType",
+        tx: "Transaction" = None,
+        fee_bump: "FeeBumpTransaction" = None
+    ) -> None:
         self.type = type
         self.tx: "Transaction" = tx
+        self.fee_bump: "FeeBumpTransaction" = fee_bump
 
     def pack(self, packer: Packer) -> None:
         self.type.pack(packer)
         if self.type == EnvelopeType.ENVELOPE_TYPE_TX:
             self.tx.pack(packer)
+            return
+        if self.type == EnvelopeType.ENVELOPE_TYPE_TX_FEE_BUMP:
+            self.fee_bump.pack(packer)
             return
 
     @classmethod
@@ -5338,6 +6067,9 @@ class TransactionSignaturePayloadTaggedTransaction:
         if type == EnvelopeType.ENVELOPE_TYPE_TX:
             tx = Transaction.unpack(unpacker)
             return cls(type, tx=tx)
+        if type == EnvelopeType.ENVELOPE_TYPE_TX_FEE_BUMP:
+            fee_bump = FeeBumpTransaction.unpack(unpacker)
+            return cls(type, fee_bump=fee_bump)
 
     def to_xdr(self) -> str:
         packer = Packer()
@@ -5345,7 +6077,7 @@ class TransactionSignaturePayloadTaggedTransaction:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "TransactionSignaturePayloadTaggedTransaction":
+    def from_xdr(cls, xdr: str) -> "TransactionSignaturePayloadTaggedTransaction":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -5353,12 +6085,17 @@ class TransactionSignaturePayloadTaggedTransaction:
     def __eq__(self, other: object):
         if not isinstance(other, self.__class__):
             return NotImplemented
-        return self.type == other.type and self.tx == other.tx
+        return (
+            self.type == other.type
+            and self.tx == other.tx
+            and self.fee_bump == other.fee_bump
+        )
 
     def __str__(self):
         out = []
         out.append(f"type={self.type}")
         out.append(f"tx={self.tx}") if self.tx is not None else None
+        out.append(f"fee_bump={self.fee_bump}") if self.fee_bump is not None else None
         return f"<TransactionSignaturePayloadTaggedTransaction {[', '.join(out)]}>"
 
 
@@ -5371,9 +6108,11 @@ class TransactionSignaturePayload:
         Hash networkId;
         union switch (EnvelopeType type)
         {
+        // Backwards Compatibility: Use ENVELOPE_TYPE_TX to sign ENVELOPE_TYPE_TX_V0
         case ENVELOPE_TYPE_TX:
             Transaction tx;
-            /* All other values of type are invalid */
+        case ENVELOPE_TYPE_TX_FEE_BUMP:
+            FeeBumpTransaction feeBump;
         }
         taggedTransaction;
     };
@@ -5383,7 +6122,7 @@ class TransactionSignaturePayload:
     def __init__(
         self,
         network_id: "Hash",
-        tagged_transaction: "TransactionSignaturePayloadTaggedTransaction",
+        tagged_transaction: "TransactionSignaturePayloadTaggedTransaction"
     ) -> None:
         self.network_id = network_id
         self.tagged_transaction = tagged_transaction
@@ -5406,7 +6145,7 @@ class TransactionSignaturePayload:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "TransactionSignaturePayload":
+    def from_xdr(cls, xdr: str) -> "TransactionSignaturePayload":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -5422,69 +6161,9 @@ class TransactionSignaturePayload:
     def __str__(self):
         out = [
             f"network_id={self.network_id}",
-            f"tagged_transaction={self.tagged_transaction}",
+            f"tagged_transaction={self.tagged_transaction}"
         ]
         return f"<TransactionSignaturePayload {[', '.join(out)]}>"
-
-
-class TransactionEnvelope:
-    """
-    XDR Source Code
-    ----------------------------------------------------------------
-    struct TransactionEnvelope
-    {
-        Transaction tx;
-        /* Each decorated signature is a signature over the SHA256 hash of
-         * a TransactionSignaturePayload */
-        DecoratedSignature signatures<20>;
-    };
-    ----------------------------------------------------------------
-    """
-
-    def __init__(
-        self, tx: "Transaction", signatures: List["DecoratedSignature"]
-    ) -> None:
-        if len(signatures) > 20:
-            raise ValueError(
-                f"The maximum length of `signatures` should be 20, but got {len(signatures)}."
-            )
-        self.tx = tx
-        self.signatures = signatures
-
-    def pack(self, packer: Packer) -> None:
-        self.tx.pack(packer)
-        packer.pack_uint(len(self.signatures))
-        for element in self.signatures:
-            element.pack(packer)
-
-    @classmethod
-    def unpack(cls, unpacker: Unpacker) -> "TransactionEnvelope":
-        tx = Transaction.unpack(unpacker)
-        length = unpacker.unpack_uint()
-        signatures = []
-        for _ in range(length):
-            signatures.append(DecoratedSignature.unpack(unpacker))
-        return cls(tx=tx, signatures=signatures)
-
-    def to_xdr(self) -> str:
-        packer = Packer()
-        self.pack(packer)
-        return base64.b64encode(packer.get_buffer()).decode()
-
-    @classmethod
-    def from_xdr(cls, xdr) -> "TransactionEnvelope":
-        data = base64.b64decode(xdr.encode())
-        unpacker = Unpacker(data)
-        return cls.unpack(unpacker)
-
-    def __eq__(self, other: object):
-        if not isinstance(other, self.__class__):
-            return NotImplemented
-        return self.tx == other.tx and self.signatures == other.signatures
-
-    def __str__(self):
-        out = [f"tx={self.tx}", f"signatures={self.signatures}"]
-        return f"<TransactionEnvelope {[', '.join(out)]}>"
 
 
 class ClaimOfferAtom:
@@ -5515,7 +6194,7 @@ class ClaimOfferAtom:
         asset_sold: "Asset",
         amount_sold: "Int64",
         asset_bought: "Asset",
-        amount_bought: "Int64",
+        amount_bought: "Int64"
     ) -> None:
         self.seller_id = seller_id
         self.offer_id = offer_id
@@ -5555,7 +6234,7 @@ class ClaimOfferAtom:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "ClaimOfferAtom":
+    def from_xdr(cls, xdr: str) -> "ClaimOfferAtom":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -5579,7 +6258,7 @@ class ClaimOfferAtom:
             f"asset_sold={self.asset_sold}",
             f"amount_sold={self.amount_sold}",
             f"asset_bought={self.asset_bought}",
-            f"amount_bought={self.amount_bought}",
+            f"amount_bought={self.amount_bought}"
         ]
         return f"<ClaimOfferAtom {[', '.join(out)]}>"
 
@@ -5623,7 +6302,7 @@ class CreateAccountResultCode(IntEnum):
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "CreateAccountResultCode":
+    def from_xdr(cls, xdr: str) -> "CreateAccountResultCode":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -5669,7 +6348,7 @@ class CreateAccountResult:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "CreateAccountResult":
+    def from_xdr(cls, xdr: str) -> "CreateAccountResult":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -5733,7 +6412,7 @@ class PaymentResultCode(IntEnum):
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "PaymentResultCode":
+    def from_xdr(cls, xdr: str) -> "PaymentResultCode":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -5779,7 +6458,7 @@ class PaymentResult:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "PaymentResult":
+    def from_xdr(cls, xdr: str) -> "PaymentResult":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -5805,18 +6484,27 @@ class PathPaymentStrictReceiveResultCode(IntEnum):
         PATH_PAYMENT_STRICT_RECEIVE_SUCCESS = 0, // success
 
         // codes considered as "failure" for the operation
-        PATH_PAYMENT_STRICT_RECEIVE_MALFORMED = -1,          // bad input
-        PATH_PAYMENT_STRICT_RECEIVE_UNDERFUNDED = -2,        // not enough funds in source account
-        PATH_PAYMENT_STRICT_RECEIVE_SRC_NO_TRUST = -3,       // no trust line on source account
-        PATH_PAYMENT_STRICT_RECEIVE_SRC_NOT_AUTHORIZED = -4, // source not authorized to transfer
-        PATH_PAYMENT_STRICT_RECEIVE_NO_DESTINATION = -5,     // destination account does not exist
-        PATH_PAYMENT_STRICT_RECEIVE_NO_TRUST = -6,           // dest missing a trust line for asset
-        PATH_PAYMENT_STRICT_RECEIVE_NOT_AUTHORIZED = -7,     // dest not authorized to hold asset
-        PATH_PAYMENT_STRICT_RECEIVE_LINE_FULL = -8,          // dest would go above their limit
-        PATH_PAYMENT_STRICT_RECEIVE_NO_ISSUER = -9,          // missing issuer on one asset
-        PATH_PAYMENT_STRICT_RECEIVE_TOO_FEW_OFFERS = -10,    // not enough offers to satisfy path
-        PATH_PAYMENT_STRICT_RECEIVE_OFFER_CROSS_SELF = -11,  // would cross one of its own offers
-        PATH_PAYMENT_STRICT_RECEIVE_OVER_SENDMAX = -12       // could not satisfy sendmax
+        PATH_PAYMENT_STRICT_RECEIVE_MALFORMED = -1, // bad input
+        PATH_PAYMENT_STRICT_RECEIVE_UNDERFUNDED =
+            -2, // not enough funds in source account
+        PATH_PAYMENT_STRICT_RECEIVE_SRC_NO_TRUST =
+            -3, // no trust line on source account
+        PATH_PAYMENT_STRICT_RECEIVE_SRC_NOT_AUTHORIZED =
+            -4, // source not authorized to transfer
+        PATH_PAYMENT_STRICT_RECEIVE_NO_DESTINATION =
+            -5, // destination account does not exist
+        PATH_PAYMENT_STRICT_RECEIVE_NO_TRUST =
+            -6, // dest missing a trust line for asset
+        PATH_PAYMENT_STRICT_RECEIVE_NOT_AUTHORIZED =
+            -7, // dest not authorized to hold asset
+        PATH_PAYMENT_STRICT_RECEIVE_LINE_FULL =
+            -8, // dest would go above their limit
+        PATH_PAYMENT_STRICT_RECEIVE_NO_ISSUER = -9, // missing issuer on one asset
+        PATH_PAYMENT_STRICT_RECEIVE_TOO_FEW_OFFERS =
+            -10, // not enough offers to satisfy path
+        PATH_PAYMENT_STRICT_RECEIVE_OFFER_CROSS_SELF =
+            -11, // would cross one of its own offers
+        PATH_PAYMENT_STRICT_RECEIVE_OVER_SENDMAX = -12 // could not satisfy sendmax
     };
     ----------------------------------------------------------------
     """
@@ -5849,7 +6537,7 @@ class PathPaymentStrictReceiveResultCode(IntEnum):
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "PathPaymentStrictReceiveResultCode":
+    def from_xdr(cls, xdr: str) -> "PathPaymentStrictReceiveResultCode":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -5899,7 +6587,7 @@ class SimplePaymentResult:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "SimplePaymentResult":
+    def from_xdr(cls, xdr: str) -> "SimplePaymentResult":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -5917,7 +6605,7 @@ class SimplePaymentResult:
         out = [
             f"destination={self.destination}",
             f"asset={self.asset}",
-            f"amount={self.amount}",
+            f"amount={self.amount}"
         ]
         return f"<SimplePaymentResult {[', '.join(out)]}>"
 
@@ -5937,10 +6625,6 @@ class PathPaymentStrictReceiveResultSuccess:
     def __init__(
         self, offers: List["ClaimOfferAtom"], last: "SimplePaymentResult"
     ) -> None:
-        if len(offers) > 4294967295:
-            raise ValueError(
-                f"The maximum length of `offers` should be 4294967295, but got {len(offers)}."
-            )
         self.offers = offers
         self.last = last
 
@@ -5965,7 +6649,7 @@ class PathPaymentStrictReceiveResultSuccess:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "PathPaymentStrictReceiveResultSuccess":
+    def from_xdr(cls, xdr: str) -> "PathPaymentStrictReceiveResultSuccess":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -5976,7 +6660,10 @@ class PathPaymentStrictReceiveResultSuccess:
         return self.offers == other.offers and self.last == other.last
 
     def __str__(self):
-        out = [f"offers={self.offers}", f"last={self.last}"]
+        out = [
+            f"offers={self.offers}",
+            f"last={self.last}"
+        ]
         return f"<PathPaymentStrictReceiveResultSuccess {[', '.join(out)]}>"
 
 
@@ -6004,7 +6691,7 @@ class PathPaymentStrictReceiveResult:
         self,
         code: "PathPaymentStrictReceiveResultCode",
         success: "PathPaymentStrictReceiveResultSuccess" = None,
-        no_issuer: "Asset" = None,
+        no_issuer: "Asset" = None
     ) -> None:
         self.code = code
         self.success: "PathPaymentStrictReceiveResultSuccess" = success
@@ -6047,7 +6734,7 @@ class PathPaymentStrictReceiveResult:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "PathPaymentStrictReceiveResult":
+    def from_xdr(cls, xdr: str) -> "PathPaymentStrictReceiveResult":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -6081,18 +6768,26 @@ class PathPaymentStrictSendResultCode(IntEnum):
         PATH_PAYMENT_STRICT_SEND_SUCCESS = 0, // success
 
         // codes considered as "failure" for the operation
-        PATH_PAYMENT_STRICT_SEND_MALFORMED = -1,          // bad input
-        PATH_PAYMENT_STRICT_SEND_UNDERFUNDED = -2,        // not enough funds in source account
-        PATH_PAYMENT_STRICT_SEND_SRC_NO_TRUST = -3,       // no trust line on source account
-        PATH_PAYMENT_STRICT_SEND_SRC_NOT_AUTHORIZED = -4, // source not authorized to transfer
-        PATH_PAYMENT_STRICT_SEND_NO_DESTINATION = -5,     // destination account does not exist
-        PATH_PAYMENT_STRICT_SEND_NO_TRUST = -6,           // dest missing a trust line for asset
-        PATH_PAYMENT_STRICT_SEND_NOT_AUTHORIZED = -7,     // dest not authorized to hold asset
-        PATH_PAYMENT_STRICT_SEND_LINE_FULL = -8,          // dest would go above their limit
-        PATH_PAYMENT_STRICT_SEND_NO_ISSUER = -9,          // missing issuer on one asset
-        PATH_PAYMENT_STRICT_SEND_TOO_FEW_OFFERS = -10,    // not enough offers to satisfy path
-        PATH_PAYMENT_STRICT_SEND_OFFER_CROSS_SELF = -11,  // would cross one of its own offers
-        PATH_PAYMENT_STRICT_SEND_UNDER_DESTMIN = -12      // could not satisfy destMin
+        PATH_PAYMENT_STRICT_SEND_MALFORMED = -1, // bad input
+        PATH_PAYMENT_STRICT_SEND_UNDERFUNDED =
+            -2, // not enough funds in source account
+        PATH_PAYMENT_STRICT_SEND_SRC_NO_TRUST =
+            -3, // no trust line on source account
+        PATH_PAYMENT_STRICT_SEND_SRC_NOT_AUTHORIZED =
+            -4, // source not authorized to transfer
+        PATH_PAYMENT_STRICT_SEND_NO_DESTINATION =
+            -5, // destination account does not exist
+        PATH_PAYMENT_STRICT_SEND_NO_TRUST =
+            -6, // dest missing a trust line for asset
+        PATH_PAYMENT_STRICT_SEND_NOT_AUTHORIZED =
+            -7, // dest not authorized to hold asset
+        PATH_PAYMENT_STRICT_SEND_LINE_FULL = -8, // dest would go above their limit
+        PATH_PAYMENT_STRICT_SEND_NO_ISSUER = -9, // missing issuer on one asset
+        PATH_PAYMENT_STRICT_SEND_TOO_FEW_OFFERS =
+            -10, // not enough offers to satisfy path
+        PATH_PAYMENT_STRICT_SEND_OFFER_CROSS_SELF =
+            -11, // would cross one of its own offers
+        PATH_PAYMENT_STRICT_SEND_UNDER_DESTMIN = -12 // could not satisfy destMin
     };
     ----------------------------------------------------------------
     """
@@ -6125,7 +6820,7 @@ class PathPaymentStrictSendResultCode(IntEnum):
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "PathPaymentStrictSendResultCode":
+    def from_xdr(cls, xdr: str) -> "PathPaymentStrictSendResultCode":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -6152,10 +6847,6 @@ class PathPaymentStrictSendResultSuccess:
     def __init__(
         self, offers: List["ClaimOfferAtom"], last: "SimplePaymentResult"
     ) -> None:
-        if len(offers) > 4294967295:
-            raise ValueError(
-                f"The maximum length of `offers` should be 4294967295, but got {len(offers)}."
-            )
         self.offers = offers
         self.last = last
 
@@ -6180,7 +6871,7 @@ class PathPaymentStrictSendResultSuccess:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "PathPaymentStrictSendResultSuccess":
+    def from_xdr(cls, xdr: str) -> "PathPaymentStrictSendResultSuccess":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -6191,7 +6882,10 @@ class PathPaymentStrictSendResultSuccess:
         return self.offers == other.offers and self.last == other.last
 
     def __str__(self):
-        out = [f"offers={self.offers}", f"last={self.last}"]
+        out = [
+            f"offers={self.offers}",
+            f"last={self.last}"
+        ]
         return f"<PathPaymentStrictSendResultSuccess {[', '.join(out)]}>"
 
 
@@ -6219,7 +6913,7 @@ class PathPaymentStrictSendResult:
         self,
         code: "PathPaymentStrictSendResultCode",
         success: "PathPaymentStrictSendResultSuccess" = None,
-        no_issuer: "Asset" = None,
+        no_issuer: "Asset" = None
     ) -> None:
         self.code = code
         self.success: "PathPaymentStrictSendResultSuccess" = success
@@ -6256,7 +6950,7 @@ class PathPaymentStrictSendResult:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "PathPaymentStrictSendResult":
+    def from_xdr(cls, xdr: str) -> "PathPaymentStrictSendResult":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -6290,21 +6984,25 @@ class ManageSellOfferResultCode(IntEnum):
         MANAGE_SELL_OFFER_SUCCESS = 0,
 
         // codes considered as "failure" for the operation
-        MANAGE_SELL_OFFER_MALFORMED = -1,     // generated offer would be invalid
-        MANAGE_SELL_OFFER_SELL_NO_TRUST = -2, // no trust line for what we're selling
-        MANAGE_SELL_OFFER_BUY_NO_TRUST = -3,  // no trust line for what we're buying
+        MANAGE_SELL_OFFER_MALFORMED = -1, // generated offer would be invalid
+        MANAGE_SELL_OFFER_SELL_NO_TRUST =
+            -2,                              // no trust line for what we're selling
+        MANAGE_SELL_OFFER_BUY_NO_TRUST = -3, // no trust line for what we're buying
         MANAGE_SELL_OFFER_SELL_NOT_AUTHORIZED = -4, // not authorized to sell
         MANAGE_SELL_OFFER_BUY_NOT_AUTHORIZED = -5,  // not authorized to buy
-        MANAGE_SELL_OFFER_LINE_FULL = -6,      // can't receive more of what it's buying
-        MANAGE_SELL_OFFER_UNDERFUNDED = -7,    // doesn't hold what it's trying to sell
-        MANAGE_SELL_OFFER_CROSS_SELF = -8,     // would cross an offer from the same user
+        MANAGE_SELL_OFFER_LINE_FULL = -6, // can't receive more of what it's buying
+        MANAGE_SELL_OFFER_UNDERFUNDED = -7, // doesn't hold what it's trying to sell
+        MANAGE_SELL_OFFER_CROSS_SELF =
+            -8, // would cross an offer from the same user
         MANAGE_SELL_OFFER_SELL_NO_ISSUER = -9, // no issuer for what we're selling
         MANAGE_SELL_OFFER_BUY_NO_ISSUER = -10, // no issuer for what we're buying
 
         // update errors
-        MANAGE_SELL_OFFER_NOT_FOUND = -11, // offerID does not match an existing offer
+        MANAGE_SELL_OFFER_NOT_FOUND =
+            -11, // offerID does not match an existing offer
 
-        MANAGE_SELL_OFFER_LOW_RESERVE = -12 // not enough funds to create a new Offer
+        MANAGE_SELL_OFFER_LOW_RESERVE =
+            -12 // not enough funds to create a new Offer
     };
     ----------------------------------------------------------------
     """
@@ -6337,7 +7035,7 @@ class ManageSellOfferResultCode(IntEnum):
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "ManageSellOfferResultCode":
+    def from_xdr(cls, xdr: str) -> "ManageSellOfferResultCode":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -6380,7 +7078,7 @@ class ManageOfferEffect(IntEnum):
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "ManageOfferEffect":
+    def from_xdr(cls, xdr: str) -> "ManageOfferEffect":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -6407,28 +7105,26 @@ class ManageOfferSuccessResultOffer:
     ----------------------------------------------------------------
     """
 
-    def __init__(self, effect: "ManageOfferEffect", offer: "OfferEntry" = None) -> None:
+    def __init__(
+        self, effect: "ManageOfferEffect", offer: "OfferEntry" = None
+    ) -> None:
         self.effect = effect
         self.offer: "OfferEntry" = offer
 
     def pack(self, packer: Packer) -> None:
         self.effect.pack(packer)
         if self.effect == ManageOfferEffect.MANAGE_OFFER_CREATED:
-            self.offer.pack(packer)
-            return
-        if self.effect == ManageOfferEffect.MANAGE_OFFER_UPDATED:
-            self.offer.pack(packer)
-            return
+            if self.effect == ManageOfferEffect.MANAGE_OFFER_UPDATED:
+                self.offer.pack(packer)
+                return
 
     @classmethod
     def unpack(cls, unpacker: Unpacker) -> "ManageOfferSuccessResultOffer":
         effect = ManageOfferEffect.unpack(unpacker)
         if effect == ManageOfferEffect.MANAGE_OFFER_CREATED:
-            offer = OfferEntry.unpack(unpacker)
-            return cls(effect, offer=offer)
-        if effect == ManageOfferEffect.MANAGE_OFFER_UPDATED:
-            offer = OfferEntry.unpack(unpacker)
-            return cls(effect, offer=offer)
+            if effect == ManageOfferEffect.MANAGE_OFFER_UPDATED:
+                offer = OfferEntry.unpack(unpacker)
+                return cls(effect, offer=offer)
 
     def to_xdr(self) -> str:
         packer = Packer()
@@ -6436,7 +7132,7 @@ class ManageOfferSuccessResultOffer:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "ManageOfferSuccessResultOffer":
+    def from_xdr(cls, xdr: str) -> "ManageOfferSuccessResultOffer":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -6478,12 +7174,8 @@ class ManageOfferSuccessResult:
     def __init__(
         self,
         offers_claimed: List["ClaimOfferAtom"],
-        offer: "ManageOfferSuccessResultOffer",
+        offer: "ManageOfferSuccessResultOffer"
     ) -> None:
-        if len(offers_claimed) > 4294967295:
-            raise ValueError(
-                f"The maximum length of `offers_claimed` should be 4294967295, but got {len(offers_claimed)}."
-            )
         self.offers_claimed = offers_claimed
         self.offer = offer
 
@@ -6508,7 +7200,7 @@ class ManageOfferSuccessResult:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "ManageOfferSuccessResult":
+    def from_xdr(cls, xdr: str) -> "ManageOfferSuccessResult":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -6519,7 +7211,10 @@ class ManageOfferSuccessResult:
         return self.offers_claimed == other.offers_claimed and self.offer == other.offer
 
     def __str__(self):
-        out = [f"offers_claimed={self.offers_claimed}", f"offer={self.offer}"]
+        out = [
+            f"offers_claimed={self.offers_claimed}",
+            f"offer={self.offer}"
+        ]
         return f"<ManageOfferSuccessResult {[', '.join(out)]}>"
 
 
@@ -6540,7 +7235,7 @@ class ManageSellOfferResult:
     def __init__(
         self,
         code: "ManageSellOfferResultCode",
-        success: "ManageOfferSuccessResult" = None,
+        success: "ManageOfferSuccessResult" = None
     ) -> None:
         self.code = code
         self.success: "ManageOfferSuccessResult" = success
@@ -6564,7 +7259,7 @@ class ManageSellOfferResult:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "ManageSellOfferResult":
+    def from_xdr(cls, xdr: str) -> "ManageSellOfferResult":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -6596,14 +7291,15 @@ class ManageBuyOfferResultCode(IntEnum):
         MANAGE_BUY_OFFER_BUY_NO_TRUST = -3,  // no trust line for what we're buying
         MANAGE_BUY_OFFER_SELL_NOT_AUTHORIZED = -4, // not authorized to sell
         MANAGE_BUY_OFFER_BUY_NOT_AUTHORIZED = -5,  // not authorized to buy
-        MANAGE_BUY_OFFER_LINE_FULL = -6,      // can't receive more of what it's buying
-        MANAGE_BUY_OFFER_UNDERFUNDED = -7,    // doesn't hold what it's trying to sell
-        MANAGE_BUY_OFFER_CROSS_SELF = -8,     // would cross an offer from the same user
+        MANAGE_BUY_OFFER_LINE_FULL = -6,   // can't receive more of what it's buying
+        MANAGE_BUY_OFFER_UNDERFUNDED = -7, // doesn't hold what it's trying to sell
+        MANAGE_BUY_OFFER_CROSS_SELF = -8, // would cross an offer from the same user
         MANAGE_BUY_OFFER_SELL_NO_ISSUER = -9, // no issuer for what we're selling
         MANAGE_BUY_OFFER_BUY_NO_ISSUER = -10, // no issuer for what we're buying
 
         // update errors
-        MANAGE_BUY_OFFER_NOT_FOUND = -11, // offerID does not match an existing offer
+        MANAGE_BUY_OFFER_NOT_FOUND =
+            -11, // offerID does not match an existing offer
 
         MANAGE_BUY_OFFER_LOW_RESERVE = -12 // not enough funds to create a new Offer
     };
@@ -6638,7 +7334,7 @@ class ManageBuyOfferResultCode(IntEnum):
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "ManageBuyOfferResultCode":
+    def from_xdr(cls, xdr: str) -> "ManageBuyOfferResultCode":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -6667,7 +7363,7 @@ class ManageBuyOfferResult:
     def __init__(
         self,
         code: "ManageBuyOfferResultCode",
-        success: "ManageOfferSuccessResult" = None,
+        success: "ManageOfferSuccessResult" = None
     ) -> None:
         self.code = code
         self.success: "ManageOfferSuccessResult" = success
@@ -6691,7 +7387,7 @@ class ManageBuyOfferResult:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "ManageBuyOfferResult":
+    def from_xdr(cls, xdr: str) -> "ManageBuyOfferResult":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -6755,7 +7451,7 @@ class SetOptionsResultCode(IntEnum):
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "SetOptionsResultCode":
+    def from_xdr(cls, xdr: str) -> "SetOptionsResultCode":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -6801,7 +7497,7 @@ class SetOptionsResult:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "SetOptionsResult":
+    def from_xdr(cls, xdr: str) -> "SetOptionsResult":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -6832,7 +7528,7 @@ class ChangeTrustResultCode(IntEnum):
                                          // cannot create with a limit of 0
         CHANGE_TRUST_LOW_RESERVE =
             -4, // not enough funds to create a new trust line,
-        CHANGE_TRUST_SELF_NOT_ALLOWED = -5  // trusting self is not allowed
+        CHANGE_TRUST_SELF_NOT_ALLOWED = -5 // trusting self is not allowed
     };
     ----------------------------------------------------------------
     """
@@ -6858,7 +7554,7 @@ class ChangeTrustResultCode(IntEnum):
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "ChangeTrustResultCode":
+    def from_xdr(cls, xdr: str) -> "ChangeTrustResultCode":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -6904,7 +7600,7 @@ class ChangeTrustResult:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "ChangeTrustResult":
+    def from_xdr(cls, xdr: str) -> "ChangeTrustResult":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -6960,7 +7656,7 @@ class AllowTrustResultCode(IntEnum):
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "AllowTrustResultCode":
+    def from_xdr(cls, xdr: str) -> "AllowTrustResultCode":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -7006,7 +7702,7 @@ class AllowTrustResult:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "AllowTrustResult":
+    def from_xdr(cls, xdr: str) -> "AllowTrustResult":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -7064,7 +7760,7 @@ class AccountMergeResultCode(IntEnum):
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "AccountMergeResultCode":
+    def from_xdr(cls, xdr: str) -> "AccountMergeResultCode":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -7115,7 +7811,7 @@ class AccountMergeResult:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "AccountMergeResult":
+    def from_xdr(cls, xdr: str) -> "AccountMergeResult":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -7168,7 +7864,7 @@ class InflationResultCode(IntEnum):
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "InflationResultCode":
+    def from_xdr(cls, xdr: str) -> "InflationResultCode":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -7212,7 +7908,7 @@ class InflationPayout:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "InflationPayout":
+    def from_xdr(cls, xdr: str) -> "InflationPayout":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -7223,7 +7919,10 @@ class InflationPayout:
         return self.destination == other.destination and self.amount == other.amount
 
     def __str__(self):
-        out = [f"destination={self.destination}", f"amount={self.amount}"]
+        out = [
+            f"destination={self.destination}",
+            f"amount={self.amount}"
+        ]
         return f"<InflationPayout {[', '.join(out)]}>"
 
 
@@ -7244,10 +7943,6 @@ class InflationResult:
     def __init__(
         self, code: "InflationResultCode", payouts: List["InflationPayout"] = None
     ) -> None:
-        if payouts is not None and len(payouts) > 4294967295:
-            raise ValueError(
-                f"The maximum length of `payouts` should be 4294967295, but got {len(payouts)}."
-            )
         self.code = code
         self.payouts: List["InflationPayout"] = payouts
 
@@ -7275,7 +7970,7 @@ class InflationResult:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "InflationResult":
+    def from_xdr(cls, xdr: str) -> "InflationResult":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -7331,7 +8026,7 @@ class ManageDataResultCode(IntEnum):
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "ManageDataResultCode":
+    def from_xdr(cls, xdr: str) -> "ManageDataResultCode":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -7377,7 +8072,7 @@ class ManageDataResult:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "ManageDataResult":
+    def from_xdr(cls, xdr: str) -> "ManageDataResult":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -7424,7 +8119,7 @@ class BumpSequenceResultCode(IntEnum):
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "BumpSequenceResultCode":
+    def from_xdr(cls, xdr: str) -> "BumpSequenceResultCode":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -7470,7 +8165,7 @@ class BumpSequenceResult:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "BumpSequenceResult":
+    def from_xdr(cls, xdr: str) -> "BumpSequenceResult":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -7494,9 +8189,9 @@ class OperationResultCode(IntEnum):
     {
         opINNER = 0, // inner object result is valid
 
-        opBAD_AUTH = -1,     // too few valid signatures / wrong network
-        opNO_ACCOUNT = -2,   // source account was not found
-        opNOT_SUPPORTED = -3, // operation not supported at this time
+        opBAD_AUTH = -1,            // too few valid signatures / wrong network
+        opNO_ACCOUNT = -2,          // source account was not found
+        opNOT_SUPPORTED = -3,       // operation not supported at this time
         opTOO_MANY_SUBENTRIES = -4, // max number of subentries already reached
         opEXCEEDED_WORK_LIMIT = -5  // operation did too much work
     };
@@ -7524,7 +8219,7 @@ class OperationResultCode(IntEnum):
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "OperationResultCode":
+    def from_xdr(cls, xdr: str) -> "OperationResultCode":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -7567,7 +8262,7 @@ class OperationResultTr:
         case BUMP_SEQUENCE:
             BumpSequenceResult bumpSeqResult;
         case MANAGE_BUY_OFFER:
-    	ManageBuyOfferResult manageBuyOfferResult;
+            ManageBuyOfferResult manageBuyOfferResult;
         case PATH_PAYMENT_STRICT_SEND:
             PathPaymentStrictSendResult pathPaymentStrictSendResult;
         }
@@ -7590,7 +8285,7 @@ class OperationResultTr:
         manage_data_result: "ManageDataResult" = None,
         bump_seq_result: "BumpSequenceResult" = None,
         manage_buy_offer_result: "ManageBuyOfferResult" = None,
-        path_payment_strict_send_result: "PathPaymentStrictSendResult" = None,
+        path_payment_strict_send_result: "PathPaymentStrictSendResult" = None
     ) -> None:
         self.type = type
         self.create_account_result: "CreateAccountResult" = create_account_result
@@ -7716,7 +8411,7 @@ class OperationResultTr:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "OperationResultTr":
+    def from_xdr(cls, xdr: str) -> "OperationResultTr":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -7827,7 +8522,7 @@ class OperationResult:
         case BUMP_SEQUENCE:
             BumpSequenceResult bumpSeqResult;
         case MANAGE_BUY_OFFER:
-    	ManageBuyOfferResult manageBuyOfferResult;
+            ManageBuyOfferResult manageBuyOfferResult;
         case PATH_PAYMENT_STRICT_SEND:
             PathPaymentStrictSendResult pathPaymentStrictSendResult;
         }
@@ -7863,7 +8558,7 @@ class OperationResult:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "OperationResult":
+    def from_xdr(cls, xdr: str) -> "OperationResult":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -7886,7 +8581,8 @@ class TransactionResultCode(IntEnum):
     ----------------------------------------------------------------
     enum TransactionResultCode
     {
-        txSUCCESS = 0, // all operations succeeded
+        txFEE_BUMP_INNER_SUCCESS = 1, // fee bump inner transaction succeeded
+        txSUCCESS = 0,                // all operations succeeded
 
         txFAILED = -1, // one of the operations failed (none were applied)
 
@@ -7900,11 +8596,15 @@ class TransactionResultCode(IntEnum):
         txNO_ACCOUNT = -8,           // source account not found
         txINSUFFICIENT_FEE = -9,     // fee is too small
         txBAD_AUTH_EXTRA = -10,      // unused signatures attached to transaction
-        txINTERNAL_ERROR = -11       // an unknown error occured
+        txINTERNAL_ERROR = -11,      // an unknown error occured
+
+        txNOT_SUPPORTED = -12,        // transaction type not supported
+        txFEE_BUMP_INNER_FAILED = -13 // fee bump inner transaction failed
     };
     ----------------------------------------------------------------
     """
 
+    txFEE_BUMP_INNER_SUCCESS = 1
     txSUCCESS = 0
     txFAILED = -1
     txTOO_EARLY = -2
@@ -7917,6 +8617,8 @@ class TransactionResultCode(IntEnum):
     txINSUFFICIENT_FEE = -9
     txBAD_AUTH_EXTRA = -10
     txINTERNAL_ERROR = -11
+    txNOT_SUPPORTED = -12
+    txFEE_BUMP_INNER_FAILED = -13
 
     def pack(self, packer: Packer) -> None:
         packer.pack_int(self.value)
@@ -7932,7 +8634,7 @@ class TransactionResultCode(IntEnum):
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "TransactionResultCode":
+    def from_xdr(cls, xdr: str) -> "TransactionResultCode":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -7944,16 +8646,28 @@ class TransactionResultCode(IntEnum):
         )
 
 
-class TransactionResultResult:
+class InnerTransactionResultResult:
     """
     XDR Source Code
     ----------------------------------------------------------------
     union switch (TransactionResultCode code)
         {
+        // txFEE_BUMP_INNER_SUCCESS is not included
         case txSUCCESS:
         case txFAILED:
             OperationResult results<>;
-        default:
+        case txTOO_EARLY:
+        case txTOO_LATE:
+        case txMISSING_OPERATION:
+        case txBAD_SEQ:
+        case txBAD_AUTH:
+        case txINSUFFICIENT_BALANCE:
+        case txNO_ACCOUNT:
+        case txINSUFFICIENT_FEE:
+        case txBAD_AUTH_EXTRA:
+        case txINTERNAL_ERROR:
+        case txNOT_SUPPORTED:
+            // txFEE_BUMP_INNER_FAILED is not included
             void;
         }
     ----------------------------------------------------------------
@@ -7962,45 +8676,60 @@ class TransactionResultResult:
     def __init__(
         self, code: "TransactionResultCode", results: List["OperationResult"] = None
     ) -> None:
-        if results is not None and len(results) > 4294967295:
-            raise ValueError(
-                f"The maximum length of `results` should be 4294967295, but got {len(results)}."
-            )
-        if results is not None and len(results) > 4294967295:
-            raise ValueError(
-                f"The maximum length of `results` should be 4294967295, but got {len(results)}."
-            )
         self.code = code
         self.results: List["OperationResult"] = results
 
     def pack(self, packer: Packer) -> None:
         self.code.pack(packer)
-        if self.code == TransactionResultCode.txSUCCESS:
+        if (
+            self.code == TransactionResultCode.txSUCCESS
+            or self.code == TransactionResultCode.txFAILED
+        ):
             packer.pack_uint(len(self.results))
             for element in self.results:
                 element.pack(packer)
             return
-        if self.code == TransactionResultCode.txFAILED:
-            packer.pack_uint(len(self.results))
-            for element in self.results:
-                element.pack(packer)
+        if (
+            self.code == TransactionResultCode.txTOO_EARLY
+            or self.code == TransactionResultCode.txTOO_LATE
+            or self.code == TransactionResultCode.txMISSING_OPERATION
+            or self.code == TransactionResultCode.txBAD_SEQ
+            or self.code == TransactionResultCode.txBAD_AUTH
+            or self.code == TransactionResultCode.txINSUFFICIENT_BALANCE
+            or self.code == TransactionResultCode.txNO_ACCOUNT
+            or self.code == TransactionResultCode.txINSUFFICIENT_FEE
+            or self.code == TransactionResultCode.txBAD_AUTH_EXTRA
+            or self.code == TransactionResultCode.txINTERNAL_ERROR
+            or self.code == TransactionResultCode.txNOT_SUPPORTED
+        ):
             return
 
     @classmethod
-    def unpack(cls, unpacker: Unpacker) -> "TransactionResultResult":
+    def unpack(cls, unpacker: Unpacker) -> "InnerTransactionResultResult":
         code = TransactionResultCode.unpack(unpacker)
-        if code == TransactionResultCode.txSUCCESS:
+        if (
+            code == TransactionResultCode.txSUCCESS
+            or code == TransactionResultCode.txFAILED
+        ):
             length = unpacker.unpack_uint()
             results = []
             for _ in range(length):
                 results.append(OperationResult.unpack(unpacker))
             return cls(code, results=results)
-        if code == TransactionResultCode.txFAILED:
-            length = unpacker.unpack_uint()
-            results = []
-            for _ in range(length):
-                results.append(OperationResult.unpack(unpacker))
-            return cls(code, results=results)
+        if (
+            code == TransactionResultCode.txTOO_EARLY
+            or code == TransactionResultCode.txTOO_LATE
+            or code == TransactionResultCode.txMISSING_OPERATION
+            or code == TransactionResultCode.txBAD_SEQ
+            or code == TransactionResultCode.txBAD_AUTH
+            or code == TransactionResultCode.txINSUFFICIENT_BALANCE
+            or code == TransactionResultCode.txNO_ACCOUNT
+            or code == TransactionResultCode.txINSUFFICIENT_FEE
+            or code == TransactionResultCode.txBAD_AUTH_EXTRA
+            or code == TransactionResultCode.txINTERNAL_ERROR
+            or code == TransactionResultCode.txNOT_SUPPORTED
+        ):
+            return cls(code)
 
     def to_xdr(self) -> str:
         packer = Packer()
@@ -8008,7 +8737,7 @@ class TransactionResultResult:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "TransactionResultResult":
+    def from_xdr(cls, xdr: str) -> "InnerTransactionResultResult":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -8021,6 +8750,296 @@ class TransactionResultResult:
     def __str__(self):
         out = []
         out.append(f"code={self.code}")
+        out.append(f"results={self.results}") if self.results is not None else None
+        return f"<InnerTransactionResultResult {[', '.join(out)]}>"
+
+
+class InnerTransactionResultExt:
+    """
+    XDR Source Code
+    ----------------------------------------------------------------
+    union switch (int v)
+        {
+        case 0:
+            void;
+        }
+    ----------------------------------------------------------------
+    """
+
+    def __init__(self, v: int) -> None:
+        self.v = v
+
+    def pack(self, packer: Packer) -> None:
+        Integer(self.v).pack(packer)
+        if self.v == 0:
+            return
+
+    @classmethod
+    def unpack(cls, unpacker: Unpacker) -> "InnerTransactionResultExt":
+        v = Integer.unpack(unpacker)
+        if v == 0:
+            return cls(v)
+
+    def to_xdr(self) -> str:
+        packer = Packer()
+        self.pack(packer)
+        return base64.b64encode(packer.get_buffer()).decode()
+
+    @classmethod
+    def from_xdr(cls, xdr: str) -> "InnerTransactionResultExt":
+        data = base64.b64decode(xdr.encode())
+        unpacker = Unpacker(data)
+        return cls.unpack(unpacker)
+
+    def __eq__(self, other: object):
+        if not isinstance(other, self.__class__):
+            return NotImplemented
+        return self.v == other.v
+
+    def __str__(self):
+        out = []
+        out.append(f"v={self.v}")
+        return f"<InnerTransactionResultExt {[', '.join(out)]}>"
+
+
+class InnerTransactionResult:
+    """
+    XDR Source Code
+    ----------------------------------------------------------------
+    struct InnerTransactionResult
+    {
+        // Always 0. Here for binary compatibility.
+        int64 feeCharged;
+
+        union switch (TransactionResultCode code)
+        {
+        // txFEE_BUMP_INNER_SUCCESS is not included
+        case txSUCCESS:
+        case txFAILED:
+            OperationResult results<>;
+        case txTOO_EARLY:
+        case txTOO_LATE:
+        case txMISSING_OPERATION:
+        case txBAD_SEQ:
+        case txBAD_AUTH:
+        case txINSUFFICIENT_BALANCE:
+        case txNO_ACCOUNT:
+        case txINSUFFICIENT_FEE:
+        case txBAD_AUTH_EXTRA:
+        case txINTERNAL_ERROR:
+        case txNOT_SUPPORTED:
+            // txFEE_BUMP_INNER_FAILED is not included
+            void;
+        }
+        result;
+
+        // reserved for future use
+        union switch (int v)
+        {
+        case 0:
+            void;
+        }
+        ext;
+    };
+    ----------------------------------------------------------------
+    """
+
+    def __init__(
+        self,
+        fee_charged: "Int64",
+        result: "InnerTransactionResultResult",
+        ext: "InnerTransactionResultExt"
+    ) -> None:
+        self.fee_charged = fee_charged
+        self.result = result
+        self.ext = ext
+
+    def pack(self, packer: Packer) -> None:
+        self.fee_charged.pack(packer)
+        self.result.pack(packer)
+        self.ext.pack(packer)
+
+    @classmethod
+    def unpack(cls, unpacker: Unpacker) -> "InnerTransactionResult":
+        fee_charged = Int64.unpack(unpacker)
+        result = InnerTransactionResultResult.unpack(unpacker)
+        ext = InnerTransactionResultExt.unpack(unpacker)
+        return cls(fee_charged=fee_charged, result=result, ext=ext)
+
+    def to_xdr(self) -> str:
+        packer = Packer()
+        self.pack(packer)
+        return base64.b64encode(packer.get_buffer()).decode()
+
+    @classmethod
+    def from_xdr(cls, xdr: str) -> "InnerTransactionResult":
+        data = base64.b64decode(xdr.encode())
+        unpacker = Unpacker(data)
+        return cls.unpack(unpacker)
+
+    def __eq__(self, other: object):
+        if not isinstance(other, self.__class__):
+            return NotImplemented
+        return (
+            self.fee_charged == other.fee_charged
+            and self.result == other.result
+            and self.ext == other.ext
+        )
+
+    def __str__(self):
+        out = [
+            f"fee_charged={self.fee_charged}",
+            f"result={self.result}",
+            f"ext={self.ext}"
+        ]
+        return f"<InnerTransactionResult {[', '.join(out)]}>"
+
+
+class InnerTransactionResultPair:
+    """
+    XDR Source Code
+    ----------------------------------------------------------------
+    struct InnerTransactionResultPair
+    {
+        Hash transactionHash;          // hash of the inner transaction
+        InnerTransactionResult result; // result for the inner transaction
+    };
+    ----------------------------------------------------------------
+    """
+
+    def __init__(
+        self, transaction_hash: "Hash", result: "InnerTransactionResult"
+    ) -> None:
+        self.transaction_hash = transaction_hash
+        self.result = result
+
+    def pack(self, packer: Packer) -> None:
+        self.transaction_hash.pack(packer)
+        self.result.pack(packer)
+
+    @classmethod
+    def unpack(cls, unpacker: Unpacker) -> "InnerTransactionResultPair":
+        transaction_hash = Hash.unpack(unpacker)
+        result = InnerTransactionResult.unpack(unpacker)
+        return cls(transaction_hash=transaction_hash, result=result)
+
+    def to_xdr(self) -> str:
+        packer = Packer()
+        self.pack(packer)
+        return base64.b64encode(packer.get_buffer()).decode()
+
+    @classmethod
+    def from_xdr(cls, xdr: str) -> "InnerTransactionResultPair":
+        data = base64.b64decode(xdr.encode())
+        unpacker = Unpacker(data)
+        return cls.unpack(unpacker)
+
+    def __eq__(self, other: object):
+        if not isinstance(other, self.__class__):
+            return NotImplemented
+        return (
+            self.transaction_hash == other.transaction_hash
+            and self.result == other.result
+        )
+
+    def __str__(self):
+        out = [
+            f"transaction_hash={self.transaction_hash}",
+            f"result={self.result}"
+        ]
+        return f"<InnerTransactionResultPair {[', '.join(out)]}>"
+
+
+class TransactionResultResult:
+    """
+    XDR Source Code
+    ----------------------------------------------------------------
+    union switch (TransactionResultCode code)
+        {
+        case txFEE_BUMP_INNER_SUCCESS:
+        case txFEE_BUMP_INNER_FAILED:
+            InnerTransactionResultPair innerResultPair;
+        case txSUCCESS:
+        case txFAILED:
+            OperationResult results<>;
+        default:
+            void;
+        }
+    ----------------------------------------------------------------
+    """
+
+    def __init__(
+        self,
+        code: "TransactionResultCode",
+        inner_result_pair: "InnerTransactionResultPair" = None,
+        results: List["OperationResult"] = None
+    ) -> None:
+        self.code = code
+        self.inner_result_pair: "InnerTransactionResultPair" = inner_result_pair
+        self.results: List["OperationResult"] = results
+
+    def pack(self, packer: Packer) -> None:
+        self.code.pack(packer)
+        if (
+            self.code == TransactionResultCode.txFEE_BUMP_INNER_SUCCESS
+            or self.code == TransactionResultCode.txFEE_BUMP_INNER_FAILED
+        ):
+            self.inner_result_pair.pack(packer)
+            return
+        if (
+            self.code == TransactionResultCode.txSUCCESS
+            or self.code == TransactionResultCode.txFAILED
+        ):
+            packer.pack_uint(len(self.results))
+            for element in self.results:
+                element.pack(packer)
+            return
+
+    @classmethod
+    def unpack(cls, unpacker: Unpacker) -> "TransactionResultResult":
+        code = TransactionResultCode.unpack(unpacker)
+        if (
+            code == TransactionResultCode.txFEE_BUMP_INNER_SUCCESS
+            or code == TransactionResultCode.txFEE_BUMP_INNER_FAILED
+        ):
+            inner_result_pair = InnerTransactionResultPair.unpack(unpacker)
+            return cls(code, inner_result_pair=inner_result_pair)
+        if (
+            code == TransactionResultCode.txSUCCESS
+            or code == TransactionResultCode.txFAILED
+        ):
+            length = unpacker.unpack_uint()
+            results = []
+            for _ in range(length):
+                results.append(OperationResult.unpack(unpacker))
+            return cls(code, results=results)
+
+    def to_xdr(self) -> str:
+        packer = Packer()
+        self.pack(packer)
+        return base64.b64encode(packer.get_buffer()).decode()
+
+    @classmethod
+    def from_xdr(cls, xdr: str) -> "TransactionResultResult":
+        data = base64.b64decode(xdr.encode())
+        unpacker = Unpacker(data)
+        return cls.unpack(unpacker)
+
+    def __eq__(self, other: object):
+        if not isinstance(other, self.__class__):
+            return NotImplemented
+        return (
+            self.code == other.code
+            and self.inner_result_pair == other.inner_result_pair
+            and self.results == other.results
+        )
+
+    def __str__(self):
+        out = []
+        out.append(f"code={self.code}")
+        out.append(
+            f"inner_result_pair={self.inner_result_pair}"
+        ) if self.inner_result_pair is not None else None
         out.append(f"results={self.results}") if self.results is not None else None
         return f"<TransactionResultResult {[', '.join(out)]}>"
 
@@ -8057,7 +9076,7 @@ class TransactionResultExt:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "TransactionResultExt":
+    def from_xdr(cls, xdr: str) -> "TransactionResultExt":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -8083,6 +9102,9 @@ class TransactionResult:
 
         union switch (TransactionResultCode code)
         {
+        case txFEE_BUMP_INNER_SUCCESS:
+        case txFEE_BUMP_INNER_FAILED:
+            InnerTransactionResultPair innerResultPair;
         case txSUCCESS:
         case txFAILED:
             OperationResult results<>;
@@ -8106,7 +9128,7 @@ class TransactionResult:
         self,
         fee_charged: "Int64",
         result: "TransactionResultResult",
-        ext: "TransactionResultExt",
+        ext: "TransactionResultExt"
     ) -> None:
         self.fee_charged = fee_charged
         self.result = result
@@ -8130,7 +9152,7 @@ class TransactionResult:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "TransactionResult":
+    def from_xdr(cls, xdr: str) -> "TransactionResult":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -8148,7 +9170,7 @@ class TransactionResult:
         out = [
             f"fee_charged={self.fee_charged}",
             f"result={self.result}",
-            f"ext={self.ext}",
+            f"ext={self.ext}"
         ]
         return f"<TransactionResult {[', '.join(out)]}>"
 
@@ -8178,7 +9200,7 @@ class AccountID:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "AccountID":
+    def from_xdr(cls, xdr: str) -> "AccountID":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -8217,7 +9239,7 @@ class Thresholds:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "Thresholds":
+    def from_xdr(cls, xdr: str) -> "Thresholds":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -8256,7 +9278,7 @@ class String32:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "String32":
+    def from_xdr(cls, xdr: str) -> "String32":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -8295,7 +9317,7 @@ class String64:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "String64":
+    def from_xdr(cls, xdr: str) -> "String64":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -8334,7 +9356,7 @@ class SequenceNumber:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "SequenceNumber":
+    def from_xdr(cls, xdr: str) -> "SequenceNumber":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -8373,7 +9395,7 @@ class TimePoint:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "TimePoint":
+    def from_xdr(cls, xdr: str) -> "TimePoint":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -8412,7 +9434,7 @@ class DataValue:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "DataValue":
+    def from_xdr(cls, xdr: str) -> "DataValue":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -8451,7 +9473,7 @@ class AssetCode4:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "AssetCode4":
+    def from_xdr(cls, xdr: str) -> "AssetCode4":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -8490,7 +9512,7 @@ class AssetCode12:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "AssetCode12":
+    def from_xdr(cls, xdr: str) -> "AssetCode12":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -8535,7 +9557,7 @@ class AssetType(IntEnum):
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "AssetType":
+    def from_xdr(cls, xdr: str) -> "AssetType":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -8579,7 +9601,7 @@ class AssetAlphaNum4:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "AssetAlphaNum4":
+    def from_xdr(cls, xdr: str) -> "AssetAlphaNum4":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -8590,7 +9612,10 @@ class AssetAlphaNum4:
         return self.asset_code == other.asset_code and self.issuer == other.issuer
 
     def __str__(self):
-        out = [f"asset_code={self.asset_code}", f"issuer={self.issuer}"]
+        out = [
+            f"asset_code={self.asset_code}",
+            f"issuer={self.issuer}"
+        ]
         return f"<AssetAlphaNum4 {[', '.join(out)]}>"
 
 
@@ -8626,7 +9651,7 @@ class AssetAlphaNum12:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "AssetAlphaNum12":
+    def from_xdr(cls, xdr: str) -> "AssetAlphaNum12":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -8637,7 +9662,10 @@ class AssetAlphaNum12:
         return self.asset_code == other.asset_code and self.issuer == other.issuer
 
     def __str__(self):
-        out = [f"asset_code={self.asset_code}", f"issuer={self.issuer}"]
+        out = [
+            f"asset_code={self.asset_code}",
+            f"issuer={self.issuer}"
+        ]
         return f"<AssetAlphaNum12 {[', '.join(out)]}>"
 
 
@@ -8673,7 +9701,7 @@ class Asset:
         self,
         type: "AssetType",
         alpha_num4: "AssetAlphaNum4" = None,
-        alpha_num12: "AssetAlphaNum12" = None,
+        alpha_num12: "AssetAlphaNum12" = None
     ) -> None:
         self.type = type
         self.alpha_num4: "AssetAlphaNum4" = alpha_num4
@@ -8708,7 +9736,7 @@ class Asset:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "Asset":
+    def from_xdr(cls, xdr: str) -> "Asset":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -8766,7 +9794,7 @@ class Price:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "Price":
+    def from_xdr(cls, xdr: str) -> "Price":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -8777,7 +9805,10 @@ class Price:
         return self.n == other.n and self.d == other.d
 
     def __str__(self):
-        out = [f"n={self.n}", f"d={self.d}"]
+        out = [
+            f"n={self.n}",
+            f"d={self.d}"
+        ]
         return f"<Price {[', '.join(out)]}>"
 
 
@@ -8813,7 +9844,7 @@ class Liabilities:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "Liabilities":
+    def from_xdr(cls, xdr: str) -> "Liabilities":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -8824,7 +9855,10 @@ class Liabilities:
         return self.buying == other.buying and self.selling == other.selling
 
     def __str__(self):
-        out = [f"buying={self.buying}", f"selling={self.selling}"]
+        out = [
+            f"buying={self.buying}",
+            f"selling={self.selling}"
+        ]
         return f"<Liabilities {[', '.join(out)]}>"
 
 
@@ -8861,7 +9895,7 @@ class ThresholdIndexes(IntEnum):
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "ThresholdIndexes":
+    def from_xdr(cls, xdr: str) -> "ThresholdIndexes":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -8906,7 +9940,7 @@ class LedgerEntryType(IntEnum):
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "LedgerEntryType":
+    def from_xdr(cls, xdr: str) -> "LedgerEntryType":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -8950,7 +9984,7 @@ class Signer:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "Signer":
+    def from_xdr(cls, xdr: str) -> "Signer":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -8961,7 +9995,10 @@ class Signer:
         return self.key == other.key and self.weight == other.weight
 
     def __str__(self):
-        out = [f"key={self.key}", f"weight={self.weight}"]
+        out = [
+            f"key={self.key}",
+            f"weight={self.weight}"
+        ]
         return f"<Signer {[', '.join(out)]}>"
 
 
@@ -9003,7 +10040,7 @@ class AccountFlags(IntEnum):
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "AccountFlags":
+    def from_xdr(cls, xdr: str) -> "AccountFlags":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -9056,7 +10093,7 @@ class AccountEntryV1Ext:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "AccountEntryV1Ext":
+    def from_xdr(cls, xdr: str) -> "AccountEntryV1Ext":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -9110,7 +10147,7 @@ class AccountEntryV1:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "AccountEntryV1":
+    def from_xdr(cls, xdr: str) -> "AccountEntryV1":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -9121,7 +10158,10 @@ class AccountEntryV1:
         return self.liabilities == other.liabilities and self.ext == other.ext
 
     def __str__(self):
-        out = [f"liabilities={self.liabilities}", f"ext={self.ext}"]
+        out = [
+            f"liabilities={self.liabilities}",
+            f"ext={self.ext}"
+        ]
         return f"<AccountEntryV1 {[', '.join(out)]}>"
 
 
@@ -9176,7 +10216,7 @@ class AccountEntryExt:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "AccountEntryExt":
+    def from_xdr(cls, xdr: str) -> "AccountEntryExt":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -9249,12 +10289,8 @@ class AccountEntry:
         home_domain: "String32",
         thresholds: "Thresholds",
         signers: List["Signer"],
-        ext: "AccountEntryExt",
+        ext: "AccountEntryExt"
     ) -> None:
-        if len(signers) > 20:
-            raise ValueError(
-                f"The maximum length of `signers` should be 20, but got {len(signers)}."
-            )
         self.account_id = account_id
         self.balance = balance
         self.seq_num = seq_num
@@ -9318,7 +10354,7 @@ class AccountEntry:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "AccountEntry":
+    def from_xdr(cls, xdr: str) -> "AccountEntry":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -9350,7 +10386,7 @@ class AccountEntry:
             f"home_domain={self.home_domain}",
             f"thresholds={self.thresholds}",
             f"signers={self.signers}",
-            f"ext={self.ext}",
+            f"ext={self.ext}"
         ]
         return f"<AccountEntry {[', '.join(out)]}>"
 
@@ -9362,12 +10398,16 @@ class TrustLineFlags(IntEnum):
     enum TrustLineFlags
     {
         // issuer has authorized account to perform transactions with its credit
-        AUTHORIZED_FLAG = 1
+        AUTHORIZED_FLAG = 1,
+        // issuer has authorized account to maintain and reduce liabilities for its
+        // credit
+        AUTHORIZED_TO_MAINTAIN_LIABILITIES_FLAG = 2
     };
     ----------------------------------------------------------------
     """
 
     AUTHORIZED_FLAG = 1
+    AUTHORIZED_TO_MAINTAIN_LIABILITIES_FLAG = 2
 
     def pack(self, packer: Packer) -> None:
         packer.pack_int(self.value)
@@ -9383,7 +10423,7 @@ class TrustLineFlags(IntEnum):
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "TrustLineFlags":
+    def from_xdr(cls, xdr: str) -> "TrustLineFlags":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -9402,6 +10442,14 @@ const MASK_TRUSTLINE_FLAGS = 1;
 ----------------------------------------------------------------
 """
 MASK_TRUSTLINE_FLAGS: int = 1
+
+"""
+XDR Source Code
+----------------------------------------------------------------
+const MASK_TRUSTLINE_FLAGS_V13 = 3;
+----------------------------------------------------------------
+"""
+MASK_TRUSTLINE_FLAGS_V13: int = 3
 
 
 class TrustLineEntryV1Ext:
@@ -9436,7 +10484,7 @@ class TrustLineEntryV1Ext:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "TrustLineEntryV1Ext":
+    def from_xdr(cls, xdr: str) -> "TrustLineEntryV1Ext":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -9490,7 +10538,7 @@ class TrustLineEntryV1:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "TrustLineEntryV1":
+    def from_xdr(cls, xdr: str) -> "TrustLineEntryV1":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -9501,7 +10549,10 @@ class TrustLineEntryV1:
         return self.liabilities == other.liabilities and self.ext == other.ext
 
     def __str__(self):
-        out = [f"liabilities={self.liabilities}", f"ext={self.ext}"]
+        out = [
+            f"liabilities={self.liabilities}",
+            f"ext={self.ext}"
+        ]
         return f"<TrustLineEntryV1 {[', '.join(out)]}>"
 
 
@@ -9556,7 +10607,7 @@ class TrustLineEntryExt:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "TrustLineEntryExt":
+    def from_xdr(cls, xdr: str) -> "TrustLineEntryExt":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -9617,7 +10668,7 @@ class TrustLineEntry:
         balance: "Int64",
         limit: "Int64",
         flags: "Uint32",
-        ext: "TrustLineEntryExt",
+        ext: "TrustLineEntryExt"
     ) -> None:
         self.account_id = account_id
         self.asset = asset
@@ -9657,7 +10708,7 @@ class TrustLineEntry:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "TrustLineEntry":
+    def from_xdr(cls, xdr: str) -> "TrustLineEntry":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -9681,7 +10732,7 @@ class TrustLineEntry:
             f"balance={self.balance}",
             f"limit={self.limit}",
             f"flags={self.flags}",
-            f"ext={self.ext}",
+            f"ext={self.ext}"
         ]
         return f"<TrustLineEntry {[', '.join(out)]}>"
 
@@ -9714,7 +10765,7 @@ class OfferEntryFlags(IntEnum):
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "OfferEntryFlags":
+    def from_xdr(cls, xdr: str) -> "OfferEntryFlags":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -9767,7 +10818,7 @@ class OfferEntryExt:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "OfferEntryExt":
+    def from_xdr(cls, xdr: str) -> "OfferEntryExt":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -9823,7 +10874,7 @@ class OfferEntry:
         amount: "Int64",
         price: "Price",
         flags: "Uint32",
-        ext: "OfferEntryExt",
+        ext: "OfferEntryExt"
     ) -> None:
         self.seller_id = seller_id
         self.offer_id = offer_id
@@ -9871,7 +10922,7 @@ class OfferEntry:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "OfferEntry":
+    def from_xdr(cls, xdr: str) -> "OfferEntry":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -9899,7 +10950,7 @@ class OfferEntry:
             f"amount={self.amount}",
             f"price={self.price}",
             f"flags={self.flags}",
-            f"ext={self.ext}",
+            f"ext={self.ext}"
         ]
         return f"<OfferEntry {[', '.join(out)]}>"
 
@@ -9936,7 +10987,7 @@ class DataEntryExt:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "DataEntryExt":
+    def from_xdr(cls, xdr: str) -> "DataEntryExt":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -9978,7 +11029,7 @@ class DataEntry:
         account_id: "AccountID",
         data_name: "String64",
         data_value: "DataValue",
-        ext: "DataEntryExt",
+        ext: "DataEntryExt"
     ) -> None:
         self.account_id = account_id
         self.data_name = data_name
@@ -9998,7 +11049,7 @@ class DataEntry:
         data_value = DataValue.unpack(unpacker)
         ext = DataEntryExt.unpack(unpacker)
         return cls(
-            account_id=account_id, data_name=data_name, data_value=data_value, ext=ext
+            account_id=account_id, data_name=data_name, data_value=data_value, ext=ext,
         )
 
     def to_xdr(self) -> str:
@@ -10007,7 +11058,7 @@ class DataEntry:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "DataEntry":
+    def from_xdr(cls, xdr: str) -> "DataEntry":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -10027,7 +11078,7 @@ class DataEntry:
             f"account_id={self.account_id}",
             f"data_name={self.data_name}",
             f"data_value={self.data_value}",
-            f"ext={self.ext}",
+            f"ext={self.ext}"
         ]
         return f"<DataEntry {[', '.join(out)]}>"
 
@@ -10056,7 +11107,7 @@ class LedgerEntryData:
         account: "AccountEntry" = None,
         trust_line: "TrustLineEntry" = None,
         offer: "OfferEntry" = None,
-        data: "DataEntry" = None,
+        data: "DataEntry" = None
     ) -> None:
         self.type = type
         self.account: "AccountEntry" = account
@@ -10101,7 +11152,7 @@ class LedgerEntryData:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "LedgerEntryData":
+    def from_xdr(cls, xdr: str) -> "LedgerEntryData":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -10161,7 +11212,7 @@ class LedgerEntryExt:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "LedgerEntryExt":
+    def from_xdr(cls, xdr: str) -> "LedgerEntryExt":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -10213,7 +11264,7 @@ class LedgerEntry:
         self,
         last_modified_ledger_seq: "Uint32",
         data: "LedgerEntryData",
-        ext: "LedgerEntryExt",
+        ext: "LedgerEntryExt"
     ) -> None:
         self.last_modified_ledger_seq = last_modified_ledger_seq
         self.data = data
@@ -10230,7 +11281,7 @@ class LedgerEntry:
         data = LedgerEntryData.unpack(unpacker)
         ext = LedgerEntryExt.unpack(unpacker)
         return cls(
-            last_modified_ledger_seq=last_modified_ledger_seq, data=data, ext=ext
+            last_modified_ledger_seq=last_modified_ledger_seq, data=data, ext=ext,
         )
 
     def to_xdr(self) -> str:
@@ -10239,7 +11290,7 @@ class LedgerEntry:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "LedgerEntry":
+    def from_xdr(cls, xdr: str) -> "LedgerEntry":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -10257,7 +11308,7 @@ class LedgerEntry:
         out = [
             f"last_modified_ledger_seq={self.last_modified_ledger_seq}",
             f"data={self.data}",
-            f"ext={self.ext}",
+            f"ext={self.ext}"
         ]
         return f"<LedgerEntry {[', '.join(out)]}>"
 
@@ -10268,18 +11319,22 @@ class EnvelopeType(IntEnum):
     ----------------------------------------------------------------
     enum EnvelopeType
     {
+        ENVELOPE_TYPE_TX_V0 = 0,
         ENVELOPE_TYPE_SCP = 1,
         ENVELOPE_TYPE_TX = 2,
         ENVELOPE_TYPE_AUTH = 3,
-        ENVELOPE_TYPE_SCPVALUE = 4
+        ENVELOPE_TYPE_SCPVALUE = 4,
+        ENVELOPE_TYPE_TX_FEE_BUMP = 5
     };
     ----------------------------------------------------------------
     """
 
+    ENVELOPE_TYPE_TX_V0 = 0
     ENVELOPE_TYPE_SCP = 1
     ENVELOPE_TYPE_TX = 2
     ENVELOPE_TYPE_AUTH = 3
     ENVELOPE_TYPE_SCPVALUE = 4
+    ENVELOPE_TYPE_TX_FEE_BUMP = 5
 
     def pack(self, packer: Packer) -> None:
         packer.pack_int(self.value)
@@ -10295,7 +11350,7 @@ class EnvelopeType(IntEnum):
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "EnvelopeType":
+    def from_xdr(cls, xdr: str) -> "EnvelopeType":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -10342,7 +11397,7 @@ class ErrorCode(IntEnum):
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "ErrorCode":
+    def from_xdr(cls, xdr: str) -> "ErrorCode":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -10386,7 +11441,7 @@ class Error:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "Error":
+    def from_xdr(cls, xdr: str) -> "Error":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -10397,7 +11452,10 @@ class Error:
         return self.code == other.code and self.msg == other.msg
 
     def __str__(self):
-        out = [f"code={self.code}", f"msg={self.msg}"]
+        out = [
+            f"code={self.code}",
+            f"msg={self.msg}"
+        ]
         return f"<Error {[', '.join(out)]}>"
 
 
@@ -10439,7 +11497,7 @@ class AuthCert:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "AuthCert":
+    def from_xdr(cls, xdr: str) -> "AuthCert":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -10457,7 +11515,7 @@ class AuthCert:
         out = [
             f"pubkey={self.pubkey}",
             f"expiration={self.expiration}",
-            f"sig={self.sig}",
+            f"sig={self.sig}"
         ]
         return f"<AuthCert {[', '.join(out)]}>"
 
@@ -10491,7 +11549,7 @@ class Hello:
         listening_port: int,
         peer_id: "NodeID",
         cert: "AuthCert",
-        nonce: "Uint256",
+        nonce: "Uint256"
     ) -> None:
         self.ledger_version = ledger_version
         self.overlay_version = overlay_version
@@ -10543,7 +11601,7 @@ class Hello:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "Hello":
+    def from_xdr(cls, xdr: str) -> "Hello":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -10573,7 +11631,7 @@ class Hello:
             f"listening_port={self.listening_port}",
             f"peer_id={self.peer_id}",
             f"cert={self.cert}",
-            f"nonce={self.nonce}",
+            f"nonce={self.nonce}"
         ]
         return f"<Hello {[', '.join(out)]}>"
 
@@ -10608,7 +11666,7 @@ class Auth:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "Auth":
+    def from_xdr(cls, xdr: str) -> "Auth":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -10619,7 +11677,9 @@ class Auth:
         return self.unused == other.unused
 
     def __str__(self):
-        out = [f"unused={self.unused}"]
+        out = [
+            f"unused={self.unused}"
+        ]
         return f"<Auth {[', '.join(out)]}>"
 
 
@@ -10652,7 +11712,7 @@ class IPAddrType(IntEnum):
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "IPAddrType":
+    def from_xdr(cls, xdr: str) -> "IPAddrType":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -10710,7 +11770,7 @@ class PeerAddressIp:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "PeerAddressIp":
+    def from_xdr(cls, xdr: str) -> "PeerAddressIp":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -10777,7 +11837,7 @@ class PeerAddress:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "PeerAddress":
+    def from_xdr(cls, xdr: str) -> "PeerAddress":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -10795,7 +11855,7 @@ class PeerAddress:
         out = [
             f"ip={self.ip}",
             f"port={self.port}",
-            f"num_failures={self.num_failures}",
+            f"num_failures={self.num_failures}"
         ]
         return f"<PeerAddress {[', '.join(out)]}>"
 
@@ -10863,7 +11923,7 @@ class MessageType(IntEnum):
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "MessageType":
+    def from_xdr(cls, xdr: str) -> "MessageType":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -10907,7 +11967,7 @@ class DontHave:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "DontHave":
+    def from_xdr(cls, xdr: str) -> "DontHave":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -10918,7 +11978,10 @@ class DontHave:
         return self.type == other.type and self.req_hash == other.req_hash
 
     def __str__(self):
-        out = [f"type={self.type}", f"req_hash={self.req_hash}"]
+        out = [
+            f"type={self.type}",
+            f"req_hash={self.req_hash}"
+        ]
         return f"<DontHave {[', '.join(out)]}>"
 
 
@@ -10949,7 +12012,7 @@ class SurveyMessageCommandType(IntEnum):
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "SurveyMessageCommandType":
+    def from_xdr(cls, xdr: str) -> "SurveyMessageCommandType":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -10982,7 +12045,7 @@ class SurveyRequestMessage:
         surveyed_peer_id: "NodeID",
         ledger_num: "Uint32",
         encryption_key: "Curve25519Public",
-        command_type: "SurveyMessageCommandType",
+        command_type: "SurveyMessageCommandType"
     ) -> None:
         self.surveyor_peer_id = surveyor_peer_id
         self.surveyed_peer_id = surveyed_peer_id
@@ -11018,7 +12081,7 @@ class SurveyRequestMessage:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "SurveyRequestMessage":
+    def from_xdr(cls, xdr: str) -> "SurveyRequestMessage":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -11040,7 +12103,7 @@ class SurveyRequestMessage:
             f"surveyed_peer_id={self.surveyed_peer_id}",
             f"ledger_num={self.ledger_num}",
             f"encryption_key={self.encryption_key}",
-            f"command_type={self.command_type}",
+            f"command_type={self.command_type}"
         ]
         return f"<SurveyRequestMessage {[', '.join(out)]}>"
 
@@ -11079,7 +12142,7 @@ class SignedSurveyRequestMessage:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "SignedSurveyRequestMessage":
+    def from_xdr(cls, xdr: str) -> "SignedSurveyRequestMessage":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -11093,7 +12156,10 @@ class SignedSurveyRequestMessage:
         )
 
     def __str__(self):
-        out = [f"request_signature={self.request_signature}", f"request={self.request}"]
+        out = [
+            f"request_signature={self.request_signature}",
+            f"request={self.request}"
+        ]
         return f"<SignedSurveyRequestMessage {[', '.join(out)]}>"
 
 
@@ -11122,7 +12188,7 @@ class EncryptedBody:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "EncryptedBody":
+    def from_xdr(cls, xdr: str) -> "EncryptedBody":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -11157,7 +12223,7 @@ class SurveyResponseMessage:
         surveyed_peer_id: "NodeID",
         ledger_num: "Uint32",
         command_type: "SurveyMessageCommandType",
-        encrypted_body: "EncryptedBody",
+        encrypted_body: "EncryptedBody"
     ) -> None:
         self.surveyor_peer_id = surveyor_peer_id
         self.surveyed_peer_id = surveyed_peer_id
@@ -11193,7 +12259,7 @@ class SurveyResponseMessage:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "SurveyResponseMessage":
+    def from_xdr(cls, xdr: str) -> "SurveyResponseMessage":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -11215,7 +12281,7 @@ class SurveyResponseMessage:
             f"surveyed_peer_id={self.surveyed_peer_id}",
             f"ledger_num={self.ledger_num}",
             f"command_type={self.command_type}",
-            f"encrypted_body={self.encrypted_body}",
+            f"encrypted_body={self.encrypted_body}"
         ]
         return f"<SurveyResponseMessage {[', '.join(out)]}>"
 
@@ -11254,7 +12320,7 @@ class SignedSurveyResponseMessage:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "SignedSurveyResponseMessage":
+    def from_xdr(cls, xdr: str) -> "SignedSurveyResponseMessage":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -11270,7 +12336,7 @@ class SignedSurveyResponseMessage:
     def __str__(self):
         out = [
             f"response_signature={self.response_signature}",
-            f"response={self.response}",
+            f"response={self.response}"
         ]
         return f"<SignedSurveyResponseMessage {[', '.join(out)]}>"
 
@@ -11318,7 +12384,7 @@ class PeerStats:
         unique_flood_message_recv: "Uint64",
         duplicate_flood_message_recv: "Uint64",
         unique_fetch_message_recv: "Uint64",
-        duplicate_fetch_message_recv: "Uint64",
+        duplicate_fetch_message_recv: "Uint64"
     ) -> None:
         self.id = id
         self.version_str = version_str
@@ -11394,7 +12460,7 @@ class PeerStats:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "PeerStats":
+    def from_xdr(cls, xdr: str) -> "PeerStats":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -11436,7 +12502,7 @@ class PeerStats:
             f"unique_flood_message_recv={self.unique_flood_message_recv}",
             f"duplicate_flood_message_recv={self.duplicate_flood_message_recv}",
             f"unique_fetch_message_recv={self.unique_fetch_message_recv}",
-            f"duplicate_fetch_message_recv={self.duplicate_fetch_message_recv}",
+            f"duplicate_fetch_message_recv={self.duplicate_fetch_message_recv}"
         ]
         return f"<PeerStats {[', '.join(out)]}>"
 
@@ -11477,7 +12543,7 @@ class PeerStatList:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "PeerStatList":
+    def from_xdr(cls, xdr: str) -> "PeerStatList":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -11511,7 +12577,7 @@ class TopologyResponseBody:
         inbound_peers: "PeerStatList",
         outbound_peers: "PeerStatList",
         total_inbound_peer_count: "Uint32",
-        total_outbound_peer_count: "Uint32",
+        total_outbound_peer_count: "Uint32"
     ) -> None:
         self.inbound_peers = inbound_peers
         self.outbound_peers = outbound_peers
@@ -11543,7 +12609,7 @@ class TopologyResponseBody:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "TopologyResponseBody":
+    def from_xdr(cls, xdr: str) -> "TopologyResponseBody":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -11563,7 +12629,7 @@ class TopologyResponseBody:
             f"inbound_peers={self.inbound_peers}",
             f"outbound_peers={self.outbound_peers}",
             f"total_inbound_peer_count={self.total_inbound_peer_count}",
-            f"total_outbound_peer_count={self.total_outbound_peer_count}",
+            f"total_outbound_peer_count={self.total_outbound_peer_count}"
         ]
         return f"<TopologyResponseBody {[', '.join(out)]}>"
 
@@ -11574,8 +12640,8 @@ class SurveyResponseBody:
     ----------------------------------------------------------------
     union SurveyResponseBody switch (SurveyMessageCommandType type)
     {
-        case SURVEY_TOPOLOGY:
-            TopologyResponseBody topologyResponseBody;
+    case SURVEY_TOPOLOGY:
+        TopologyResponseBody topologyResponseBody;
     };
     ----------------------------------------------------------------
     """
@@ -11583,7 +12649,7 @@ class SurveyResponseBody:
     def __init__(
         self,
         type: "SurveyMessageCommandType",
-        topology_response_body: "TopologyResponseBody" = None,
+        topology_response_body: "TopologyResponseBody" = None
     ) -> None:
         self.type = type
         self.topology_response_body: "TopologyResponseBody" = topology_response_body
@@ -11607,7 +12673,7 @@ class SurveyResponseBody:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "SurveyResponseBody":
+    def from_xdr(cls, xdr: str) -> "SurveyResponseBody":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -11691,12 +12757,8 @@ class StellarMessage:
         q_set_hash: "Uint256" = None,
         q_set: "SCPQuorumSet" = None,
         envelope: "SCPEnvelope" = None,
-        get_scp_ledger_seq: "Uint32" = None,
+        get_scp_ledger_seq: "Uint32" = None
     ) -> None:
-        if peers is not None and len(peers) > 100:
-            raise ValueError(
-                f"The maximum length of `peers` should be 100, but got {len(peers)}."
-            )
         self.type = type
         self.error: "Error" = error
         self.hello: "Hello" = hello
@@ -11825,7 +12887,7 @@ class StellarMessage:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "StellarMessage":
+    def from_xdr(cls, xdr: str) -> "StellarMessage":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -11892,10 +12954,10 @@ class AuthenticatedMessageV0:
     XDR Source Code
     ----------------------------------------------------------------
     struct
-    {
-       uint64 sequence;
-       StellarMessage message;
-       HmacSha256Mac mac;
+        {
+            uint64 sequence;
+            StellarMessage message;
+            HmacSha256Mac mac;
         }
     ----------------------------------------------------------------
     """
@@ -11925,7 +12987,7 @@ class AuthenticatedMessageV0:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "AuthenticatedMessageV0":
+    def from_xdr(cls, xdr: str) -> "AuthenticatedMessageV0":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -11943,7 +13005,7 @@ class AuthenticatedMessageV0:
         out = [
             f"sequence={self.sequence}",
             f"message={self.message}",
-            f"mac={self.mac}",
+            f"mac={self.mac}"
         ]
         return f"<AuthenticatedMessageV0 {[', '.join(out)]}>"
 
@@ -11956,10 +13018,10 @@ class AuthenticatedMessage:
     {
     case 0:
         struct
-    {
-       uint64 sequence;
-       StellarMessage message;
-       HmacSha256Mac mac;
+        {
+            uint64 sequence;
+            StellarMessage message;
+            HmacSha256Mac mac;
         } v0;
     };
     ----------------------------------------------------------------
@@ -11988,7 +13050,7 @@ class AuthenticatedMessage:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "AuthenticatedMessage":
+    def from_xdr(cls, xdr: str) -> "AuthenticatedMessage":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -12030,7 +13092,7 @@ class Hash:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "Hash":
+    def from_xdr(cls, xdr: str) -> "Hash":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -12069,7 +13131,7 @@ class Uint256:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "Uint256":
+    def from_xdr(cls, xdr: str) -> "Uint256":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -12108,7 +13170,7 @@ class Uint32:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "Uint32":
+    def from_xdr(cls, xdr: str) -> "Uint32":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -12147,7 +13209,7 @@ class Int32:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "Int32":
+    def from_xdr(cls, xdr: str) -> "Int32":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -12186,7 +13248,7 @@ class Uint64:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "Uint64":
+    def from_xdr(cls, xdr: str) -> "Uint64":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -12225,7 +13287,7 @@ class Int64:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "Int64":
+    def from_xdr(cls, xdr: str) -> "Int64":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -12247,7 +13309,10 @@ class CryptoKeyType(IntEnum):
     {
         KEY_TYPE_ED25519 = 0,
         KEY_TYPE_PRE_AUTH_TX = 1,
-        KEY_TYPE_HASH_X = 2
+        KEY_TYPE_HASH_X = 2,
+        // MUXED enum values for supported type are derived from the enum values
+        // above by ORing them with 0x100
+        KEY_TYPE_MUXED_ED25519 = 0x100
     };
     ----------------------------------------------------------------
     """
@@ -12255,6 +13320,7 @@ class CryptoKeyType(IntEnum):
     KEY_TYPE_ED25519 = 0
     KEY_TYPE_PRE_AUTH_TX = 1
     KEY_TYPE_HASH_X = 2
+    KEY_TYPE_MUXED_ED25519 = 256
 
     def pack(self, packer: Packer) -> None:
         packer.pack_int(self.value)
@@ -12270,7 +13336,7 @@ class CryptoKeyType(IntEnum):
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "CryptoKeyType":
+    def from_xdr(cls, xdr: str) -> "CryptoKeyType":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -12309,7 +13375,7 @@ class PublicKeyType(IntEnum):
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "PublicKeyType":
+    def from_xdr(cls, xdr: str) -> "PublicKeyType":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -12352,7 +13418,7 @@ class SignerKeyType(IntEnum):
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "SignerKeyType":
+    def from_xdr(cls, xdr: str) -> "SignerKeyType":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -12399,7 +13465,7 @@ class PublicKey:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "PublicKey":
+    def from_xdr(cls, xdr: str) -> "PublicKey":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -12439,7 +13505,7 @@ class SignerKey:
         type: "SignerKeyType",
         ed25519: "Uint256" = None,
         pre_auth_tx: "Uint256" = None,
-        hash_x: "Uint256" = None,
+        hash_x: "Uint256" = None
     ) -> None:
         self.type = type
         self.ed25519: "Uint256" = ed25519
@@ -12477,7 +13543,7 @@ class SignerKey:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "SignerKey":
+    def from_xdr(cls, xdr: str) -> "SignerKey":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -12528,7 +13594,7 @@ class Signature:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "Signature":
+    def from_xdr(cls, xdr: str) -> "Signature":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -12567,7 +13633,7 @@ class SignatureHint:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "SignatureHint":
+    def from_xdr(cls, xdr: str) -> "SignatureHint":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -12606,7 +13672,7 @@ class NodeID:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "NodeID":
+    def from_xdr(cls, xdr: str) -> "NodeID":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -12626,7 +13692,7 @@ class Curve25519Secret:
     ----------------------------------------------------------------
     struct Curve25519Secret
     {
-            opaque key[32];
+        opaque key[32];
     };
     ----------------------------------------------------------------
     """
@@ -12648,7 +13714,7 @@ class Curve25519Secret:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "Curve25519Secret":
+    def from_xdr(cls, xdr: str) -> "Curve25519Secret":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -12659,7 +13725,9 @@ class Curve25519Secret:
         return self.key == other.key
 
     def __str__(self):
-        out = [f"key={self.key}"]
+        out = [
+            f"key={self.key}"
+        ]
         return f"<Curve25519Secret {[', '.join(out)]}>"
 
 
@@ -12669,7 +13737,7 @@ class Curve25519Public:
     ----------------------------------------------------------------
     struct Curve25519Public
     {
-            opaque key[32];
+        opaque key[32];
     };
     ----------------------------------------------------------------
     """
@@ -12691,7 +13759,7 @@ class Curve25519Public:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "Curve25519Public":
+    def from_xdr(cls, xdr: str) -> "Curve25519Public":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -12702,7 +13770,9 @@ class Curve25519Public:
         return self.key == other.key
 
     def __str__(self):
-        out = [f"key={self.key}"]
+        out = [
+            f"key={self.key}"
+        ]
         return f"<Curve25519Public {[', '.join(out)]}>"
 
 
@@ -12712,7 +13782,7 @@ class HmacSha256Key:
     ----------------------------------------------------------------
     struct HmacSha256Key
     {
-            opaque key[32];
+        opaque key[32];
     };
     ----------------------------------------------------------------
     """
@@ -12734,7 +13804,7 @@ class HmacSha256Key:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "HmacSha256Key":
+    def from_xdr(cls, xdr: str) -> "HmacSha256Key":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -12745,7 +13815,9 @@ class HmacSha256Key:
         return self.key == other.key
 
     def __str__(self):
-        out = [f"key={self.key}"]
+        out = [
+            f"key={self.key}"
+        ]
         return f"<HmacSha256Key {[', '.join(out)]}>"
 
 
@@ -12755,7 +13827,7 @@ class HmacSha256Mac:
     ----------------------------------------------------------------
     struct HmacSha256Mac
     {
-            opaque mac[32];
+        opaque mac[32];
     };
     ----------------------------------------------------------------
     """
@@ -12777,7 +13849,7 @@ class HmacSha256Mac:
         return base64.b64encode(packer.get_buffer()).decode()
 
     @classmethod
-    def from_xdr(cls, xdr) -> "HmacSha256Mac":
+    def from_xdr(cls, xdr: str) -> "HmacSha256Mac":
         data = base64.b64decode(xdr.encode())
         unpacker = Unpacker(data)
         return cls.unpack(unpacker)
@@ -12788,5 +13860,7 @@ class HmacSha256Mac:
         return self.mac == other.mac
 
     def __str__(self):
-        out = [f"mac={self.mac}"]
+        out = [
+            f"mac={self.mac}"
+        ]
         return f"<HmacSha256Mac {[', '.join(out)]}>"
